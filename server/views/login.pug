@@ -1,0 +1,18 @@
+extends includes/layout.pug
+
+block main-content
+  div
+    h2 Login
+    if alert && alert.length > 0
+      .alert(class=alert[0].status)
+        p= alert[0].message
+    form(method="POST" action="/login")
+      input(type="hidden" name="_csrf" value=csrfToken)
+      .form-group
+        label(for="username") Username
+        input.form-control(type="text" name="username" value="")
+      .form-group
+        label(for="password") Password
+        input.form-control(type="password" name="password" value="")
+      .form-group
+        button.btn(type="submit") Login

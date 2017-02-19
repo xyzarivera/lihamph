@@ -1,0 +1,53 @@
+extends includes/layout.pug
+
+block main-content
+  if isEditMode
+    div
+      h2 Profile
+      div
+        p= "Created " + profile.createdDate.fromNow()
+      div
+        if updateProfileStatus.length > 0
+          .alert(class=updateProfileStatus[0].status)
+            p= updateProfileStatus[0].message
+        form(method="POST" action="/user/" + profile.username + "/profile")
+          input(type="hidden" name="_csrf" value=csrfToken)
+          .form-group
+            label(for="username") Username
+            input.form-control(type="text" name="username" value=profile.username)
+          .form-group
+            label(for="emailAddress") Email Address
+            input.form-control(type="text" name="emailAddress" value=profile.emailAddress)
+          .form-group
+            label(for="aboutMe") About Me
+            textarea.form-control(name="aboutMe" rows="8")= profile.aboutMe
+          .form-group
+            button.btn(type="submit") Save
+    div
+      h2 Change Password
+      div
+        if changePasswordStatus.length > 0
+          .alert(class=changePasswordStatus[0].status)
+            p= changePasswordStatus[0].message
+        form(method="POST" action="/user/" + profile.username + "/password")
+          input(type="hidden" name="_csrf" value=csrfToken)
+          .form-group
+            label(for="currentPassword") Current Password
+            input.form-control(type="password" name="currentPassword")
+          .form-group
+            label(for="newPassword") New Password
+            input.form-control(type="password" name="newPassword")
+          .form-group
+            button.btn(type="submit") Change
+  else
+    div
+      h2= profile.username
+      div
+        p= "Created " + profile.createdDate.fromNow()
+      if profile.emailAddress
+        div
+          a(href="mailto:" + profile.emailAddress)= profile.emailAddress
+      if profile.aboutMe
+        div
+          h4 About Me
+          p!= profile.aboutMe.replace(/\n/g, '</br>')

@@ -1,0 +1,27 @@
+{
+  "scripts": [
+    "database/init.sql",
+
+    "database/tables/core/person.sql",
+    "database/tables/posting/topic.sql",
+    "database/tables/posting/post.sql",
+
+    "database/functions/core/find_person_by_id.sql",
+    "database/functions/core/find_person_by_username.sql",
+    "database/functions/core/register_person.sql",
+    "database/functions/core/update_person.sql",
+    "database/functions/core/change_password.sql",
+
+    "database/functions/posting/submit_post.sql",
+    "database/functions/posting/get_posting.sql",
+    "database/functions/posting/delete_posting.sql",
+    "database/functions/posting/search_topics.sql",
+    "database/functions/posting/get_post_by_id.sql",
+    "database/functions/posting/post_comment.sql",
+    "database/functions/posting/delete_comment.sql"
+  ],
+  "testDataScripts": [
+  ],
+  "buildScriptName": "build.sql",
+  "buildDir": "database/"
+}

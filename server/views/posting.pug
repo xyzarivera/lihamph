@@ -1,0 +1,62 @@
+extends includes/layout.pug
+
+block main-content
+  div
+    h1= rootPost.title
+    small.help
+      span= "posted by"
+      a(href="/user/" + rootPost.author.username)= rootPost.author.username
+      span= rootPost.createdDate.fromNow()
+      if rootPost.isEdited
+        span= " * "
+      if user && user.id === rootPost.author.id
+        span= " - "
+        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="edit post") edit
+      if user && user.isModerator
+        span= " - "
+        a.del-posting(href="#" data-id=topicId data-csrf=csrfToken) delete
+    div
+      p!= rootPost.marked
+  hr
+  div
+    if commentStatus.length > 0
+      .alert(class=commentStatus[0].status)
+        p= commentStatus[0].message
+    form(method="POST" action="/comment/" + rootPost.id)
+      input(type="hidden" name="_csrf" value=csrfToken)
+      input(type="hidden" name="topicId" value=topicId)
+      .form-group
+        label(for="comment")
+        textarea.form-control(name="comment" rows="4")
+      .form-group
+        button.btn(type="submit") Reply
+
+  if rootPost.childPosts.length > 0
+    div
+      strong= rootPost.childrenCount + " comments"
+    hr
+    .comments
+      each child in rootPost.childPosts
+        +renderPost(child)
+
+//- RENDER POST MIXIN
+mixin renderPost(post)
+  div(id="post" + post.id)
+    small.help
+      span= "posted by"
+      a(href="/user/" + post.author.username)= post.author.username
+      span= post.createdDate.fromNow()
+      if post.isEdited
+        span= " * "
+      if user && user.id === post.author.id
+        span= " - "
+        a(href="/edit/" + post.id + "?topicId=" + topicId title="edit post") edit
+      if user && user.isModerator
+        span= " - "
+        a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) delete
+    div
+      p!= post.marked
+    each child in post.childPosts
+      .comment
+        //- This is, obviously, recursive
+        +renderPost(child)

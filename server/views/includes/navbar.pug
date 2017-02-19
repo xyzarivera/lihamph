@@ -1,0 +1,11 @@
+.container
+  navbar.navbar
+    a.nav-link(href="/") kronowork
+    a.nav-link(href="/") front
+    if user && user.id
+      a.nav-link(href="/submit") submit
+      a.nav-link(href="/user/" + user.username)= user.username
+      a.nav-link(href="/logout") logout
+    else
+      a.nav-link(href="/login") login
+      a.nav-link(href="/register") register
