@@ -28,11 +28,16 @@ module.exports.getPosting = function getPosting(id, done) {
     });
 };
 
-module.exports.searchTopics = function searchTopics(done) {
-  client.func('posting.search_topics', [])
+module.exports.searchTopics = function searchTopics(options, done) {
+  let params = [options.query, options.limit, options.offset];
+  client.func('posting.search_topics', params)
     .then(function(rows) {
-      let topics = rows.map(mapTopic);
-      done(null, topics);
+      let searchResult = { topics: [], totalCount: 0 };
+      if(rows.length > 0) {
+        searchResult.topics = rows.map(mapTopic);
+        searchResult.totalCount = Number(rows[0]['total_count']);
+      }
+      done(null, searchResult);
     })
     .catch(function(err) {
       done(err, null);

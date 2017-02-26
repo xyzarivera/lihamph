@@ -100,6 +100,11 @@ module.exports.comment = function comment(req, res, next) {
     author: req.user
   });
 
+  if(!post.content) {
+    req.flash('comment', { status: 'warning', message: 'You are replying an empty comment' });
+    return res.redirect('/posting/' + topicId);
+  }
+
   postingRepository.comment(post, function(err, resultSet) {
     if(err) { return next(err); }
 

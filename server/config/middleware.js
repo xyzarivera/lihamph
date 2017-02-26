@@ -50,7 +50,9 @@ module.exports = function(app, config) {
         description: 'Lightweight, fast job postings for programmers',
         siteName: 'http://kronowork.com'
       },
-      user: req.user
+      user: req.user,
+      verbose: config.middleware.verbose,
+      cdn: config.middleware.cdn
     };
 
     next();

@@ -105,6 +105,21 @@ blockquote {
   margin-bottom: .5rem;
 }
 
+.form-group-inline {
+  display: flex;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.form-group-inline input,
+.form-group-inline label,
+.form-group-inline button {
+  margin-right: 5px;
+}
+
+.form-group-inline *:last-child {
+  margin-right: 0;
+}
+
 .form-control {
   display: block;
   min-width: 100%;

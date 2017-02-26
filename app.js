@@ -21,9 +21,13 @@ process.on('uncaughtException', function(err) {
   console.error(err);
 });
 
+if(!config) {
+  logger.error('Unknown environment config: ' + env);
+  process.exit(-1);
+}
 logger.info('Setting up environment for: ' + env);
 
-let port = config.port || 6500;
+const port = config.port || 6500;
 
 database.init(config, function() {
   cache.init(config, function() {

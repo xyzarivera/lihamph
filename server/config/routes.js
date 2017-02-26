@@ -44,6 +44,7 @@ module.exports = function(app, config) {
   app.post('/edit/:postId', isAuthenticated, postingController.editPost);
 
   app.get('/rules', homeController.renderRulesPage);
+  app.get('/search', homeController.renderSearchPage);
   app.get('/', homeController.renderFrontPage);
 
   app.get('*', function(req, res, next) {
