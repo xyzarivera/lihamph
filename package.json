@@ -34,7 +34,7 @@
     "passport-local": "^1.0.0",
     "pg": "^6.1.2",
     "pg-promise": "^5.5.3",
-    "pug": "^2.0.0-beta9",
+    "pug": "^2.0.0-beta11",
     "redis": "^2.6.5",
     "winston": "^2.3.1"
   },

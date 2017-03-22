@@ -19,6 +19,8 @@ let flash = require('connect-flash');
 module.exports = function(app, config) {
   app.set('views', config.middleware.views);
   app.set('view engine', 'pug');
+  app.set('view cache', config.middleware.optimized);
+  app.locals.pretty = config.middleware.optimized;
 
   app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
   app.use(bodyParser.json({ limit: '5mb' }));

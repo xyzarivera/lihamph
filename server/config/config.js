@@ -23,6 +23,7 @@ module.exports = {
     },
     middleware: {
       views: path.join(rootPath, 'server/views'),
+      optimized: false,
       assets: path.join(rootPath, 'public'),
       verbose: true,
       cdn: {
@@ -46,6 +47,7 @@ module.exports = {
     },
     middleware: {
       views: path.join(rootPath, 'server/views'),
+      optimized: true,
       assets: path.join(rootPath, 'public'),
       verbose: true,
       cdn: {
@@ -69,6 +71,7 @@ module.exports = {
     },
     middleware: {
       views: path.join(rootPath, 'server/views'),
+      optimized: true,
       assets: path.join(rootPath, 'public'),
       verbose: false,
       cdn: {
