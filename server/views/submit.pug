@@ -2,24 +2,22 @@ extends includes/layout.pug
 
 block main-content
   div
-    h2 Submit
-    p= "Make sure you read the "
-      a(href="/rules") rules
-      |  first before writing your job posting.
+    h2 Isulat ang liham na iyong iniiwan
+    p= "Siguraduhin basahin ang mga "
+      a(href="/palatuntunan") palatuntunan
+      |  bago isulat ang iyong liham na iiwan.
     if submitPostStatus.length > 0
       .alert(class=submitPostStatus[0].status)
         p= submitPostStatus[0].message
     form(method="POST" action="/submit")
       input(type="hidden" name="_csrf" value=csrfToken)
       .form-group
-        label(for="title") Title
+        label(for="title") Paksa ng iyong Liham
         input.form-control(type="text" name="title" value="")
       .form-group
-        label(for="content") Content
+        label(for="content") Dito mo isulat ang iyong liham
         textarea.form-control(name="content" rows="10")
-        small
-          span= "Uses markdown formatting, read this article from "
+        small= "Ginagamit ng Liham na Iniwan ay Markdown, marapatin basahin itong gabay mula sa "
           a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
-          span= " check out the link in the footer"
       .form-group
-        button.btn(type="submit") Submit
+        button.btn(type="submit") Iiwan ang iyong liham

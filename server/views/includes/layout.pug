@@ -10,7 +10,7 @@ html(lang="en")
     if cdn.enabled
       link(rel="stylesheet" href=cdn.url + "/assets/stylesheets/main.min.css")
     else
-      link(rel="stylesheet" href="/stylesheets/main.min.css")
+      link(rel="stylesheet" href="/stylesheets/main.css")
 
   body
     include navbar.pug
@@ -22,14 +22,14 @@ html(lang="en")
         hr
         div.footer-brand
           img.kr-brand(src=cdn.url + "/assets/images/kr-xs.png" style="width: 24px; height: 24px;")
-          div= "Kronowork - Lightweight, fast job postings for tech people - "
-            a(href="/rules")= "rules"
+          div= "Mga Liham na Iniwan - Isang lugar para mga katha ng mga makata - "
+            a(href="/palatuntunan")= "palatuntunan"
             span= " - "
-            a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "how to use markdown"
-        p= "Built by Fortcode - Check out our other work "
+            a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "paano gumamit ng markdown"
+        p= "Binuo ito ng Fortcode - Tignan ang gawa namin para sa mga manlalakbay "
           a(href="https://wanderast.com")= "wanderast.com"
 
     if cdn.enabled
-      script(src=cdn.url + "/assets/scripts/main.min.js")
+      script(src=cdn.url + "/assets/scripts/main.js")
     else
-      script(src="/scripts/main.min.js")
+      script(src="/scripts/main.js")

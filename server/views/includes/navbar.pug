@@ -1,12 +1,11 @@
 .container
   navbar.navbar
-    a.nav-link(href="/") kronowork
-    a.nav-link(href="/") front
-    a.nav-link(href="/search") search
+    a.nav-link(href="/") magbasa na mga liham
+    a.nav-link(href="/search") hanapin
     if user && user.id
-      a.nav-link(href="/submit") submit
+      a.nav-link(href="/submit") isulat
       a.nav-link(href="/user/" + user.username)= user.username
-      a.nav-link(href="/logout") logout
+      a.nav-link(href="/logout") alis
     else
-      a.nav-link(href="/login") login
-      a.nav-link(href="/register") register
+      a.nav-link(href="/login") pasok
+      a.nav-link(href="/register") sumali

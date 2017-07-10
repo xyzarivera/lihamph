@@ -3,9 +3,9 @@ extends includes/layout.pug
 block main-content
   if isEditMode
     div
-      h2 Profile
+      h2 Ang Manunulat ng Liham
       div
-        p= "Created " + profile.createdDate.fromNow()
+        p= "Ginawa " + profile.createdDate.fromNow()
       div
         if updateProfileStatus.length > 0
           .alert(class=updateProfileStatus[0].status)
@@ -13,18 +13,18 @@ block main-content
         form(method="POST" action="/user/" + profile.username + "/profile")
           input(type="hidden" name="_csrf" value=csrfToken)
           .form-group
-            label(for="username") Username
+            label(for="username") Payak na pangalan (username)
             input.form-control(type="text" name="username" value=profile.username)
           .form-group
             label(for="emailAddress") Email Address
             input.form-control(type="text" name="emailAddress" value=profile.emailAddress)
           .form-group
-            label(for="aboutMe") About Me
+            label(for="aboutMe") Tungkol sa manunulat
             textarea.form-control(name="aboutMe" rows="8")= profile.aboutMe
           .form-group
-            button.btn(type="submit") Save
+            button.btn(type="submit") Ipangalaga
     div
-      h2 Change Password
+      h2 Baguhin ang liham na salita
       div
         if changePasswordStatus.length > 0
           .alert(class=changePasswordStatus[0].status)
@@ -32,18 +32,18 @@ block main-content
         form(method="POST" action="/user/" + profile.username + "/password")
           input(type="hidden" name="_csrf" value=csrfToken)
           .form-group
-            label(for="currentPassword") Current Password
+            label(for="currentPassword") Ngayong Lihim na Salita (new password)
             input.form-control(type="password" name="currentPassword")
           .form-group
-            label(for="newPassword") New Password
+            label(for="newPassword") Bagong Lihim na Salita (new password)
             input.form-control(type="password" name="newPassword")
           .form-group
-            button.btn(type="submit") Change
+            button.btn(type="submit") Baguhin
   else
     div
       h2= profile.username
       div
-        p= "Created " + profile.createdDate.fromNow()
+        p= "Ginawa " + profile.createdDate.fromNow()
       if profile.emailAddress
         div
           a(href="mailto:" + profile.emailAddress)= profile.emailAddress

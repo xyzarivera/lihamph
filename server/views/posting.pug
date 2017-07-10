@@ -4,17 +4,17 @@ block main-content
   div
     h1= rootPost.title
     small.help
-      span= "posted by"
+      span= "inilatha ni "
       a(href="/user/" + rootPost.author.username)= rootPost.author.username
       span= rootPost.createdDate.fromNow()
       if rootPost.isEdited
         span= " * "
       if user && user.id === rootPost.author.id
         span= " - "
-        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="edit post") edit
+        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="edit post") baguhin
       if user && user.isModerator
         span= " - "
-        a.del-posting(href="#" data-id=topicId data-csrf=csrfToken) delete
+        a.del-posting(href="#" data-id=topicId data-csrf=csrfToken) tanggalin
     div
       p!= rootPost.marked
   hr
@@ -29,11 +29,11 @@ block main-content
         label(for="comment")
         textarea.form-control(name="comment" rows="4")
       .form-group
-        button.btn(type="submit") Reply
+        button.btn(type="submit") Mag-iwan ng iyong puna
 
   if rootPost.childPosts.length > 0
     div
-      strong= rootPost.childrenCount + " comments"
+      strong= rootPost.childrenCount + " na mga puna"
     hr
     .comments
       each child in rootPost.childPosts
@@ -43,17 +43,17 @@ block main-content
 mixin renderPost(post)
   div(id="post" + post.id)
     small.help
-      span= "posted by"
+      span= "puna ni "
       a(href="/user/" + post.author.username)= post.author.username
       span= post.createdDate.fromNow()
       if post.isEdited
         span= " * "
       if user && user.id === post.author.id
         span= " - "
-        a(href="/edit/" + post.id + "?topicId=" + topicId title="edit post") edit
+        a(href="/edit/" + post.id + "?topicId=" + topicId title="edit post") baguhin
       if user && user.isModerator
         span= " - "
-        a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) delete
+        a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) tanggalin
     div
       p!= post.marked
     each child in post.childPosts

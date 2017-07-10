@@ -1,18 +1,18 @@
 extends includes/layout.pug
 
 block main-content
-  h2 Search
+  h2 Maghanap ng liham
   form(action="/search" method="GET")
     input(type="hidden" name="page" value=options.page)
     input(type="hidden" name="size" value=options.limit)
     .form-group-inline
-      input.form-control(type="text" name="query" value=options.query placeholder="Search...")
-      button.btn(type="submit") Search
+      input.form-control(type="text" name="query" value=options.query placeholder="Isulat dito ang gusto mong hanapin na liham...")
+      button.btn(type="submit") Hanapin
 
   if options.query && searchResult.totalCount === 0
-    div We cannot find anything.
+    div Hindi namin mahanap ang liham na gusto mong mabasa
   else if searchResult.totalCount === 0
-    div What are you looking for?
+    div Anong liham ang iyong hinahanap?
 
   each topic, index in searchResult.topics
     div.topic
@@ -33,4 +33,4 @@ block main-content
         moreUrl += "?page=" + (options.page + 1)
         moreUrl += "&size=" + options.limit
         moreUrl += "&query=" + options.query
-      a(href=moreUrl title="next page") more
+      a(href=moreUrl title="next page") magbasa pa

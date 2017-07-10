@@ -140,9 +140,10 @@ blockquote {
   white-space: nowrap;
   vertical-align: middle;
   border: 1px solid #9e9e9e;
-  padding: 5px;
+  background-color: transparent;
+  padding: 12px 8px;
   font-size: 0.9rem;
-  border-radius: 0.25rem
+  border-radius: 0.25rem;
 }
 
 @media (min-width: 576px) {

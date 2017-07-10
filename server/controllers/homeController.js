@@ -45,7 +45,7 @@ module.exports.renderSearchPage = function renderSearchPage(req, res, next) {
 
 module.exports.renderRulesPage = function renderRulesPage(req, res, next) {
   let model = req.model;
-  model.meta.title = 'Kronowork - Rules';
-  model.meta.description = 'Rules and regulations in Kronowork';
+  model.meta.title = 'Palatuntunan sa Liham na Iniwan';
+  model.meta.description = 'Mga Palatuntunan para makapagsulat ng mga liham na iniwan';
   res.render('rules', model);
 };

@@ -43,7 +43,7 @@ module.exports = function(app, config) {
   app.get('/edit/:postId', isAuthenticated, postingController.renderEditPostPage);
   app.post('/edit/:postId', isAuthenticated, postingController.editPost);
 
-  app.get('/rules', homeController.renderRulesPage);
+  app.get('/palatuntunan', homeController.renderRulesPage);
   app.get('/search', homeController.renderSearchPage);
   app.get('/', homeController.renderFrontPage);
 

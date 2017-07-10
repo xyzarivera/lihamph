@@ -4,17 +4,17 @@
  */
 'use strict';
 
-let express = require('express');
-let morgan = require('morgan');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
-let session = require('express-session');
-let cache = require('./cache');
-let RedisStore = require('connect-redis')(session);
-let passport = require('passport');
-let csurf = require('csurf');
-let helmet = require('helmet');
-let flash = require('connect-flash');
+const express = require('express');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const cache = require('./cache');
+const RedisStore = require('connect-redis')(session);
+const passport = require('passport');
+const csurf = require('csurf');
+const helmet = require('helmet');
+const flash = require('connect-flash');
 
 module.exports = function(app, config) {
   app.set('views', config.middleware.views);
@@ -48,9 +48,9 @@ module.exports = function(app, config) {
       meta: {
         url: baseUrl +  req.originalUrl,
         type: 'website',
-        title: 'Kronowork',
-        description: 'Lightweight, fast job postings for programmers',
-        siteName: 'http://kronowork.com'
+        title: 'Mga Liham na Iniwan',
+        description: 'Mga Liham na Iniwan - Isang lugar para mga katha ng mga makata',
+        siteName: 'http://lihamnainiwan.com'
       },
       user: req.user,
       verbose: config.middleware.verbose,
