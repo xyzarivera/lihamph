@@ -1,19 +1,20 @@
 {
-  "name": "kronowork",
+  "name": "lihamnainiwan",
   "version": "1.0.0",
-  "description": "Lightweight, fast job postings for programmers",
+  "description": "Mga katha para sa mga makata",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://descouvre.visualstudio.com/DefaultCollection/_git/kronowork"
+    "url": "https://github.com/descouvre/lihamnainiwan"
   },
   "keywords": [
-    "jobs",
-    "programmers",
-    "lightweight"
+    "liham",
+    "iniwan",
+    "sulat",
+    "filipino"
   ],
   "author": "Kenneth Bastian <bastian.kenneth.g@gmail.com>",
   "license": "ISC",
