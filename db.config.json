@@ -18,7 +18,8 @@
     "database/functions/posting/search_topics.sql",
     "database/functions/posting/get_post_by_id.sql",
     "database/functions/posting/post_comment.sql",
-    "database/functions/posting/delete_comment.sql"
+    "database/functions/posting/delete_comment.sql",
+    "database/functions/posting/edit_post.sql"
   ],
   "testDataScripts": [
   ],
