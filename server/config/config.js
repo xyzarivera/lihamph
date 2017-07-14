@@ -28,7 +28,7 @@ module.exports = {
       verbose: true,
       cdn: {
         enabled: false,
-        url: 'https://wanderast.azureedge.net/lihamnainiwan'
+        url: process.env.LHM_CDN_URL
       }
     }
   },
@@ -52,7 +52,7 @@ module.exports = {
       verbose: true,
       cdn: {
         enabled: true,
-        url: 'https://wanderast.azureedge.net/lihamnainiwan'
+        url: process.env.LHM_CDN_URL
       }
     }
   },
@@ -76,7 +76,7 @@ module.exports = {
       verbose: false,
       cdn: {
         enabled: true,
-        url: 'https://wanderast.azureedge.net/lihamnainiwan'
+        url: process.env.LHM_CDN_URL
       }
     }
   }

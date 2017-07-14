@@ -1,9 +1,8 @@
-let gulp = require('gulp');
-let args = require('yargs').argv;
-let plug = require('gulp-load-plugins')({ lazy: true });
-let dbConfig = require('./db.config');
-let fs = require('fs');
-let path = require('path');
+const gulp = require('gulp');
+const args = require('yargs').argv;
+const plug = require('gulp-load-plugins')({ lazy: true });
+const fs = require('fs');
+const path = require('path');
 
 ////////////////////////////////////////////////
 
@@ -12,6 +11,11 @@ const cssnano = require('gulp-cssnano');
 const gzip = require('gulp-gzip');
 const rename = require('gulp-rename');
 const deployAzureCdn = require('gulp-deploy-azure-cdn');
+
+////////////////////////////////////////////////
+
+const dbConfig = require('./db.config');
+const config = require('./gulp.config');
 
 ////////////////////////////////////////////////
 
@@ -61,27 +65,22 @@ gulp.task('sql', ['build-sql'], function(done) {
 
 gulp.task('js-compress', function () {
   log('Compressing JS file');
-  return gulp.src('public/scripts/main.js')
+  return gulp.src(config.scripts.src)
     .pipe(uglify())
-    .pipe(rename('main.min.js'))
-    .pipe(gulp.dest('public/scripts'));
+    .pipe(rename(config.scripts.minName))
+    .pipe(gulp.dest(config.scripts.dest));
 });
 
 gulp.task('css-compress', function () {
   log('Compressing CSS file');
-  return gulp.src('public/stylesheets/main.css')
+  return gulp.src(config.stylesheets.src)
     .pipe(cssnano())
-    .pipe(rename('main.min.css'))
-    .pipe(gulp.dest('public/stylesheets'));
+    .pipe(rename(config.stylesheets.minName))
+    .pipe(gulp.dest(config.stylesheets.dest));
 });
 
 gulp.task('assets', ['js-compress', 'css-compress'], function() {
-  let stor = {
-    assets: 'public/**/*',
-    container: 'krw',
-    account: process.env.KRW_STORAGE_ACCOUNT,
-    key: process.env.KRW_STORAGE_KEY
-  };
+  const stor = config.storage;
   log('Upload assets to Azure Storage on ' + stor.account);
 
   return gulp.src(stor.assets)
