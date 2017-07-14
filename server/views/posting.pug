@@ -14,7 +14,7 @@ block main-content
         a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
       if user && user.isModerator
         span= " - "
-        a.del-posting(href="#" data-id=topicId data-csrf=csrfToken) tanggalin
+        a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
     div
       p!= rootPost.marked
   hr

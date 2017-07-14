@@ -11,15 +11,15 @@ const LocalStrategy = require('passport-local').Strategy;
 const personRepository = require('../repositories/personRepository');
 const Person = require('../models/Person');
 
-module.exports = function(app, config) {
+module.exports = (app, config) => {
   logger.info('Configuring authentication middlewares...');
 
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser((user, done) => {
     done(null, user.username);
   });
 
-  passport.deserializeUser(function(username, done) {
-    personRepository.findPersonByUsername(username, function(err, person) {
+  passport.deserializeUser((username, done) => {
+    personRepository.findPersonByUsername(username, (err, person) => {
       if(err) { return done(err, null); }
       done(null, person);
     });
@@ -33,22 +33,24 @@ module.exports = function(app, config) {
     let person = new Person({ username: username });
 
     if(!person.isUsernameValid) {
-      return done(null, null, { status: 'error', message: 'Invalid username' });
+      return done(null, null, 
+        { status: 'error', message: 'Hindi maari ang iyong piniling sagisag' });
     }
 
     if(password.length < 8) {
-      return done(null, null, { status: 'error', message: 'Password must be at least 8 characters' });
+      return done(null, null, 
+        { status: 'error', message: 'Ang lihim na salita ay dapat mahigit sa 8 titik' });
     }
 
     person.generateHashedPassword(password);
-    personRepository.register(person, function(err, resultSet) {
+    personRepository.register(person, (err, resultSet) => {
       if(err) { return done(err, null); }
 
       if(resultSet.status !== 'success') {
         return done(null, null, resultSet);
       }
 
-      personRepository.findPersonById(resultSet.id, function(err, person) {
+      personRepository.findPersonById(resultSet.id, (err, person) => {
         if(err) { return done(err, null); }
 
         done(null, person, resultSet);
@@ -61,22 +63,28 @@ module.exports = function(app, config) {
     passwordField: 'password',
     passReqToCallback: true
   }, function localLogin(req, username, password, done) {
-    personRepository.findPersonByUsername(username, function(err, person) {
-      if(err) { return done(err, null, { status: 'error', message: err.toString() }); }
+    personRepository.findPersonByUsername(username, (err, person) => {
+      if(err) { 
+        return done(err, null, 
+          { status: 'error', message: 'Paumanhin. Nagkaroon ng problema sa liham.ph' }); 
+      }
 
       if(!person) {
-        return done(null, null, { status: 'error', message: 'User does not exist' });
+        return done(null, null, 
+          { status: 'error', message: 'Ang sagisag na ito ay hindi kasapi ng liham.ph' });
       }
 
       if(!person.isEnabled) {
-        return done(null, person, { status: 'warning', message: 'Deactivated account' });
+        return done(null, person, 
+          { status: 'warning', message: 'Ang sagisag na ito ay hindi na magagamit pa' });
       }
 
       if(!person.validatePassword(password)) {
-        return done(null, person, { status: 'warning', message: 'Incorrect username or password' });
+        return done(null, person, 
+          { status: 'warning', message: 'Mali ang sagisag o ang iyong liham na salita' });
       }
 
-      done(null, person, { status: 'success', message: 'Successful login' });
+      done(null, person, { status: 'success', message: 'Sa wakas!' });
     });
   }));
 };

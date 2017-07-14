@@ -19,11 +19,11 @@ module.exports.renderPostingPage = function renderPostingPage(req, res, next) {
   let id = req.params.topicId;
   let model = req.model;
 
-  postingRepository.getPosting(id, function(err, rootPost) {
+  postingRepository.getPosting(id, (err, rootPost) => {
     if(err) { return next(err); }
 
     if(!rootPost) {
-      model.message = 'Posting not found';
+      model.message = 'Hindi matagpuan ang liham na iyong hinahanap';
       return res.status(404).render('notfound', model);
     }
 
@@ -46,11 +46,11 @@ module.exports.submitPost = function submitPost(req, res, next) {
   });
 
   if(!post.title || !post.content) {
-    req.flash('submitPost', { status: 'error', message: 'Empty title or content' });
+    req.flash('submitPost', { status: 'error', message: 'Walang paksa o sulat sa iyong liham' });
     return res.redirect('/submit');
   }
 
-  postingRepository.submitPost(post, function(err, resultSet) {
+  postingRepository.submitPost(post, (err, resultSet) => {
     if(err) { return next(err); }
 
     if(resultSet.status !== 'success') {
@@ -66,25 +66,30 @@ module.exports.deletePosting = function deletePosting(req, res, next) {
   let topicId = req.params.topicId;
   let user = req.user;
   if(!user.isModerator) {
-    return res.status(403).send({ status: 'error', message: 'Forbidden to delete posting' });
+    return res.status(403)
+      .send({ status: 'error', message: 'Hindi ka maaring magtanggal ng liham' });
   }
 
-  postingRepository.deletePosting(topicId, function(err, resultSet) {
-    if(err) { return res.status(500).send({ status: 'error', message: 'Cannot delete posting' }); }
-    if(resultSet.status !== 'success') {
-      return res.status(400).send(resultSet);
+  postingRepository.deletePosting(topicId, (err, resultSet) => {
+    if(err) { 
+      return res.status(500)
+        .send({ status: 'error', message: 'Hindi maaring matanggal ang liham' }); 
     }
-    res.status(200).send(resultSet);
+    if(resultSet.status !== 'success') {
+      return res.status(400)
+        .send(resultSet);
+    }
+    res.status(204).send(resultSet);
   });
 };
 
 module.exports.renderCommentPage = function renderCommentPage(req, res, next) {
   let postId = req.params.postId;
   let model = req.model;
-  postingRepository.getPostById(postId, function(err, post) {
+  postingRepository.getPostById(postId, (err, post) => {
     if(err) { return next(err); }
 
-    model.meta.title = 'Comment on ' + post.title;
+    model.meta.title = 'Mag-iwan ng puna sa ' + post.title;
     model.csrfToken = req.csrfToken();
     model.post = post;
     res.render('comment', model);
@@ -92,20 +97,20 @@ module.exports.renderCommentPage = function renderCommentPage(req, res, next) {
 };
 
 module.exports.comment = function comment(req, res, next) {
-  let topicId = req.body.topicId;
+  const topicId = req.body.topicId;
 
-  let post = new Post({
+  const post = new Post({
     parentId: req.params.postId,
     content: req.body.comment,
     author: req.user
   });
 
   if(!post.content) {
-    req.flash('comment', { status: 'warning', message: 'You are replying an empty comment' });
+    req.flash('comment', { status: 'warning', message: 'Walang kang iniwang sulat' });
     return res.redirect('/posting/' + topicId);
   }
 
-  postingRepository.comment(post, function(err, resultSet) {
+  postingRepository.comment(post, (err, resultSet) => {
     if(err) { return next(err); }
 
     if(resultSet.status !== 'success') {
@@ -116,22 +121,22 @@ module.exports.comment = function comment(req, res, next) {
 };
 
 module.exports.deleteComment = function deleteComment(req, res, next) {
-  let topicId = req.body.topicId;
-  let postId = req.params.postId;
+  const topicId = req.body.topicId;
+  const postId = req.params.postId;
 
-  postingRepository.deleteComment(postId, function(err, resultSet) {
+  postingRepository.deleteComment(postId, (err, resultSet) => {
     if(err) { return next(err); }
     return res.status(200).send(resultSet);
   });
 };
 
 module.exports.renderEditPostPage = function renderEditPostPage(req, res, next) {
-  let postId = req.params.postId;
+  const postId = req.params.postId;
   let model = req.model;
-  postingRepository.getPostById(postId, function(err, post) {
+  postingRepository.getPostById(postId, (err, post) => {
     if(err) { return next(err); }
 
-    model.meta.title = 'Edit post on ' + post.title;
+    model.meta.title = 'Baguhin ang ' + post.title;
     model.csrfToken = req.csrfToken();
     model.topicId = req.query.topicId;
     model.editPostStatus = req.flash('editPost');
@@ -148,7 +153,7 @@ module.exports.editPost = function editPost(req, res, next) {
     author: req.user
   });
 
-  postingRepository.editPost(post, function(err, resultSet) {
+  postingRepository.editPost(post, (err, resultSet) => {
     if(err) { return next(err); }
 
     if(resultSet.status !== 'success') {
