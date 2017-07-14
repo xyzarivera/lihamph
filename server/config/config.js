@@ -28,7 +28,8 @@ module.exports = {
       verbose: true,
       cdn: {
         enabled: false,
-        url: process.env.LHM_CDN_URL
+        url: process.env.LHM_CDN_URL,
+        container: 'devstore'
       }
     }
   },
@@ -52,7 +53,8 @@ module.exports = {
       verbose: true,
       cdn: {
         enabled: true,
-        url: process.env.LHM_CDN_URL
+        url: process.env.LHM_CDN_URL,
+        container: 'devstore'
       }
     }
   },
@@ -76,7 +78,8 @@ module.exports = {
       verbose: false,
       cdn: {
         enabled: true,
-        url: process.env.LHM_CDN_URL
+        url: process.env.LHM_CDN_URL,
+        container: 'assets-53b0ca1'
       }
     }
   }
