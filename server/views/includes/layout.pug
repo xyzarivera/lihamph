@@ -8,7 +8,7 @@ html(lang="en")
     title= meta.title
 
     if cdn.enabled
-      link(rel="stylesheet" href=cdn.url + "/assets/stylesheets/liham.min.css")
+      link(rel="stylesheet" href=cdn.url + "/" + cdn.container + "/assets/stylesheets/liham.min.css")
     else
       link(rel="stylesheet" href="/stylesheets/main.css")
 
@@ -21,7 +21,7 @@ html(lang="en")
       footer.footer
         hr
         div.footer-brand
-          img.kr-brand(src="/images/icon-sm.png" style="width: 24px; height: 24px; border-radius: 3px;")
+          img.brand(src="/images/icon-sm.png" style="width: 24px; height: 24px; border-radius: 3px;")
           div= "Mga Liham na Iniwan - Isang lugar para mga katha ng mga makata - "
             a(href="/palatuntunan")= "palatuntunan"
             span= " - "
@@ -30,6 +30,6 @@ html(lang="en")
           a(href="https://wanderast.com")= "wanderast.com"
 
     if cdn.enabled
-      script(src=cdn.url + "/assets/scripts/liham.js")
+      script(src=cdn.url + "/" + cdn.container + "/assets/scripts/liham.min.js")
     else
       script(src="/scripts/main.js")

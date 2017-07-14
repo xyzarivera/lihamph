@@ -6,12 +6,12 @@ block main-content
     small.help
       span= "inilatha ni "
       a(href="/user/" + rootPost.author.username)= rootPost.author.username
-      span= rootPost.createdDate.fromNow()
+      span= utils.convertFromNowToFilipino(rootPost.createdDate.fromNow())
       if rootPost.isEdited
         span= " * "
       if user && user.id === rootPost.author.id
         span= " - "
-        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="edit post") baguhin
+        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
       if user && user.isModerator
         span= " - "
         a.del-posting(href="#" data-id=topicId data-csrf=csrfToken) tanggalin
@@ -45,12 +45,12 @@ mixin renderPost(post)
     small.help
       span= "puna ni "
       a(href="/user/" + post.author.username)= post.author.username
-      span= post.createdDate.fromNow()
+      span= utils.convertFromNowToFilipino(post.createdDate.fromNow())
       if post.isEdited
         span= " * "
       if user && user.id === post.author.id
         span= " - "
-        a(href="/edit/" + post.id + "?topicId=" + topicId title="edit post") baguhin
+        a(href="/edit/" + post.id + "?topicId=" + topicId title="baguhin") baguhin
       if user && user.isModerator
         span= " - "
         a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) tanggalin

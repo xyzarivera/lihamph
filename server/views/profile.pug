@@ -5,7 +5,7 @@ block main-content
     div
       h2 Ang Manunulat ng Liham
       div
-        p= "Ginawa " + profile.createdDate.fromNow()
+        p= "Itong sagisag ay naitatag " + utils.convertFromNowToFilipino(profile.createdDate.fromNow())
       div
         if updateProfileStatus.length > 0
           .alert(class=updateProfileStatus[0].status)
@@ -13,7 +13,7 @@ block main-content
         form(method="POST" action="/user/" + profile.username + "/profile")
           input(type="hidden" name="_csrf" value=csrfToken)
           .form-group
-            label(for="username") Payak na pangalan (username)
+            label(for="username") Sagisag
             input.form-control(type="text" name="username" value=profile.username)
           .form-group
             label(for="emailAddress") Email Address
@@ -22,9 +22,9 @@ block main-content
             label(for="aboutMe") Tungkol sa manunulat
             textarea.form-control(name="aboutMe" rows="8")= profile.aboutMe
           .form-group
-            button.btn(type="submit") Ipangalaga
+            button.btn(type="submit") Itala ang pagbabago
     div
-      h2 Baguhin ang liham na salita
+      h2 Baguhin ang lihim na salita
       div
         if changePasswordStatus.length > 0
           .alert(class=changePasswordStatus[0].status)
@@ -43,11 +43,11 @@ block main-content
     div
       h2= profile.username
       div
-        p= "Ginawa " + profile.createdDate.fromNow()
-      if profile.emailAddress
-        div
-          a(href="mailto:" + profile.emailAddress)= profile.emailAddress
+        p= "Itong sagisag ay naitatag " + utils.convertFromNowToFilipino(profile.createdDate.fromNow())
+      //- if profile.emailAddress
+      //-   div
+      //-     a(href="mailto:" + profile.emailAddress)= profile.emailAddress
       if profile.aboutMe
         div
-          h4 About Me
+          h4 Tungkol sa manunulat
           p!= profile.aboutMe.replace(/\n/g, '</br>')
