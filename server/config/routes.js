@@ -44,6 +44,7 @@ module.exports = function(app, config) {
   app.post('/edit/:postId', isAuthenticated, postingController.editPost);
 
   app.get('/palatuntunan', homeController.renderRulesPage);
+  app.get('/tungkol', homeController.renderAboutPage);
   app.get('/search', homeController.renderSearchPage);
   app.get('/', homeController.renderFrontPage);
 

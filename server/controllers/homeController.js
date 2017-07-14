@@ -45,7 +45,14 @@ module.exports.renderSearchPage = function renderSearchPage(req, res, next) {
 
 module.exports.renderRulesPage = function renderRulesPage(req, res, next) {
   let model = req.model;
-  model.meta.title = 'Palatuntunan sa Liham na Iniwan';
+  model.meta.title = 'Palatuntunan sa Liham.ph';
   model.meta.description = 'Mga Palatuntunan para makapagsulat ng mga liham na iniwan';
   res.render('rules', model);
+};
+
+module.exports.renderAboutPage = function renderRulesPage(req, res, next) {
+  let model = req.model;
+  model.meta.title = 'Tungkol sa Liham.ph';
+  model.meta.description = 'Tungkol sa Liham.ph';
+  res.render('about', model);
 };

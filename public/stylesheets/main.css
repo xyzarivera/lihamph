@@ -24,7 +24,7 @@ body {
 }
 
 footer {
-  margin-top: 120px;
+  margin-top: 80px;
 }
 
 .container {
@@ -177,7 +177,7 @@ a.nav-link {
   display: inline-flex;
   margin-right: 5px;
 }
-.kr-brand {
+.brand {
   width: 24px;
   height: 24px;
   margin-right: 5px;
@@ -187,4 +187,14 @@ a.nav-link {
 }
 .comments .comment {
   margin-left: 15px;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+.pagination a {
+  margin-right: 8px;
+}
+.pagination a:last-child {
+  margin-right: 0;
 }
