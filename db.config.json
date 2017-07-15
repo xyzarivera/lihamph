@@ -5,6 +5,7 @@
     "database/tables/core/person.sql",
     "database/tables/posting/topic.sql",
     "database/tables/posting/post.sql",
+    "database/tables/posting/upvote.sql",
 
     "database/functions/core/find_person_by_id.sql",
     "database/functions/core/find_person_by_username.sql",

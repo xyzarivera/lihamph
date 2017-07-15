@@ -7,6 +7,8 @@ CREATE OR REPLACE FUNCTION posting.search_topics (
   title VARCHAR(500),
   author_id INT,
   author_username VARCHAR(50),
+  reply_count INT,
+  upvote_count INT,
   created_date TIMESTAMPTZ,
   last_updated_date TIMESTAMPTZ,
   total_count BIGINT
@@ -19,6 +21,8 @@ BEGIN
     t.title,
     p.person_id,
     p.username,
+    t.reply_count,
+    t.upvote_count,
     t.created_date,
     t.last_updated_date,
     COUNT(*) OVER () AS total_count
