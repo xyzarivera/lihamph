@@ -11,7 +11,7 @@ $func$
 DECLARE
   v_new_post_id BIGINT := 0;
   v_status VARCHAR(50) := 'success';
-  v_message VARCHAR(255) := 'Comment has been posted';
+  v_message VARCHAR(255) := 'Ang iyong tugon ay nailagay na sa liham';
 BEGIN
   IF NOT EXISTS (SELECT post_id FROM posting.post
       WHERE post_id = p_post_id AND is_deleted = false) THEN

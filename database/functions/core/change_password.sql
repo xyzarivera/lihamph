@@ -8,11 +8,11 @@ CREATE OR REPLACE FUNCTION core.change_password (
 $func$
 DECLARE
   v_status VARCHAR(50) := 'success';
-  v_message VARCHAR(255) := 'Password change is successful';
+  v_message VARCHAR(255) := 'Ang lihim mo ay nabago na';
 BEGIN
   IF NOT EXISTS(SELECT p.person_id FROM core.person AS p WHERE p.person_id = p_person_id) THEN
     v_status := 'warning';
-    v_message := 'User does not exist';
+    v_message := 'Ang sagisag na ito ay hindi umiiral';
 
     RETURN QUERY SELECT v_status, v_message;
     RETURN;

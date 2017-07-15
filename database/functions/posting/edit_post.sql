@@ -9,12 +9,12 @@ CREATE OR REPLACE FUNCTION posting.edit_post (
 $func$
 DECLARE
   v_status VARCHAR(50) := 'success';
-  v_message VARCHAR(255) := 'Post has been edited';
+  v_message VARCHAR(255) := 'Naitala na ang iyong mga binago';
 BEGIN
   IF NOT EXISTS (SELECT post_id FROM posting.post
       WHERE post_id = p_post_id AND author_id = p_author_id AND is_deleted = false) THEN
     v_status := 'error';
-    v_message := 'Post does not exist';
+    v_message := 'Ang pagbabago mo sa liham o tugon ay naitala na';
 
     RETURN QUERY SELECT v_status, v_message;
     RETURN;
