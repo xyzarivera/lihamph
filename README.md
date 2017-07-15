@@ -1,8 +1,5 @@
-# Descouvre
-Write stories anywhere, fast
-
-## NOTES
-This instance has been deployed in [kronowork.com](http://kronowork.com) and has been ongoing development.
+# Liham Na Iniwan
+Write stories anywhere, fast [liham.ph](http://liham.ph). Forked from descouvre repository.
 
 ## Features
 
@@ -20,17 +17,19 @@ This instance has been deployed in [kronowork.com](http://kronowork.com) and has
 
 Setup the following environment variables in your machine:
 
-`KRW_POSTGRESQL` - Postgresql connection string  
-`KRW_REDIS_HOST` - Redis address instance without the port  
-`KRW_REDIS_KEY` - Redis instance password (do not set if requirepass is not configured)  
-`KRW_SESSION_SECRET` - Any string to set the session secret
-`KRW_STORAGE_ACCOUNT` - Azure Storage for asset uploads
-`KRW_STORAGE_KEY`
+`NODE_ENV` - Use development, stage or prod as values.  
+`LHM_POSTGRESQL` - Postgresql connection string  
+`LHM_REDIS_HOST` - Redis address instance without the port  
+`LHM_REDIS_KEY` - Redis instance password (do not set if requirepass is not configured)  
+`LHM_SESSION_SECRET` - Any string to set the session secret  
+`LHM_STORAGE_ACCOUNT` - Azure Storage for asset uploads  
+`LHM_STORAGE_KEY` - Azure Storage secret key  
+`LHM_CDN_URL` - HTTPS URL of the content delivery network where the assets are located  
 
-Quick install  
+Quick install
 ```
-git clone https://github.com/onezeronine/descouvre
-cd descouvre
+git clone https://github.com/descouvre/lihamnainiwan
+cd lihamnainiwan
 npm install
 gulp sql
 node app.js

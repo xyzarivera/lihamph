@@ -8,7 +8,7 @@ html(lang="en")
     title= meta.title
 
     if cdn.enabled
-      link(rel="stylesheet" href=cdn.url + "/assets/stylesheets/main.min.css")
+      link(rel="stylesheet" href=cdn.url + "/" + cdn.container + "/assets/stylesheets/liham.min.css")
     else
       link(rel="stylesheet" href="/stylesheets/main.css")
 
@@ -21,15 +21,17 @@ html(lang="en")
       footer.footer
         hr
         div.footer-brand
-          img.kr-brand(src=cdn.url + "/assets/images/kr-xs.png" style="width: 24px; height: 24px;")
+          img.brand(src="/images/icon-sm.png" style="width: 24px; height: 24px; border-radius: 3px;")
           div= "Mga Liham na Iniwan - Isang lugar para mga katha ng mga makata - "
             a(href="/palatuntunan")= "palatuntunan"
+            span= " - "
+            a(href="/tungkol")= "tungkol sa amin"
             span= " - "
             a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "paano gumamit ng markdown"
         p= "Binuo ito ng Fortcode - Tignan ang gawa namin para sa mga manlalakbay "
           a(href="https://wanderast.com")= "wanderast.com"
 
     if cdn.enabled
-      script(src=cdn.url + "/assets/scripts/main.js")
+      script(src=cdn.url + "/" + cdn.container + "/assets/scripts/liham.min.js")
     else
       script(src="/scripts/main.js")

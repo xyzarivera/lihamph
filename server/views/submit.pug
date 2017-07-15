@@ -2,7 +2,7 @@ extends includes/layout.pug
 
 block main-content
   div
-    h2 Isulat ang liham na iyong iniiwan
+    h2 Ilatha ang liham na iyong iniiwan
     p= "Siguraduhin basahin ang mga "
       a(href="/palatuntunan") palatuntunan
       |  bago isulat ang iyong liham na iiwan.
@@ -12,12 +12,13 @@ block main-content
     form(method="POST" action="/submit")
       input(type="hidden" name="_csrf" value=csrfToken)
       .form-group
-        label(for="title") Paksa ng iyong Liham
+        label(for="title") Paksa ng Liham
         input.form-control(type="text" name="title" value="")
+        small Tungkol saan ang iyong liham?
       .form-group
         label(for="content") Dito mo isulat ang iyong liham
         textarea.form-control(name="content" rows="10")
-        small= "Ginagamit ng Liham na Iniwan ay Markdown, marapatin basahin itong gabay mula sa "
+        small= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
           a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
       .form-group
-        button.btn(type="submit") Iiwan ang iyong liham
+        button.btn(type="submit") ⤴ Itala ang iyong liham

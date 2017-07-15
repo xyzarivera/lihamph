@@ -8,15 +8,19 @@ const database = require('../config/database');
 const Post = require('../models/Post');
 const Topic = require('../models/Topic');
 const ResultSet = require('../models/ResultSet');
+const client = database.get();
 
-let client = database.get();
-
+/**
+ * Gets the posting by topic ID
+ * @param {number} id
+ * @param {function(object, Post)} done
+ */
 module.exports.getPosting = function getPosting(id, done) {
   client.func('posting.get_posting', [id])
     .then(function(rows) {
       if(rows.length === 0) { return done(null, null); }
 
-      let posts = rows.map(mapPost);
+      let posts = rows.map(Post.mapFromRow);
       let root = posts.find(function(p) { return !p.parentId; });
 
       posts = posts.filter(function(p) { return p.parentId > 0; });
@@ -28,27 +32,92 @@ module.exports.getPosting = function getPosting(id, done) {
     });
 };
 
-module.exports.searchTopics = function searchTopics(options, done) {
-  let params = [options.query, options.limit, options.offset];
-  client.func('posting.search_topics', params)
+/**
+ * Gets the topic by ID
+ * @param {number} id
+ * @param {function(object, Topic)} done
+ */
+module.exports.getTopicById = function getTopicById(id, done) {
+  const params = [id];
+  client.func('posting.get_topic_by_id', params)
     .then(function(rows) {
-      let searchResult = { topics: [], totalCount: 0 };
-      if(rows.length > 0) {
-        searchResult.topics = rows.map(mapTopic);
-        searchResult.totalCount = Number(rows[0]['total_count']);
-      }
-      done(null, searchResult);
+      if(rows.length === 0) { return done(null, null); }
+
+      const topic = Topic.mapFromRow(rows[0]);
+      done(null, topic);
     })
     .catch(function(err) {
       done(err, null);
     });
 };
 
+/**
+ * Gets the post by ID
+ * @param {number} id
+ * @param {function(object, Post)} done
+ */
+module.exports.getPostById = function getPostById(id, done) {
+  const params = [id];
+  client.func('posting.get_post_by_id', params)
+    .then(function(rows) {
+      if(rows.length === 0) { return done(null, null); }
+
+      const post = Post.mapFromRow(rows[0]);
+      done(null, post);
+    })
+    .catch(function(err) {
+      done(err, null);
+    });
+};
+
+module.exports.searchTopics = function searchTopics(options, done) {
+  const params = [options.query, options.user.id, options.limit, options.offset];
+  client.func('posting.search_topics', params)
+    .then((rows) => {
+      const searchResult = { topics: [], totalCount: 0 };
+      if(rows.length > 0) {
+        searchResult.topics = rows.map(Topic.mapFromRow);
+        searchResult.totalCount = Number(rows[0]['total_count']);
+      }
+      done(null, searchResult);
+    })
+    .catch((err) => {
+      done(err, null);
+    });
+};
+
+/**
+ * Gets the topics by the author. Pagination supported
+ * @param {Person} author
+ * @param {SearchOption} options
+ * @param {function(Error, object)} done
+ */
+module.exports.getTopicsByAuthorId = function getTopicsByAuthorId(author, options, done) {
+  const params = [author.id, options.user.id, options.limit, options.offset];
+  client.func('posting.get_topics_by_author_id', params)
+    .then((rows) => {
+      const searchResult = { topics: [], totalCount: 0 };
+      if(rows.length > 0) {
+        searchResult.topics = rows.map(Topic.mapFromRow);
+        searchResult.totalCount = Number(rows[0]['total_count']);
+      }
+      done(null, searchResult);
+    })
+    .catch((err) => {
+      done(err, null);
+    });
+};
+
+/**
+ * Gets the post by its ID
+ * @param {number} id
+ * @param {function(Error, Post)} done
+ */
 module.exports.getPostById = function getPostById(id, done) {
   client.func('posting.get_post_by_id', [id])
     .then(function(rows) {
-      if(rows.length === 0) { return(null, null); }
-      let post = mapPost(rows[0]);
+      if(rows.length === 0) { return done(null, null); }
+      let post = Post.mapFromRow(rows[0]);
       done(null, post);
     })
     .catch(function(err) {
@@ -59,16 +128,17 @@ module.exports.getPostById = function getPostById(id, done) {
 ////////////////////////////////////
 
 module.exports.submitPost = function submitPost(post, done) {
-  let params = [post.title, post.content, post.author.id];
+  const params = [post.title, post.content, post.author.id];
   execResultSet('posting.submit_post', params, done);
 };
 
 module.exports.deletePosting = function deletePosting(topicId, done) {
-  execResultSet('posting.delete_posting', [topicId], done);
+  const params = [topicId];
+  execResultSet('posting.delete_posting', params, done);
 };
 
 module.exports.comment = function comment(post, done) {
-  let params = [post.parentId, post.author.id, post.content];
+  const params = [post.parentId, post.author.id, post.content];
   execResultSet('posting.post_comment', params, done);
 };
 
@@ -77,8 +147,18 @@ module.exports.deleteComment = function deleteComment(postId, done) {
 };
 
 module.exports.editPost = function editPost(post, done) {
-  let params = [post.id, post.author.id, post.content];
+  const params = [post.id, post.author.id, post.content];
   execResultSet('posting.edit_post', params, done);
+};
+
+module.exports.upvotePost = function upvotePost(post, user, done) {
+  const params = [post.id, user.id];
+  execResultSet('posting.upvote_post', params, done);
+};
+
+module.exports.undoUpvotePost = function undoUpvotePost(post, user, done) {
+  const params = [post.id, user.id];
+  execResultSet('posting.undo_upvote_post', params, done);
 };
 
 ////////////////////////////////////
@@ -86,8 +166,8 @@ module.exports.editPost = function editPost(post, done) {
 function execResultSet(funcName, params, done) {
   client.func(funcName, params)
     .then(function(rows) {
-      if(rows.length === 0) { return(null, null); }
-      let resultSet = new ResultSet(rows);
+      if(rows.length === 0) { return done(null, null); }
+      const resultSet = new ResultSet(rows);
       done(null, resultSet);
     })
     .catch(function(err) {
@@ -95,36 +175,10 @@ function execResultSet(funcName, params, done) {
     });
 }
 
-function mapTopic(row) {
-  if(!row) { return null; }
-  return new Topic({
-    id: row['topic_id'],
-    title: row['title'],
-    author: { id: row['author_id'], username: row['author_username'] },
-    createdDate: row['created_date'],
-    lastUpdatedDate: row['last_updated_date']
-  });
-}
-
-function mapPost(row) {
-  if(!row) { return null; }
-  return new Post({
-    id: row['post_id'],
-    parentId: row['parent_post_id'],
-    title: row['title'],
-    author: { id: row['author_id'], username: row['author_username'] },
-    content: row['content'],
-    isEdited: row['is_edited'],
-    isDeleted: row['is_deleted'],
-    createdDate: row['created_date'],
-    lastUpdatedDate: row['last_updated_date']
-  });
-}
-
 function breadthFirstTree(root, list, count) {
   if(!root || !list) { return; }
   root.childPosts = list
-    .filter(function(i) { return i.parentId === root.id })
+    .filter(function(i) { return i.parentId === root.id; })
     .sort(function oldestFirst(a, b) { return a.id > b.id; });
   count = root.childPosts.length;
   for(var i = 0; i < root.childPosts.length; ++i) {

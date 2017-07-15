@@ -1,5 +1,7 @@
 extends includes/layout.pug
 
+include mixins/topicItemMixin.pug
+
 block main-content
   h2 Maghanap ng liham
   form(action="/search" method="GET")
@@ -15,22 +17,11 @@ block main-content
     div Anong liham ang iyong hinahanap?
 
   each topic, index in searchResult.topics
-    div.topic
-      div.topic-item
-        div.topic-index &rsaquo;
-        div.topic-content
-          a(href="/posting/" + topic.id)= topic.title
-          div
-            small.help
-              span= "posted by"
-              a(href="/user/" + topic.author.username)= topic.author.username
-              span= topic.createdDate.fromNow()
-  if searchResult.totalCount > (options.limit * options.page)
-    hr
-    div
-      -
-        let moreUrl = "/search"
-        moreUrl += "?page=" + (options.page + 1)
-        moreUrl += "&size=" + options.limit
-        moreUrl += "&query=" + options.query
-      a(href=moreUrl title="next page") magbasa pa
+    +renderTopicItem(topic)
+
+  .pagination
+    - let moreUrl = "/search?size=" + options.limit + "&query=" + options.query
+    if options.page > 1
+      a(href=(moreUrl + "&page=" + (options.page - 1)) title="mga naunanng pahina") ◀ mga naunang pahina
+    if searchResult.totalCount > (options.limit * options.page)
+      a(href=(moreUrl + "&page=" + (options.page + 1)) title="susunod na pahina") susunod na pahina ▶

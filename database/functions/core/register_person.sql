@@ -10,11 +10,11 @@ $func$
 DECLARE
   v_person_id INT := 0;
   v_status VARCHAR(50) := 'success';
-  v_message VARCHAR(255) := 'User is successfully created';
+  v_message VARCHAR(255) := 'Ang iyong sagisag ay nagawa na';
 BEGIN
   IF EXISTS(SELECT p.person_id FROM core.person AS p WHERE p.username = p_username) THEN
     v_status := 'warning';
-    v_message := 'Username already exists';
+    v_message := 'Ang iyong napiling sagisag ay umiiral na';
 
     RETURN QUERY SELECT v_person_id, v_status, v_message;
     RETURN;

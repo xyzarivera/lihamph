@@ -24,7 +24,7 @@ body {
 }
 
 footer {
-  margin-top: 120px;
+  margin-top: 80px;
 }
 
 .container {
@@ -122,7 +122,7 @@ blockquote {
 
 .form-control {
   display: block;
-  min-width: 100%;
+  width: 100%;
   font-size: 1rem;
   line-height: 1.25;
   color: #212121;
@@ -148,6 +148,7 @@ blockquote {
 
 @media (min-width: 576px) {
   .form-control {
+    width: 380px;
     min-width: 380px;
   }
   .alert {
@@ -162,6 +163,11 @@ a.nav-link {
   display: inline-flex;
   margin-right: 10px;
 }
+
+.grey-text {
+  color: #757575;
+}
+
 .topic {
   display: block;
   margin-bottom: 12px;
@@ -173,11 +179,12 @@ a.nav-link {
   margin-right: 8px;
   font-weight: 700;
 }
+
 .help span, .help a {
   display: inline-flex;
   margin-right: 5px;
 }
-.kr-brand {
+.brand {
   width: 24px;
   height: 24px;
   margin-right: 5px;
@@ -185,6 +192,21 @@ a.nav-link {
 .footer-brand {
   display: flex;
 }
+
 .comments .comment {
   margin-left: 15px;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+.pagination a {
+  margin-right: 8px;
+}
+.pagination a:last-child {
+  margin-right: 0;
+}
+
+.upvote-heart {
+  cursor: pointer;
 }

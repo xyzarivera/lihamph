@@ -1,11 +1,11 @@
 .container
   navbar.navbar
-    a.nav-link(href="/") magbasa na mga liham
-    a.nav-link(href="/search") hanapin
+    a.nav-link(href="/") magbasa
+    a.nav-link(href="/search") maghanap
     if user && user.id
-      a.nav-link(href="/submit") isulat
+      a.nav-link(href="/submit") sumulat
       a.nav-link(href="/user/" + user.username)= user.username
-      a.nav-link(href="/logout") alis
+      a.nav-link(href="/logout") umalis
     else
-      a.nav-link(href="/login") pasok
+      a.nav-link(href="/login") pumasok
       a.nav-link(href="/register") sumali

@@ -1,19 +1,16 @@
 extends includes/layout.pug
 
+include mixins/topicItemMixin.pug
+
 block main-content
-  h2 Mga tanyag na liham
+  h2 Magbasa ng mga liham
 
   each topic, index in searchResult.topics
-    div.topic
-      div.topic-item
-        div.topic-index &rsaquo;
-        div.topic-content
-          a(href="/posting/" + topic.id)= topic.title
-          div
-            small.help
-              span= "posted by"
-              a(href="/user/" + topic.author.username)= topic.author.username
-              span= topic.createdDate.fromNow()
-  div
+    +renderTopicItem(topic)
+
+  .pagination
+    if options.page > 1
+      a(href="/?page=" + (options.page - 1)) ◀ mga naunang pahina
     if searchResult.totalCount > (options.limit * options.page)
-      a(href="/?page=" + (options.page + 1)) more
+      a(href="/?page=" + (options.page + 1)) susunod na pahina ▶
+    

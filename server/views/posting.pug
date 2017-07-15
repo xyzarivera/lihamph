@@ -6,34 +6,37 @@ block main-content
     small.help
       span= "inilatha ni "
       a(href="/user/" + rootPost.author.username)= rootPost.author.username
-      span= rootPost.createdDate.fromNow()
+      span= utils.convertFromNowToFilipino(rootPost.createdDate.fromNow())
       if rootPost.isEdited
         span= " * "
       if user && user.id === rootPost.author.id
         span= " - "
-        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="edit post") baguhin
-      if user && user.isModerator
+        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
+      if user && (user.isModerator || user.id === rootPost.author.id)
         span= " - "
-        a.del-posting(href="#" data-id=topicId data-csrf=csrfToken) tanggalin
+        a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
     div
       p!= rootPost.marked
-  hr
-  div
-    if commentStatus.length > 0
-      .alert(class=commentStatus[0].status)
-        p= commentStatus[0].message
-    form(method="POST" action="/comment/" + rootPost.id)
-      input(type="hidden" name="_csrf" value=csrfToken)
-      input(type="hidden" name="topicId" value=topicId)
-      .form-group
-        label(for="comment")
-        textarea.form-control(name="comment" rows="4")
-      .form-group
-        button.btn(type="submit") Mag-iwan ng iyong puna
+
+
+  if user
+    hr
+    div#comment
+      if commentStatus.length > 0
+        .alert(class=commentStatus[0].status)
+          p= commentStatus[0].message
+      form(method="POST" action="/comment/" + rootPost.id)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        input(type="hidden" name="topicId" value=topicId)
+        .form-group
+          label(for="comment") Tumugon sa liham
+          textarea.form-control(name="comment" rows="4")
+        .form-group
+          button.btn(type="submit") Mag-iwan ng iyong tugon
 
   if rootPost.childPosts.length > 0
     div
-      strong= rootPost.childrenCount + " na mga puna"
+      strong= "may " + rootPost.childrenCount + " tugon"
     hr
     .comments
       each child in rootPost.childPosts
@@ -45,13 +48,13 @@ mixin renderPost(post)
     small.help
       span= "puna ni "
       a(href="/user/" + post.author.username)= post.author.username
-      span= post.createdDate.fromNow()
+      span= utils.convertFromNowToFilipino(post.createdDate.fromNow())
       if post.isEdited
         span= " * "
       if user && user.id === post.author.id
         span= " - "
-        a(href="/edit/" + post.id + "?topicId=" + topicId title="edit post") baguhin
-      if user && user.isModerator
+        a(href="/edit/" + post.id + "?topicId=" + topicId title="baguhin") baguhin
+      if user && (user.isModerator || user.id === post.author.id)
         span= " - "
         a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) tanggalin
     div

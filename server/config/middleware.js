@@ -54,7 +54,18 @@ module.exports = function(app, config) {
       },
       user: req.user,
       verbose: config.middleware.verbose,
-      cdn: config.middleware.cdn
+      cdn: config.middleware.cdn,
+      utils: {
+        //- TODO: Improve performance
+        convertFromNowToFilipino(dt) {
+          return dt.replace('hours ago', 'oras ang nakalipas')
+            .replace('a few seconds ago', 'makalipas ang ilang segundo')
+            .replace('a minute ago', 'makalipas ang isang minuto')
+            .replace('minutes ago', 'minuto ang nakalipas')
+            .replace('a day ago', 'isang araw ang nakalipas')
+            .replace('days ago', 'araw ang nakalipas');
+        }
+      }
     };
 
     next();

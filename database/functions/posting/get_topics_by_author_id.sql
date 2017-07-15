@@ -1,5 +1,5 @@
-CREATE OR REPLACE FUNCTION posting.search_topics (
-  p_query VARCHAR,
+CREATE OR REPLACE FUNCTION posting.get_topics_by_author_id (
+  p_author_id INT,
   p_requestor_id INT,
   p_limit INT,
   p_offset BIGINT
@@ -41,7 +41,7 @@ BEGIN
   INNER JOIN core.person AS p
     ON p.person_id = t.author_id
   WHERE t.is_deleted = false
-    AND (lower(t.title) LIKE concat('%', lower(trim(from p_query)), '%') OR p_query IS NULL)
+    AND t.author_id = p_author_id
   ORDER BY t.topic_id DESC
   LIMIT p_limit OFFSET p_offset;
 END;

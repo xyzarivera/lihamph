@@ -1,9 +1,8 @@
-let gulp = require('gulp');
-let args = require('yargs').argv;
-let plug = require('gulp-load-plugins')({ lazy: true });
-let dbConfig = require('./db.config');
-let fs = require('fs');
-let path = require('path');
+const gulp = require('gulp');
+const args = require('yargs').argv;
+const plug = require('gulp-load-plugins')({ lazy: true });
+const fs = require('fs');
+const path = require('path');
 
 ////////////////////////////////////////////////
 
@@ -15,13 +14,18 @@ const deployAzureCdn = require('gulp-deploy-azure-cdn');
 
 ////////////////////////////////////////////////
 
-gulp.task('build-sql', function() {
+const dbConfig = require('./db.config');
+const config = require('./gulp.config');
+
+////////////////////////////////////////////////
+
+gulp.task('build-sql', () => {
   //Sequence is important in running the script
   log('Concatenating SQL scripts...');
-  let sqlFiles = dbConfig.scripts;
+  const sqlFiles = dbConfig.scripts;
 
   if(args.test) {
-    dbConfig.testDataScripts.forEach(function(scrp) {
+    dbConfig.testDataScripts.forEach((scrp) => {
       sqlFiles.push(scrp);
     });
   }
@@ -32,26 +36,26 @@ gulp.task('build-sql', function() {
     .pipe(gulp.dest(dbConfig.buildDir));
 });
 
-gulp.task('sql', ['build-sql'], function(done) {
-  let env = process.env.NODE_ENV || 'development';
-  let config = require('./server/config/config')[env];
-  let connectionString = config.database.connectionString;
-  let pgp = require('pg-promise')();
-  let db = pgp(connectionString);
-  let buildScript = path.join(__dirname, dbConfig.buildDir, dbConfig.buildScriptName);
+gulp.task('sql', ['build-sql'], (done) => {
+  const env = process.env.NODE_ENV || 'development';
+  const config = require('./server/config/config')[env];
+  const connectionString = config.database.connectionString;
+  const pgp = require('pg-promise')();
+  const db = pgp(connectionString);
+  const buildScript = path.join(__dirname, dbConfig.buildDir, dbConfig.buildScriptName);
 
   log('Executing ' + buildScript + ' to sql db in ' + connectionString.split('@')[1]);
-  fs.readFile(buildScript, { encoding: 'utf-8'}, function(err, content) {
+  fs.readFile(buildScript, { encoding: 'utf-8'}, (err, content) => {
     if(err) {
       console.error(err);
       return done();
     }
     db.query(content)
-      .then(function() {
+      .then(() => {
         pgp.end();
         done();
       })
-      .catch(function(err) {
+      .catch((err) => {
         console.error(err);
         pgp.end();
         done();
@@ -59,29 +63,34 @@ gulp.task('sql', ['build-sql'], function(done) {
   });
 });
 
-gulp.task('js-compress', function () {
+gulp.task('analysis', () => {
+  log('Code Analysis using ESLint');
+  return gulp
+    .src(config.analysis.js)
+    .pipe(plug.if(args.verbose, plug.print()))
+    .pipe(plug.eslint())
+    .pipe(plug.eslint.format())
+    .pipe(plug.eslint.failAfterError());
+});
+
+gulp.task('js-compress', () => {
   log('Compressing JS file');
-  return gulp.src('public/scripts/main.js')
+  return gulp.src(config.scripts.src)
     .pipe(uglify())
-    .pipe(rename('main.min.js'))
-    .pipe(gulp.dest('public/scripts'));
+    .pipe(rename(config.scripts.minName))
+    .pipe(gulp.dest(config.scripts.dest));
 });
 
-gulp.task('css-compress', function () {
+gulp.task('css-compress', () => {
   log('Compressing CSS file');
-  return gulp.src('public/stylesheets/main.css')
+  return gulp.src(config.stylesheets.src)
     .pipe(cssnano())
-    .pipe(rename('main.min.css'))
-    .pipe(gulp.dest('public/stylesheets'));
+    .pipe(rename(config.stylesheets.minName))
+    .pipe(gulp.dest(config.stylesheets.dest));
 });
 
-gulp.task('assets', ['js-compress', 'css-compress'], function() {
-  let stor = {
-    assets: 'public/**/*',
-    container: 'krw',
-    account: process.env.KRW_STORAGE_ACCOUNT,
-    key: process.env.KRW_STORAGE_KEY
-  };
+gulp.task('assets', ['js-compress', 'css-compress'], () => {
+  const stor = config.storage;
   log('Upload assets to Azure Storage on ' + stor.account);
 
   return gulp.src(stor.assets)
@@ -108,7 +117,7 @@ gulp.task('assets', ['js-compress', 'css-compress'], function() {
 });
 
 function log(msg) {
-  if (typeof(msg) === 'object') {
+  if(typeof(msg) === 'object') {
     for(let item in msg) {
       if(msg.hasOwnProperty(item)) {
         plug.util.log(plug.util.colors.blue(msg[item]));

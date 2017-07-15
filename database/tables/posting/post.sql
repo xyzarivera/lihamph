@@ -5,6 +5,8 @@ CREATE TABLE posting.post (
   author_id INT NOT NULL,
   title VARCHAR(500) NOT NULL,
   content TEXT NOT NULL,
+  upvote_count INT NOT NULL DEFAULT 0,
+  reply_count INT NOT NULL DEFAULT 0,
   is_edited BOOLEAN NOT NULL DEFAULT false,
   is_deleted BOOLEAN NOT NULL DEFAULT false,
   created_date TIMESTAMPTZ NOT NULL DEFAULT now(),

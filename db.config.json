@@ -5,6 +5,7 @@
     "database/tables/core/person.sql",
     "database/tables/posting/topic.sql",
     "database/tables/posting/post.sql",
+    "database/tables/posting/upvote.sql",
 
     "database/functions/core/find_person_by_id.sql",
     "database/functions/core/find_person_by_username.sql",
@@ -14,13 +15,20 @@
 
     "database/functions/posting/submit_post.sql",
     "database/functions/posting/get_posting.sql",
+    "database/functions/posting/get_post_by_id.sql",
     "database/functions/posting/delete_posting.sql",
     "database/functions/posting/search_topics.sql",
+    "database/functions/posting/get_topics_by_author_id.sql",
+    "database/functions/posting/get_topic_by_id.sql",
     "database/functions/posting/get_post_by_id.sql",
     "database/functions/posting/post_comment.sql",
-    "database/functions/posting/delete_comment.sql"
+    "database/functions/posting/delete_comment.sql",
+    "database/functions/posting/edit_post.sql",
+    "database/functions/posting/upvote_post.sql",
+    "database/functions/posting/undo_upvote_post.sql"
   ],
   "testDataScripts": [
+    "database/scripts/test_data.sql"
   ],
   "buildScriptName": "build.sql",
   "buildDir": "database/"
