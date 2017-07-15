@@ -42,27 +42,62 @@
     });
   }
 
-  var upvotePosting = document.getElementsByClassName('upvote-heart');
-  for(var k = 0; k < upvotePosting.length; ++k) {
-    upvotePosting[k].addEventListener('click', function(ev) {
-      var tg = ev.target;
-      var id = tg.dataset.id;
-      var csrf = tg.dataset.csrf;
-      var count = Number(tg.dataset.count);
-      createRequest({
-        url: '/upvote/' + id,
-        type: 'post',
-        headers: {
-          accept: 'application/json',
-          contentType: 'application/x-www-form-urlencoded'
-        },
-        body: { csrf: csrf }
-      }, function(xhr) {
-        tg.innerHTML = '❤️';
-        tg.nextSibling.innerHTML = count + 1;
-      }, function(xhr) {
-        console.log('err:', xhr);
-      });
+  bindDataAction('click', 'upvote', function(el, ev) {
+    var tg = el.target;
+    var id = tg.dataset.id;
+    var csrf = tg.dataset.csrf;
+    var count = Number(tg.dataset.count);
+    createRequest({
+      url: '/upvote/' + id,
+      type: 'POST',
+      headers: {
+        accept: 'application/json',
+        contentType: 'application/x-www-form-urlencoded'
+      },
+      body: { csrf: csrf }
+    }, function(xhr) {
+      tg.innerHTML = '❤️';
+      tg.dataset.action = 'undo-upvote';
+      tg.nextSibling.innerHTML = count + 1;
+    }, function(xhr) {
+      console.log('err:', xhr);
+    });
+  });
+
+  bindDataAction('click', 'undo-upvote', function(el) {
+    var tg = el.target;
+    var id = tg.dataset.id;
+    var csrf = tg.dataset.csrf;
+    var count = Number(tg.dataset.count);
+    createRequest({
+      url: '/upvote/' + id,
+      type: 'DELETE',
+      headers: {
+        accept: 'application/json',
+        contentType: 'application/x-www-form-urlencoded'
+      },
+      body: { csrf: csrf }
+    }, function(xhr) {
+      tg.innerHTML = '💛';
+      tg.dataset.action = 'upvote';
+      tg.nextSibling.innerHTML = count - 1;
+    }, function(xhr) {
+      console.log('err:', xhr);
+    });
+  });
+
+  ///////////////////////////////////////////////
+
+  function bindDataAction(eventType, action, cb) {
+    doc.addEventListener(eventType, function(event) {
+      var el = event.target;
+
+      while(el) {
+        if(Boolean(el.dataset.action) && el.dataset.action === action) {
+          cb.call(el, event);
+        }
+        el = el.parentElement;
+      }
     });
   }
 

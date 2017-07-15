@@ -5,9 +5,17 @@ mixin renderTopicItem(topic)
     div.topic-item(id="topic" + topic.id)
       div.topic-index
         if topic.isUpvoted
-          div.upvote-heart(data-id=topic.postId data-csrf=csrfToken data-count=topic.stats.upvotes)= "❤️"
+          div(
+            data-action="undo-upvote"
+            data-id=topic.postId 
+            data-csrf=csrfToken 
+            data-count=topic.stats.upvotes)= "❤️"
         else
-          div.upvote-heart(data-id=topic.postId data-csrf=csrfToken data-count=topic.stats.upvotes)= "💛"
+          div(
+            data-action="upvote"
+            data-id=topic.postId 
+            data-csrf=csrfToken 
+            data-count=topic.stats.upvotes)= "💛"
         div.upvote-count= topic.stats.upvotes
       div.topic-content
         a(href="/posting/" + topic.id)= topic.title
