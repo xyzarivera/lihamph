@@ -45,7 +45,7 @@ class Post {
   }
 
   get marked() {
-    return marked(this.content);
+    return marked(this.content, { sanitize: true, breaks: true });
   }
 
   static mapFromRow(row) {
