@@ -71,9 +71,9 @@ module.exports.deletePosting = function deletePosting(req, res, next) {
   }
 
   postingRepository.deletePosting(topicId, (err, resultSet) => {
-    if(err) { 
+    if(err) {
       return res.status(500)
-        .send({ status: 'error', message: 'Hindi maaring matanggal ang liham' }); 
+        .send({ status: 'error', message: 'Hindi maaring matanggal ang liham' });
     }
     if(resultSet.status !== 'success') {
       return res.status(400)
@@ -121,7 +121,6 @@ module.exports.comment = function comment(req, res, next) {
 };
 
 module.exports.deleteComment = function deleteComment(req, res, next) {
-  const topicId = req.body.topicId;
   const postId = req.params.postId;
 
   postingRepository.deleteComment(postId, (err, resultSet) => {

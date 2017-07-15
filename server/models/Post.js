@@ -42,6 +42,22 @@ class Post {
   get marked() {
     return marked(this.content);
   }
+
+  static mapFromRow(row) {
+    if(!row) { return null; }
+    return new Post({
+      id: row['post_id'],
+      parentId: row['parent_post_id'],
+      title: row['title'],
+      author: { id: row['author_id'], username: row['author_username'] },
+      content: row['content'],
+      isEdited: row['is_edited'],
+      isDeleted: row['is_deleted'],
+      createdDate: row['created_date'],
+      lastUpdatedDate: row['last_updated_date']
+    });
+  }
+
 }
 
 module.exports = Post;

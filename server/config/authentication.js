@@ -33,12 +33,12 @@ module.exports = (app, config) => {
     let person = new Person({ username: username });
 
     if(!person.isUsernameValid) {
-      return done(null, null, 
+      return done(null, null,
         { status: 'error', message: 'Hindi maari ang iyong piniling sagisag' });
     }
 
     if(password.length < 8) {
-      return done(null, null, 
+      return done(null, null,
         { status: 'error', message: 'Ang lihim na salita ay dapat mahigit sa 8 titik' });
     }
 
@@ -64,23 +64,23 @@ module.exports = (app, config) => {
     passReqToCallback: true
   }, function localLogin(req, username, password, done) {
     personRepository.findPersonByUsername(username, (err, person) => {
-      if(err) { 
-        return done(err, null, 
-          { status: 'error', message: 'Paumanhin. Nagkaroon ng problema sa liham.ph' }); 
+      if(err) {
+        return done(err, null,
+          { status: 'error', message: 'Paumanhin. Nagkaroon ng problema sa liham.ph' });
       }
 
       if(!person) {
-        return done(null, null, 
+        return done(null, null,
           { status: 'error', message: 'Ang sagisag na ito ay hindi kasapi ng liham.ph' });
       }
 
       if(!person.isEnabled) {
-        return done(null, person, 
+        return done(null, person,
           { status: 'warning', message: 'Ang sagisag na ito ay hindi na magagamit pa' });
       }
 
       if(!person.validatePassword(password)) {
-        return done(null, person, 
+        return done(null, person,
           { status: 'warning', message: 'Mali ang sagisag o ang iyong liham na salita' });
       }
 

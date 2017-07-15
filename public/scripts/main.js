@@ -15,14 +15,14 @@
       };
       xhr.open('DELETE', '/posting/' + id, true);
       xhr.setRequestHeader('Accept', 'application/json');
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.send('_csrf=' + csrf);
     });
   }
 
   var delComments = document.getElementsByClassName('del-comment');
-  for(var i = 0; i < delComments.length; ++i) {
-    delComments[i].addEventListener('click', function(ev) {
+  for(var j = 0; j < delComments.length; ++j) {
+    delComments[j].addEventListener('click', function(ev) {
       var dcXhr = new XMLHttpRequest();
       var id = ev.target.dataset.id;
       var topicId = ev.target.dataset.topicId;
@@ -37,7 +37,7 @@
       };
       dcXhr.open('DELETE', '/comment/' + id, true);
       dcXhr.setRequestHeader('Accept', 'application/json');
-      dcXhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      dcXhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       dcXhr.send('_csrf=' + csrf);
     });
   }

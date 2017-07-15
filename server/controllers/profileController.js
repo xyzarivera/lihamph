@@ -33,7 +33,6 @@ module.exports.renderProfilePage = function renderProfilePage(req, res, next) {
 
 module.exports.updateProfile = function updateProfile(req, res, next) {
   const username = req.params.username;
-  const user = req.user;
   let updatedPerson = new Person({
     id: null,
     username: req.body.username,
@@ -50,8 +49,8 @@ module.exports.updateProfile = function updateProfile(req, res, next) {
     if(err) { return next(err); }
 
     if(!person) {
-      model.message = 'Ang sagisag ay hindi matagpuan';
-      return res.status(404).render('notfound', model);
+      req.flash('updateProfile', { status: 'warning', message: 'Ang sagisag ay hindi matagpuan' });
+      return res.redirect('/user/' + username);
     }
 
     updatedPerson.id = person.id;
@@ -60,8 +59,8 @@ module.exports.updateProfile = function updateProfile(req, res, next) {
       if(err) { return next(err); }
 
       req.flash('updateProfile', resultSet);
-      if(resultSet !== 'success') { 
-        return res.redirect('/user/' + username); 
+      if(resultSet !== 'success') {
+        return res.redirect('/user/' + username);
       }
 
       res.redirect('/user/' + updatedPerson.username);
@@ -76,13 +75,13 @@ module.exports.changePassword = function changePassword(req, res, next) {
   const newPassword = req.body.newPassword;
 
   if(!currentPassword || !newPassword) {
-    req.flash('changePassword', 
+    req.flash('changePassword',
       { status: 'warning', message: 'Mali ang mga lihim na salita' });
     return res.redirect('/user/' + username);
   }
 
   if(newPassword.length < 8) {
-    req.flash('changePassword', 
+    req.flash('changePassword',
       { status: 'warning', message: 'Ang bagong lihim na salita ay nararapat na mahigit sa 8 titik' });
     return res.redirect('/user/' + username);
   }
