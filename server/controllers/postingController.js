@@ -62,6 +62,11 @@ module.exports.submitPost = function submitPost(req, res, next) {
     return res.redirect('/submit');
   }
 
+  if(post.title.length >= 500) {
+    req.flash('submitPost', { status: 'error', message: 'Masyadong mahaba ang iyong paksa' });
+    return res.redirect('/submit');
+  }
+
   postingRepository.submitPost(post, (err, resultSet) => {
     if(err) { return next(err); }
 
