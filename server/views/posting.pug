@@ -12,7 +12,7 @@ block main-content
       if user && user.id === rootPost.author.id
         span= " - "
         a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
-      if user && user.isModerator
+      if user && (user.isModerator || user.id === rootPost.author.id)
         span= " - "
         a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
     div
@@ -54,7 +54,7 @@ mixin renderPost(post)
       if user && user.id === post.author.id
         span= " - "
         a(href="/edit/" + post.id + "?topicId=" + topicId title="baguhin") baguhin
-      if user && user.isModerator
+      if user && (user.isModerator || user.id === post.author.id)
         span= " - "
         a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) tanggalin
     div

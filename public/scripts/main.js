@@ -3,11 +3,11 @@
   for(var i = 0; i < delPostings.length; ++i) {
     delPostings[i].addEventListener('click', function(ev) {
       var xhr = new XMLHttpRequest();
-      var id = ev.target.dataset.id;
+      var id = ev.target.dataset.topicId;
       var csrf = ev.target.dataset.csrf;
       xhr.onreadystatechange = function() {
         if(xhr.readyState === XMLHttpRequest.DONE) {
-          if(xhr.status === 200) { window.location = '/'; }
+          if(xhr.status === 204) { window.location = '/'; }
         }
         if(xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
           if(xhr.status >= 400) { console.log(xhr.statusText); }
@@ -29,7 +29,7 @@
       var csrf = ev.target.dataset.csrf;
       dcXhr.onreadystatechange = function() {
         if(dcXhr.readyState === XMLHttpRequest.DONE) {
-          if(dcXhr.status === 200) { window.location = '/posting/' + topicId; }
+          if(dcXhr.status === 204) { window.location = '/posting/' + topicId; }
         }
         if(dcXhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
           if(dcXhr.status >= 400) { console.log(dcXhr.statusText); }

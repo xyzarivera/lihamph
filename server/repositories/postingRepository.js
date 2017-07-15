@@ -32,6 +32,44 @@ module.exports.getPosting = function getPosting(id, done) {
     });
 };
 
+/**
+ * Gets the topic by ID
+ * @param {number} id
+ * @param {function(object, Topic)} done
+ */
+module.exports.getTopicById = function getTopicById(id, done) {
+  const params = [id];
+  client.func('posting.get_topic_by_id', params)
+    .then(function(rows) {
+      if(rows.length === 0) { return done(null, null); }
+
+      const topic = Topic.mapFromRow(rows[0]);
+      done(null, topic);
+    })
+    .catch(function(err) {
+      done(err, null);
+    });
+};
+
+/**
+ * Gets the post by ID
+ * @param {number} id
+ * @param {function(object, Post)} done
+ */
+module.exports.getPostById = function getPostById(id, done) {
+  const params = [id];
+  client.func('posting.get_post_by_id', params)
+    .then(function(rows) {
+      if(rows.length === 0) { return done(null, null); }
+
+      const post = Post.mapFromRow(rows[0]);
+      done(null, post);
+    })
+    .catch(function(err) {
+      done(err, null);
+    });
+};
+
 module.exports.searchTopics = function searchTopics(options, done) {
   const params = [options.query, options.user.id, options.limit, options.offset];
   client.func('posting.search_topics', params)

@@ -15,9 +15,11 @@
 
     "database/functions/posting/submit_post.sql",
     "database/functions/posting/get_posting.sql",
+    "database/functions/posting/get_post_by_id.sql",
     "database/functions/posting/delete_posting.sql",
     "database/functions/posting/search_topics.sql",
     "database/functions/posting/get_topics_by_author_id.sql",
+    "database/functions/posting/get_topic_by_id.sql",
     "database/functions/posting/get_post_by_id.sql",
     "database/functions/posting/post_comment.sql",
     "database/functions/posting/delete_comment.sql",

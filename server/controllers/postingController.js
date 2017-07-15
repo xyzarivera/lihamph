@@ -78,21 +78,30 @@ module.exports.deletePosting = function deletePosting(req, res, next) {
   const topicId = req.params.topicId;
   const user = req.user;
 
-  if(!user.isModerator) {
-    return res.status(403)
-      .send({ status: 'error', message: 'Hindi ka maaring magtanggal ng liham' });
-  }
+  postingRepository.getTopicById(topicId, (err, topic) => {
+    if(err) { return next(err); }
 
-  postingRepository.deletePosting(topicId, (err, resultSet) => {
-    if(err) {
-      return res.status(500)
-        .send({ status: 'error', message: 'Hindi maaring matanggal ang liham' });
+    if(!topic) {
+      return res.status(404)
+        .send({ status: 'warning', message: 'Hindi umiiral ang liham' });
     }
-    if(resultSet.status !== 'success') {
-      return res.status(400)
-        .send(resultSet);
+
+    if(!(user.isModerator || user.id === topic.author.id)) {
+      return res.status(403)
+        .send({ status: 'error', message: 'Hindi ka maaring magtanggal ng liham' });
     }
-    res.status(204).send(resultSet);
+
+    postingRepository.deletePosting(topic.id, (err, resultSet) => {
+      if(err) {
+        return res.status(500)
+          .send({ status: 'error', message: 'Hindi maaring matanggal ang liham' });
+      }
+      if(resultSet.status !== 'success') {
+        return res.status(400)
+          .send(resultSet);
+      }
+      res.status(204).send(resultSet);
+    });
   });
 };
 
@@ -136,10 +145,29 @@ module.exports.comment = function comment(req, res, next) {
 
 module.exports.deleteComment = function deleteComment(req, res, next) {
   const postId = req.params.postId;
+  const user = req.user;
 
-  postingRepository.deleteComment(postId, (err, resultSet) => {
+  postingRepository.getPostById(postId, (err, post) => {
     if(err) { return next(err); }
-    return res.status(200).send(resultSet);
+
+    if(!post) {
+      return res.status(404)
+        .send({ status: 'warning', message: 'Ang tugon na ito ay hindi umiiral' });
+    }
+
+    if(!(user.isModerator || user.id === post.author.id)) {
+      return res.status(403)
+        .send({ status: 'error', message: 'Hindi ka maaring magtanggal ng liham' });
+    }
+
+    postingRepository.deleteComment(postId, (err, resultSet) => {
+      if(err) { return next(err); }
+
+      if(resultSet.status !== 'success') {
+        return res.status(400).send(resultSet);
+      }
+      return res.status(204).send(resultSet);
+    });
   });
 };
 
