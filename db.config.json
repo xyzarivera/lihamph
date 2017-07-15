@@ -20,9 +20,12 @@
     "database/functions/posting/get_post_by_id.sql",
     "database/functions/posting/post_comment.sql",
     "database/functions/posting/delete_comment.sql",
-    "database/functions/posting/edit_post.sql"
+    "database/functions/posting/edit_post.sql",
+    "database/functions/posting/upvote_post.sql",
+    "database/functions/posting/undo_upvote_post.sql"
   ],
   "testDataScripts": [
+    "database/scripts/test_data.sql"
   ],
   "buildScriptName": "build.sql",
   "buildDir": "database/"

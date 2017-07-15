@@ -1,6 +1,7 @@
 CREATE TABLE posting.upvote (
   person_id INT NOT NULL,
   post_id BIGINT NOT NULL,
+  created_date TIMESTAMPTZ NOT NULL DEFAULT now(),
   CONSTRAINT upvote_person_id_post_id_pkey PRIMARY KEY (person_id, post_id),
   CONSTRAINT upvote_person_id_fkey FOREIGN KEY (person_id)
     REFERENCES core.person(person_id),
