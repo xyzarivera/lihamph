@@ -122,7 +122,6 @@ blockquote {
 
 .form-control {
   display: block;
-  min-width: 100%;
   font-size: 1rem;
   line-height: 1.25;
   color: #212121;

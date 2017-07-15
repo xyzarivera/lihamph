@@ -58,6 +58,7 @@
     }, function(xhr) {
       tg.innerHTML = '❤️';
       tg.dataset.action = 'undo-upvote';
+      tg.dataset.count = count + 1;
       tg.nextSibling.innerHTML = count + 1;
     }, function(xhr) {
       console.log('err:', xhr);
@@ -80,6 +81,7 @@
     }, function(xhr) {
       tg.innerHTML = '💛';
       tg.dataset.action = 'upvote';
+      tg.dataset.count = count - 1;
       tg.nextSibling.innerHTML = count - 1;
     }, function(xhr) {
       console.log('err:', xhr);

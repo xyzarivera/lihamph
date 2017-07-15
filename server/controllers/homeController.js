@@ -27,6 +27,7 @@ module.exports.renderFrontPage = function renderFrontPage(req, res, next) {
 module.exports.renderSearchPage = function renderSearchPage(req, res, next) {
   let model = req.model;
   let options = new SearchOption({
+    user: req.user || {},
     query: req.query.query,
     page: req.query.page,
     limit: req.query.size
@@ -41,6 +42,7 @@ module.exports.renderSearchPage = function renderSearchPage(req, res, next) {
   postingRepository.searchTopics(options, function(err, searchResult) {
     if(err) { return next(err); }
     model.searchResult = searchResult;
+    model.csrfToken = req.csrfToken();
     res.render('search', model);
   });
 };

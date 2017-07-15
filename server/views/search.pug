@@ -22,6 +22,6 @@ block main-content
   .pagination
     - let moreUrl = "/search?size=" + options.limit + "&query=" + options.query
     if options.page > 1
-      a(href=(moreUrl + "?page=" + (options.page - 1)) title="mga naunanng pahina") ◀ mga naunang pahina
+      a(href=(moreUrl + "&page=" + (options.page - 1)) title="mga naunanng pahina") ◀ mga naunang pahina
     if searchResult.totalCount > (options.limit * options.page)
       a(href=(moreUrl + "&page=" + (options.page + 1)) title="susunod na pahina") susunod na pahina ▶
