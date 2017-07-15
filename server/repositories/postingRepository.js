@@ -8,9 +8,13 @@ const database = require('../config/database');
 const Post = require('../models/Post');
 const Topic = require('../models/Topic');
 const ResultSet = require('../models/ResultSet');
+const client = database.get();
 
-let client = database.get();
-
+/**
+ * Gets the posting by topic ID
+ * @param {number} id
+ * @param {function(object, Post)} done
+ */
 module.exports.getPosting = function getPosting(id, done) {
   client.func('posting.get_posting', [id])
     .then(function(rows) {
@@ -29,7 +33,7 @@ module.exports.getPosting = function getPosting(id, done) {
 };
 
 module.exports.searchTopics = function searchTopics(options, done) {
-  const params = [options.query, options.limit, options.offset];
+  const params = [options.query, options.user.id, options.limit, options.offset];
   client.func('posting.search_topics', params)
     .then((rows) => {
       const searchResult = { topics: [], totalCount: 0 };
@@ -44,6 +48,11 @@ module.exports.searchTopics = function searchTopics(options, done) {
     });
 };
 
+/**
+ * Gets the post by its ID
+ * @param {number} id
+ * @param {function(Error, Post)} done
+ */
 module.exports.getPostById = function getPostById(id, done) {
   client.func('posting.get_post_by_id', [id])
     .then(function(rows) {
@@ -78,8 +87,18 @@ module.exports.deleteComment = function deleteComment(postId, done) {
 };
 
 module.exports.editPost = function editPost(post, done) {
-  let params = [post.id, post.author.id, post.content];
+  const params = [post.id, post.author.id, post.content];
   execResultSet('posting.edit_post', params, done);
+};
+
+module.exports.upvotePost = function upvotePost(post, user, done) {
+  const params = [post.id, user.id];
+  execResultSet('posting.upvote_post', params, done);
+};
+
+module.exports.undoUpvotePost = function undoUpvotePost(post, user, done) {
+  const params = [post.id, user.id];
+  execResultSet('posting.undo_upvote_post', params, done);
 };
 
 ////////////////////////////////////

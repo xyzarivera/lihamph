@@ -43,6 +43,9 @@ module.exports = function(app, config) {
   app.get('/edit/:postId', isAuthenticated, postingController.renderEditPostPage);
   app.post('/edit/:postId', isAuthenticated, postingController.editPost);
 
+  app.post('/upvote/:postId', isAuthenticated, postingController.upvotePost);
+  app.delete('/upvote/:postId', isAuthenticated, postingController.undoUpvotePost);
+
   app.get('/palatuntunan', homeController.renderRulesPage);
   app.get('/tungkol', homeController.renderAboutPage);
   app.get('/search', homeController.renderSearchPage);

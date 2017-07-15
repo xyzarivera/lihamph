@@ -7,6 +7,10 @@
 const postingRepository = require('../repositories/postingRepository');
 const Post = require('../models/Post');
 
+/**
+ * GET /submit
+ * Renders the submit page
+ */
 module.exports.renderSubmitPage = function renderSubmitPage(req, res, next) {
   let model = req.model;
 
@@ -15,8 +19,12 @@ module.exports.renderSubmitPage = function renderSubmitPage(req, res, next) {
   res.render('submit', model);
 };
 
+/**
+ * GET /posting/:topicId
+ * Renders the view posting page
+ */
 module.exports.renderPostingPage = function renderPostingPage(req, res, next) {
-  let id = req.params.topicId;
+  const id = req.params.topicId;
   let model = req.model;
 
   postingRepository.getPosting(id, (err, rootPost) => {
@@ -37,9 +45,13 @@ module.exports.renderPostingPage = function renderPostingPage(req, res, next) {
   });
 };
 
+/**
+ * POST /submit
+ * Submits the post
+ */
 module.exports.submitPost = function submitPost(req, res, next) {
-  let user = req.user;
-  let post = new Post({
+  const user = req.user;
+  const post = new Post({
     title: req.body.title,
     content: req.body.content,
     author: { id: user.id, username: user.username }
@@ -63,8 +75,9 @@ module.exports.submitPost = function submitPost(req, res, next) {
 };
 
 module.exports.deletePosting = function deletePosting(req, res, next) {
-  let topicId = req.params.topicId;
-  let user = req.user;
+  const topicId = req.params.topicId;
+  const user = req.user;
+
   if(!user.isModerator) {
     return res.status(403)
       .send({ status: 'error', message: 'Hindi ka maaring magtanggal ng liham' });
@@ -84,8 +97,9 @@ module.exports.deletePosting = function deletePosting(req, res, next) {
 };
 
 module.exports.renderCommentPage = function renderCommentPage(req, res, next) {
-  let postId = req.params.postId;
-  let model = req.model;
+  const postId = req.params.postId;
+  const model = req.model;
+
   postingRepository.getPostById(postId, (err, post) => {
     if(err) { return next(err); }
 
@@ -161,3 +175,52 @@ module.exports.editPost = function editPost(req, res, next) {
     res.redirect('/posting/' + topicId);
   });
 };
+
+/**
+ * POST /upvote/:postId
+ * Upvotes the post by :postId
+ */
+module.exports.upvotePost = function upvotePost(req, res, next) {
+  const postId = req.params.postId;
+
+  postingRepository.getPostById(postId, (err, post) => {
+    if(err) { return next(err); }
+
+    if(!post) {
+      return res.status(404)
+        .send({ status: 'warning', message: 'Ang tugon o liham ay hindi matagpuan' });
+    }
+
+    postingRepository.upvotePost(post, req.user, (err, resultSet) => {
+      if(err) { return next(err); }
+
+      const httpStatus = !resultSet || resultSet.status !== 'success' ? 400 : 201;
+      return res.status(httpStatus).send(resultSet);
+    });
+  });
+};
+
+/**
+ * DELETE /upvote/:postId
+ * Undo the upvote on the post by :postId
+ */
+module.exports.undoUpvotePost = function undoUpvotePost(req, res, next) {
+  const postId = req.params.postId;
+
+  postingRepository.getPostById(postId, (err, post) => {
+    if(err) { return next(err); }
+
+    if(!post) {
+      return res.status(404)
+        .send({ status: 'warning', message: 'Ang tugon o liham ay hindi matagpuan' });
+    }
+
+    postingRepository.undoUpvotePost(post, req.user, (err, resultSet) => {
+      if(err) { return next(err); }
+
+      const httpStatus = !resultSet || resultSet.status !== 'success' ? 400 : 204;
+      return res.status(httpStatus).send(resultSet);
+    });
+  });
+};
+

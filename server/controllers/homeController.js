@@ -9,15 +9,17 @@ const SearchOption = require('../models/SearchOption');
 
 module.exports.renderFrontPage = function renderFrontPage(req, res, next) {
   let model = req.model;
-  let options = new SearchOption({
+  const options = new SearchOption({
+    user: req.user || {},
     query: req.query.query,
     page: req.query.page,
     limit: req.query.size
   });
-  postingRepository.searchTopics(options, function(err, searchResult) {
+  postingRepository.searchTopics(options, (err, searchResult) => {
     if(err) { return next(err); }
     model.searchResult = searchResult;
     model.options = options;
+    model.csrfToken = req.csrfToken();
     res.render('index', model);
   });
 };

@@ -34,7 +34,17 @@ BEGIN
   END IF;
 
   INSERT INTO posting.upvote(post_id, person_id)
-  VALUES (post_id, person_id);
+  VALUES (p_post_id, p_person_id);
+
+  UPDATE posting.topic
+  SET upvote_count = upvote_count + 1,
+    last_updated_date = now()
+  WHERE topic_id = (SELECT topic_id FROM posting.post WHERE post_id = p_post_id);
+
+  UPDATE posting.post
+  SET upvote_count = upvote_count + 1,
+    last_updated_date = now()
+  WHERE post_id = p_post_id;
 
   RETURN QUERY SELECT v_status, v_message;
 END;
