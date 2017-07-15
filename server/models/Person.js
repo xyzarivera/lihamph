@@ -23,6 +23,12 @@ class Person {
   }
 
   get isUsernameValid() {
+    const forbiddenUsernames = [
+      'settings', 'admin', 'invite', 'liham', 'lihamph'
+    ];
+    if(forbiddenUsernames.indexOf(this.username) >= 0) {
+      return false;
+    }
     return /[A-Za-z0-9_]+/.test(this.username);
   }
 

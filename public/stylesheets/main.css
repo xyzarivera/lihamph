@@ -161,6 +161,11 @@ a.nav-link {
   display: inline-flex;
   margin-right: 10px;
 }
+
+.grey-text {
+  color: #757575;
+}
+
 .topic {
   display: block;
   margin-bottom: 12px;
@@ -172,6 +177,7 @@ a.nav-link {
   margin-right: 8px;
   font-weight: 700;
 }
+
 .help span, .help a {
   display: inline-flex;
   margin-right: 5px;
@@ -184,6 +190,7 @@ a.nav-link {
 .footer-brand {
   display: flex;
 }
+
 .comments .comment {
   margin-left: 15px;
 }

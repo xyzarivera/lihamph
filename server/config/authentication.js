@@ -7,7 +7,6 @@
 const logger = require('./winston').get();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
 const personRepository = require('../repositories/personRepository');
 const Person = require('../models/Person');
 
@@ -15,11 +14,11 @@ module.exports = (app, config) => {
   logger.info('Configuring authentication middlewares...');
 
   passport.serializeUser((user, done) => {
-    done(null, user.username);
+    done(null, user.id);
   });
 
-  passport.deserializeUser((username, done) => {
-    personRepository.findPersonByUsername(username, (err, person) => {
+  passport.deserializeUser((id, done) => {
+    personRepository.findPersonById(id, (err, person) => {
       if(err) { return done(err, null); }
       done(null, person);
     });
