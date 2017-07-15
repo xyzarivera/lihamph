@@ -4,8 +4,8 @@
  */
 'use strict';
 
-let Person = require('./Person');
-let m = require('moment');
+const Person = require('./Person');
+const m = require('moment');
 const marked = require('marked');
 
 marked.setOptions({
@@ -27,6 +27,10 @@ class Post {
     self.author = new Person(data.author);
     self.title = data.title;
     self.content = data.content;
+    self.stats = {
+      replies: data.replyCount,
+      upvotes: data.upvoteCount
+    };
     self.isEdited = Boolean(data.isEdited);
     self.isDeleted = Boolean(data.isDeleted);
     self.createdDate = m(data.createdDate);
@@ -50,6 +54,8 @@ class Post {
       parentId: row['parent_post_id'],
       title: row['title'],
       author: { id: row['author_id'], username: row['author_username'] },
+      replyCount: row['reply_count'],
+      upvoteCount: row['upvote_count'],
       content: row['content'],
       isEdited: row['is_edited'],
       isDeleted: row['is_deleted'],

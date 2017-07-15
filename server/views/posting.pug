@@ -17,23 +17,26 @@ block main-content
         a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
     div
       p!= rootPost.marked
-  hr
-  div
-    if commentStatus.length > 0
-      .alert(class=commentStatus[0].status)
-        p= commentStatus[0].message
-    form(method="POST" action="/comment/" + rootPost.id)
-      input(type="hidden" name="_csrf" value=csrfToken)
-      input(type="hidden" name="topicId" value=topicId)
-      .form-group
-        label(for="comment")
-        textarea.form-control(name="comment" rows="4")
-      .form-group
-        button.btn(type="submit") Mag-iwan ng iyong puna
+
+
+  if user
+    hr
+    div
+      if commentStatus.length > 0
+        .alert(class=commentStatus[0].status)
+          p= commentStatus[0].message
+      form(method="POST" action="/comment/" + rootPost.id)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        input(type="hidden" name="topicId" value=topicId)
+        .form-group
+          label(for="comment")
+          textarea.form-control(name="comment" rows="4")
+        .form-group
+          button.btn(type="submit") Mag-iwan ng iyong puna
 
   if rootPost.childPosts.length > 0
     div
-      strong= rootPost.childrenCount + " na mga puna"
+      strong= "may " + rootPost.childrenCount + " tugon"
     hr
     .comments
       each child in rootPost.childPosts

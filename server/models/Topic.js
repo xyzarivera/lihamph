@@ -4,8 +4,8 @@
  */
 'use strict';
 
-let Person = require('./Person');
-let m = require('moment');
+const Person = require('./Person');
+const m = require('moment');
 
 class Topic {
   constructor(data) {
@@ -14,6 +14,10 @@ class Topic {
     self.id = data.id;
     self.author = new Person(data.author);
     self.title = data.title;
+    self.stats = {
+      replies: data.replyCount,
+      upvotes: data.upvoteCount
+    };
     self.createdDate = m(data.createdDate);
     self.lastUpdatedDate = m(data.lastUpdatedDate);
   }
@@ -23,7 +27,12 @@ class Topic {
     return new Topic({
       id: row['topic_id'],
       title: row['title'],
-      author: { id: row['author_id'], username: row['author_username'] },
+      author: {
+        id: row['author_id'],
+        username: row['author_username']
+      },
+      replyCount: row['reply_count'],
+      upvoteCount: row['upvote_count'],
       createdDate: row['created_date'],
       lastUpdatedDate: row['last_updated_date']
     });
