@@ -53,7 +53,7 @@ module.exports.submitPost = function submitPost(req, res, next) {
   const user = req.user;
   const post = new Post({
     title: req.body.title,
-    content: req.body.content,
+    content: Post.removeScripts(req.body.content),
     author: { id: user.id, username: user.username }
   });
 
@@ -115,13 +115,13 @@ module.exports.comment = function comment(req, res, next) {
 
   const post = new Post({
     parentId: req.params.postId,
-    content: req.body.comment,
+    content: Post.removeScripts(req.body.comment).trim(),
     author: req.user
   });
 
   if(!post.content) {
-    req.flash('comment', { status: 'warning', message: 'Walang kang iniwang sulat' });
-    return res.redirect('/posting/' + topicId);
+    req.flash('comment', { status: 'warning', message: 'Walang kang iniwang tugon' });
+    return res.redirect('/posting/' + topicId + '#comment');
   }
 
   postingRepository.comment(post, (err, resultSet) => {

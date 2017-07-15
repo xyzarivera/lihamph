@@ -21,7 +21,7 @@ block main-content
 
   if user
     hr
-    div
+    div#comment
       if commentStatus.length > 0
         .alert(class=commentStatus[0].status)
           p= commentStatus[0].message
@@ -29,10 +29,10 @@ block main-content
         input(type="hidden" name="_csrf" value=csrfToken)
         input(type="hidden" name="topicId" value=topicId)
         .form-group
-          label(for="comment")
+          label(for="comment") Tumugon sa liham
           textarea.form-control(name="comment" rows="4")
         .form-group
-          button.btn(type="submit") Mag-iwan ng iyong puna
+          button.btn(type="submit") Mag-iwan ng iyong tugon
 
   if rootPost.childPosts.length > 0
     div

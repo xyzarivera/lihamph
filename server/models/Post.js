@@ -7,6 +7,7 @@
 const Person = require('./Person');
 const m = require('moment');
 const marked = require('marked');
+const cheerio = require('cheerio');
 
 marked.setOptions({
   gfm: true,
@@ -64,6 +65,16 @@ class Post {
     });
   }
 
+  /**
+   * Removes the <script> tags from the text
+   * @param {string} content 
+   */
+  static removeScripts(content) {
+    //- Best solution yet so far
+    const node = cheerio.load('<div id="postedContent">' + content + '</div>');
+    const text = node('#postedContent').remove('script').text();
+    return text;
+  }
 }
 
 module.exports = Post;
