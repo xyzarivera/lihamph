@@ -49,6 +49,28 @@ module.exports.searchTopics = function searchTopics(options, done) {
 };
 
 /**
+ * Gets the topics by the author. Pagination supported
+ * @param {Person} author
+ * @param {SearchOption} options
+ * @param {function(Error, object)} done
+ */
+module.exports.getTopicsByAuthorId = function getTopicsByAuthorId(author, options, done) {
+  const params = [author.id, options.user.id, options.limit, options.offset];
+  client.func('posting.get_topics_by_author_id', params)
+    .then((rows) => {
+      const searchResult = { topics: [], totalCount: 0 };
+      if(rows.length > 0) {
+        searchResult.topics = rows.map(Topic.mapFromRow);
+        searchResult.totalCount = Number(rows[0]['total_count']);
+      }
+      done(null, searchResult);
+    })
+    .catch((err) => {
+      done(err, null);
+    });
+};
+
+/**
  * Gets the post by its ID
  * @param {number} id
  * @param {function(Error, Post)} done

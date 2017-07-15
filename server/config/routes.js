@@ -30,7 +30,7 @@ module.exports = function(app, config) {
   app.get('/submit', isAuthenticated, postingController.renderSubmitPage);
   app.post('/submit', isAuthenticated, postingController.submitPost);
 
-  app.get('/user/settings', profileController.renderSettingsPage);
+  app.get('/user/settings', isAuthenticated, profileController.renderSettingsPage);
   app.get('/user/:username', profileController.renderProfilePage);
   app.post('/user/profile', isAuthenticated, profileController.updateProfile);
   app.post('/user/password', isAuthenticated, profileController.changePassword);

@@ -4,11 +4,19 @@
  */
 'use strict';
 
-const personRepository = require('../repositories/personRepository');
 const Person = require('../models/Person');
+const SearchOption = require('../models/SearchOption');
+const personRepository = require('../repositories/personRepository');
+const postingRepository = require('../repositories/postingRepository');
 
 module.exports.renderProfilePage = function renderProfilePage(req, res, next) {
   const username = req.params.username;
+  const options = new SearchOption({
+    user: req.user || {},
+    query: null,
+    page: req.query.page,
+    limit: req.query.size
+  });
   let model = req.model;
 
   personRepository.findPersonByUsername(username, (err, person) => {
@@ -19,10 +27,17 @@ module.exports.renderProfilePage = function renderProfilePage(req, res, next) {
       return res.status(404).render('notfound', model);
     }
 
-    model.profile = person;
-    model.meta.title = person.username;
-    model.meta.description = person.aboutMe || person.username;
-    res.render('profile', model);
+    postingRepository.getTopicsByAuthorId(person, options, (err, searchResult) => {
+      if(err) { return next(err); }
+
+      model.searchResult = searchResult;
+      model.options = options;
+      model.csrfToken = req.csrfToken();
+      model.profile = person;
+      model.meta.title = person.username;
+      model.meta.description = person.aboutMe || person.username;
+      res.render('profile', model);
+    });
   });
 };
 
