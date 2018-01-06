@@ -68,7 +68,7 @@ class Post {
 
   /**
    * Removes the <script> tags from the text
-   * @param {string} content 
+   * @param {string} content
    */
   static removeScripts(content) {
     //- Best solution yet so far

@@ -25,12 +25,7 @@ module.exports = {
       views: path.join(rootPath, 'server/views'),
       optimized: false,
       assets: path.join(rootPath, 'public'),
-      verbose: true,
-      cdn: {
-        enabled: false,
-        url: process.env.LHM_CDN_URL,
-        container: 'devstore'
-      }
+      verbose: true
     }
   },
   stage: {
@@ -47,15 +42,10 @@ module.exports = {
       maxAge: 365 * 24 * 60 * 60 * 1000
     },
     middleware: {
-      views: path.join(rootPath, 'server/views'),
+      views: path.join(rootPath, 'build/views'),
       optimized: true,
-      assets: path.join(rootPath, 'public'),
-      verbose: true,
-      cdn: {
-        enabled: true,
-        url: process.env.LHM_CDN_URL,
-        container: 'devstore'
-      }
+      assets: path.join(rootPath, 'build/assets'),
+      verbose: true
     }
   },
   prod: {

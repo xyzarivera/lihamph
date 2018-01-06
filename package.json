@@ -11,19 +11,15 @@
     "db": "node utility/buildsql.js && node utility/execsql.js",
     "build:cleanup": "rm -rf ./build",
     "build:create": "mkdir build && mkdir build/assets && mkdir build/views",
-    "build:stylus": "node utility/minify-css.js --stylus",
     "build:copy-pug": "cp -r ./server/views/. ./build/views/",
     "build:copy-assets": "cp -r ./public/. ./build/assets/",
-    "build:copy-fonts": "cp ./public/libs/font-awesome/fonts/* ./build/assets/fonts/",
-    "build:cleanup-js": "rm -r ./build/assets/css/*",
+    "build:cleanup-js": "rm -r ./build/assets/stylesheets/*",
     "build:cleanup-css": "rm -r ./build/assets/scripts/*",
-    "build:cleanup-lib": "rm -rf ./build/assets/libs",
-    "minify:css": "node utility/minify-css.js --cdn",
-    "minify:js": "node utility/minify-js.js --cdn",
+    "minify:css": "node utility/minifyCss.js --cdn",
+    "minify:js": "node utility/minifyScripts.js --cdn",
     "minify": "npm-run-all minify:*",
     "build": "npm run check && npm-run-all build:* && npm run minify",
-    "deploy": "node utility/cdn-upload",
-    "test": "istanbul cover --report html node_modules/.bin/_mocha test/**/*.spec.js"
+    "deploy": "node utility/uploadCdn.js"
   },
   "repository": {
     "type": "git",

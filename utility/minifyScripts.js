@@ -12,7 +12,9 @@ const log = helper.log;
 const UglifyJS = require('uglify-js');
 const target = path.resolve(__dirname, '../build/assets/scripts');
 const scriptPath = '/scripts';
-const cdn = require('./config').azure.cdn;
+const buildConfig = require('./config');
+const cdn = buildConfig.azure.cdn;
+const containerName = buildConfig.azure.storage.container;
 
 const regexp = new RegExp(/data-minjs-group="([a-z]+)" src="(.+?)"/, 'gm');
 const opts = {
@@ -69,7 +71,7 @@ function minifyFiles(sources) {
           const regexp = new RegExp(`script\\(.*?data-minjs-group="${src}".*?"\\)`, 'gm');
           let cdnPath = filename;
           if(args.cdn) {
-            cdnPath = cdn.url.replace('https:', '') + path.join('/assets/', filename);
+            cdnPath = cdn.url.replace('https:', '') + path.join(`/${containerName}/`, filename);
           }
           const tagSrc = `script(src="${cdnPath}")`;
           helper.replaceOnViews(regexp, tagSrc, (err, affectedFiles) => {

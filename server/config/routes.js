@@ -60,7 +60,7 @@ module.exports = function(app, config) {
   });
 
   app.use(function errorHandler(err, req, res, next) {
-    //- Adding the copy of req.model here just in case 
+    //- Adding the copy of req.model here just in case
     //- it fails in passport or any middleware before init model
     const baseUrl = req.protocol + '://' + req.get('host');
     let model = req.model || {

@@ -7,7 +7,8 @@ html(lang="en")
     meta(name="description" content=meta.description)
     title= meta.title
 
-    link(rel="stylesheet" href="/stylesheets/main.css")
+    link(rel="stylesheet" data-mincss-group="bootstrap" href="/stylesheets/bootstrap.css")
+    link(rel="stylesheet" data-mincss-group="liham" href="/stylesheets/main.css")
 
   body
     include navbar.pug
@@ -28,4 +29,4 @@ html(lang="en")
         p= "Binuo ito ng Fortcode - Tignan ang gawa namin para sa mga manlalakbay "
           a(href="https://wanderast.com")= "wanderast.com"
 
-    script(src="/scripts/main.js")
+    script(data-minjs-group="main" src="/scripts/main.js")

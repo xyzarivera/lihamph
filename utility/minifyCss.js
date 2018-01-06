@@ -4,20 +4,20 @@
  */
 'use strict';
 
-const stylus = require('stylus');
 const postcss = require('postcss');
 const precss = require('precss');
 const autoprefixer = require('autoprefixer');
-const async = require('async');
 const args = require('yargs').argv;
 const fs = require('fs');
 const path = require('path');
 const helper = require('./helper');
 const log = helper.log;
 const CleanCSS = require('clean-css');
-const target = path.resolve(__dirname, '../build/assets/css');
-const scriptPath = '/css';
-const cdn = require('./config').azure.cdn;
+const stylesheetsPath = '/stylesheets';
+const target = path.resolve(__dirname, `../build/assets${stylesheetsPath}`);
+const buildConfig = require('./config');
+const cdn = buildConfig.azure.cdn;
+const containerName = buildConfig.azure.storage.container;
 
 ((args) => {
   const opts = {
@@ -52,7 +52,7 @@ function minify(src, content, done) {
       fs.writeFile(filename, output.styles, { encoding: 'utf-8'}, (err) => {
         if(err) { return done(err, null); }
 
-        const name = path.join(scriptPath, path.basename(filename));
+        const name = path.join(stylesheetsPath, path.basename(filename));
         log.yellow(`cssmin: completing min for ${name}`);
         done(null, name);
       });
@@ -84,7 +84,7 @@ function start(sources) {
           const regexp = new RegExp(`link\\(.*? data-mincss-group="${src}" .*?"\\)`, 'gm');
           let cdnPath = filename;
           if(args.cdn) {
-            cdnPath = cdn.url.replace('https:', '') + path.join('/assets/', filename);
+            cdnPath = cdn.url.replace('https:', '') + path.join(`/${containerName}/`, filename);
           }
           const tagSrc = `link(href="${cdnPath}" rel="stylesheet")`;
           helper.replaceOnViews(regexp, tagSrc, (err, affectedFiles) => {

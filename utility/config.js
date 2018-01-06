@@ -6,12 +6,12 @@
 module.exports = {
   azure: {
     storage: {
-      account: process.env.GULP_STORAGE_ACCOUNT,
-      key: process.env.GULP_STORAGE_SECRET,
-      container: process.env.GULP_STORAGE_CONTAINER
+      account: process.env.LHM_STORAGE_ACCOUNT,
+      key: process.env.LHM_STORAGE_KEY,
+      container: 'lihamph'
     },
     cdn: {
-      url: process.env.GULP_STORAGE_CDN
+      url: process.env.LHM_CDN_URL
     }
   }
 };

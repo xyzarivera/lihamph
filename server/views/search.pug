@@ -9,7 +9,7 @@ block main-content
     input(type="hidden" name="size" value=options.limit)
     .form-group-inline
       input.form-control(type="text" name="query" value=options.query placeholder="Isulat dito ang gusto mong hanapin na liham...")
-      button.btn(type="submit") Hanapin
+      button.btn.btn-dark(type="submit") Hanapin
 
   if options.query && searchResult.totalCount === 0
     div Hindi namin mahanap ang liham na gusto mong mabasa
