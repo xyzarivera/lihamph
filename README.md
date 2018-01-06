@@ -9,7 +9,7 @@ Write stories anywhere, fast [liham.ph](http://liham.ph). Forked from descouvre 
 
 ## Prerequisites
 
-[Node.js 6.9](https://nodejs.org/en/download)  
+[Node.js 8.9](https://nodejs.org/en/download)  
 [Postgresql 9.6](https://www.postgresql.org/download/)  
 [Redis 3.2](https://redis.io/download)  
 
@@ -31,6 +31,7 @@ Quick install
 git clone https://github.com/descouvre/lihamnainiwan
 cd lihamnainiwan
 npm install
+npm install -g nsp nodemon
 gulp sql
 node app.js
 ```

@@ -7,10 +7,7 @@ html(lang="en")
     meta(name="description" content=meta.description)
     title= meta.title
 
-    if cdn.enabled
-      link(rel="stylesheet" href=cdn.url + "/" + cdn.container + "/assets/stylesheets/liham.min.css")
-    else
-      link(rel="stylesheet" href="/stylesheets/main.css")
+    link(rel="stylesheet" href="/stylesheets/main.css")
 
   body
     include navbar.pug
@@ -31,7 +28,4 @@ html(lang="en")
         p= "Binuo ito ng Fortcode - Tignan ang gawa namin para sa mga manlalakbay "
           a(href="https://wanderast.com")= "wanderast.com"
 
-    if cdn.enabled
-      script(src=cdn.url + "/" + cdn.container + "/assets/scripts/liham.min.js")
-    else
-      script(src="/scripts/main.js")
+    script(src="/scripts/main.js")

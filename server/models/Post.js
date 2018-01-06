@@ -10,6 +10,7 @@ const marked = require('marked');
 const cheerio = require('cheerio');
 
 marked.setOptions({
+  renderer: new marked.Renderer(),
   gfm: true,
   tables: false,
   breaks: false,
