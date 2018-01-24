@@ -128,7 +128,7 @@ module.exports.getPostById = function getPostById(id, done) {
 ////////////////////////////////////
 
 module.exports.submitPost = function submitPost(post, done) {
-  const params = [post.title, post.content, post.author.id];
+  const params = [post.title, post.content, post.author.id, post.tags];
   execResultSet('posting.submit_post', params, done);
 };
 
@@ -147,7 +147,7 @@ module.exports.deleteComment = function deleteComment(postId, done) {
 };
 
 module.exports.editPost = function editPost(post, done) {
-  const params = [post.id, post.author.id, post.content];
+  const params = [post.id, post.author.id, post.content, post.tags];
   execResultSet('posting.edit_post', params, done);
 };
 

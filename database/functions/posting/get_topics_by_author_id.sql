@@ -8,6 +8,7 @@ CREATE OR REPLACE FUNCTION posting.get_topics_by_author_id (
   post_id BIGINT,
   title VARCHAR(500),
   author_id INT,
+  tags TEXT NULL AS Lower,
   author_username VARCHAR(50),
   reply_count INT,
   upvote_count INT,
