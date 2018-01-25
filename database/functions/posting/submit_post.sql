@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION posting.submit_post (
   p_title VARCHAR(500),
   p_content TEXT,
-  p_tags TEXT NULL AS Lower,
+  p_tags TEXT NULL,
   p_author_id INT
 ) RETURNS TABLE (
   id BIGINT,

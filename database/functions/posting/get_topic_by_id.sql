@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION posting.get_topic_by_id (
   post_id BIGINT,
   title VARCHAR(500),
   author_id INT,
-  tags TEXT NULL AS Lower,
+  tags TEXT NULL,
   author_username VARCHAR(50),
   reply_count INT,
   upvote_count INT,

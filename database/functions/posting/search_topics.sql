@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION posting.search_topics (
   topic_id BIGINT,
   post_id BIGINT,
   title VARCHAR(500),
-  tags TEXT NULL AS Lower,
+  tags TEXT NULL,
   author_id INT,
   author_username VARCHAR(50),
   reply_count INT,
