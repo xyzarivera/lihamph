@@ -2,7 +2,7 @@ CREATE TABLE posting.topic (
   topic_id BIGSERIAL NOT NULL,
   title VARCHAR(500) NOT NULL,
   author_id INT NOT NULL,
-  tags TEXT NULL AS Lower,
+  tags TEXT NULL,
   upvote_count INT NOT NULL DEFAULT 0,
   reply_count INT NOT NULL DEFAULT 0,
   is_deleted BOOLEAN NOT NULL DEFAULT false,

@@ -15,6 +15,7 @@ class Topic {
     self.postId = data.postId;
     self.author = new Person(data.author);
     self.title = data.title;
+    self.tags = data.tags;
     self.stats = {
       replies: data.replyCount,
       upvotes: data.upvoteCount
@@ -30,6 +31,7 @@ class Topic {
       id: row['topic_id'],
       postId: row['post_id'],
       title: row['title'],
+      tags: row['tags'],
       author: {
         id: row['author_id'],
         username: row['author_username']
