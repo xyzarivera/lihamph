@@ -147,7 +147,7 @@ module.exports.deleteComment = function deleteComment(postId, done) {
 };
 
 module.exports.editPost = function editPost(post, done) {
-  const params = [post.id, post.author.id, post.content, post.tags];
+  const params = [post.id, post.author.id, post.content];
   execResultSet('posting.edit_post', params, done);
 };
 
