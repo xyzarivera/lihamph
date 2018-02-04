@@ -11,17 +11,22 @@ block main-content
         p= submitPostStatus[0].message
     form(method="POST" action="/submit")
       input(type="hidden" name="_csrf" value=csrfToken)
-      .form-group
-        label(for="title") Paksa ng Liham
+      .form-group.pt-3.pb-3
+        label(for="title")
+          strong Paksa ng Liham
         input.form-control(type="text" name="title" value="")
-        small Tungkol saan ang iyong liham?
-      .form-group
-        label(for="content") Dito mo isulat ang iyong liham
+        small.text-muted Tungkol saan ang iyong liham?
+      .form-group.pt-3.pb-3
+        label(for="content")
+          strong Dito mo isulat ang iyong liham
         textarea.form-control(name="content" rows="10")
-        small= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
+        small.text-muted= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
           a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
-      .form-group
-        label(for="tags") Mga Pananda (tags)
-        input.form-control(type="text" name="tags" value="" placeholder="Maglagay ng Pananda")
-      .form-group
-        button.btn.btn-dark(type="submit") ⤴ Itala ang iyong liham
+      .form-group.pt-3.pb-3
+        label(for="tags")
+          strong Mga Pananda (tags)
+        input.form-control(type="text" name="tags" value=""
+          placeholder="Maglagay ng Pananda")
+        small.text-muted Ihiwalay ang mga pananda gamit ang tuldok-kuwit (;). Halimbawa "pag-ibig; lihim; sakit".
+      .form-group.mt-2.mb-4
+        button.btn.btn-primary(type="submit") Itala ang iyong liham
