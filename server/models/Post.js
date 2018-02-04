@@ -28,6 +28,7 @@ class Post {
     self.parentId = data.parentId;
     self.author = new Person(data.author);
     self.title = data.title;
+    self.tags = data.tags
     self.content = data.content;
     self.stats = {
       replies: data.replyCount,
@@ -59,6 +60,7 @@ class Post {
       replyCount: row['reply_count'],
       upvoteCount: row['upvote_count'],
       content: row['content'],
+      tags: row['tags'],
       isEdited: row['is_edited'],
       isDeleted: row['is_deleted'],
       createdDate: row['created_date'],
