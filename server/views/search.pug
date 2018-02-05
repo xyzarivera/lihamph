@@ -4,20 +4,24 @@ include mixins/topicItemMixin.pug
 
 block main-content
   h2 Maghanap ng liham
-  form(action="/search" method="GET")
-    input(type="hidden" name="page" value=options.page)
-    input(type="hidden" name="size" value=options.limit)
-    .form-group-inline
-      input.form-control(type="text" name="query" value=options.query placeholder="Isulat dito ang gusto mong hanapin na liham...")
-      button.btn.btn-dark(type="submit") Hanapin
+  center <br><br>
+    div.forms
+      form(action="/search" method="GET")
+        input(type="hidden" name="page" value=options.page)
+        input(type="hidden" name="size" value=options.limit)
+        .form-group-inline
+          input.form-control(type="text" name="query" value=options.query placeholder="Isulat dito ang gusto mong hanapin na liham...")
+          <br>
+          button.btn.btn-dark(type="submit") Hanapin
+          <br><br>
+      if options.query && searchResult.totalCount === 0
+        div Hindi namin mahanap ang liham na gusto mong mabasa
+      else if searchResult.totalCount === 0
+        div Anong liham ang iyong hinahanap?
 
-  if options.query && searchResult.totalCount === 0
-    div Hindi namin mahanap ang liham na gusto mong mabasa
-  else if searchResult.totalCount === 0
-    div Anong liham ang iyong hinahanap?
-
-  each topic, index in searchResult.topics
-    +renderTopicItem(topic)
+  div.indexnav 
+    each topic, index in searchResult.topics
+      +renderTopicItem(topic)
 
   .pagination
     - let moreUrl = "/search?size=" + options.limit + "&query=" + options.query
