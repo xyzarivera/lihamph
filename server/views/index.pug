@@ -3,10 +3,11 @@ extends includes/layout.pug
 include mixins/topicItemMixin.pug
 
 block main-content
-  h2 Magbasa ng mga liham
+  h1 Magbasa ng mga Liham
 
-  each topic, index in searchResult.topics
-    +renderTopicItem(topic)
+  div.indexnav
+    each topic, index in searchResult.topics
+      +renderTopicItem(topic)
 
   .pagination
     if options.page > 1
