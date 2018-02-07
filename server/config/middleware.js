@@ -63,7 +63,11 @@ module.exports = function(app, config) {
             .replace('a minute ago', 'makalipas ang isang minuto')
             .replace('minutes ago', 'minuto ang nakalipas')
             .replace('a day ago', 'isang araw ang nakalipas')
-            .replace('days ago', 'araw ang nakalipas');
+            .replace('days ago', 'araw ang nakalipas')
+            .replace('a month ago', 'isang buwan ang nakalipas')
+            .replace('months ago', 'buwan ang nakalipas')
+            .replace('a year ago', 'isang taon ang nakalipas')
+            .replace('years ago', 'taon ang nakalipas');
         }
       }
     };
