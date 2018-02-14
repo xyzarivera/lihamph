@@ -128,7 +128,7 @@ module.exports.getPostById = function getPostById(id, done) {
 ////////////////////////////////////
 
 module.exports.submitPost = function submitPost(post, done) {
-  const params = [post.title, post.content, post.tags.toLowerCase(), post.author.id];
+  const params = [post.title, post.content, post.author.id];
   execResultSet('posting.submit_post', params, done);
 };
 

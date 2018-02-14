@@ -1,11 +1,27 @@
 .container
-  navbar.navbar
-    a.nav-link(href="/") magbasa
-    a.nav-link(href="/search") maghanap
-    if user && user.id
-      a.nav-link(href="/submit") sumulat
-      a.nav-link(href="/user/" + user.username)= user.username
-      a.nav-link(href="/logout") umalis
-    else
-      a.nav-link(href="/login") pumasok
-      a.nav-link(href="/register") sumali
+  nav.navbar.navbar-expand-sm.navbar-light.bg-faded
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#nav-content', aria-controls='nav-content', aria-expanded='false', aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    // Brand
+    a.navbar-brand() Mga Liham na Iniwan
+    // Links
+    #nav-content.collapse.navbar-collapse.justify-content-end
+      ul.navbar-nav
+        li.nav-item
+          a.nav-link(href='/') Magbasa
+        li.nav-item
+          a.nav-link(href='/search') Maghanap
+        if user && user.id
+          li.nav-item
+            a.nav-link(href="/submit") Sumulat
+          li.nav-item
+            a.nav-link(href="/user/" + user.username)= user.username
+          li.nav-item
+            a.nav-link(href="/logout") Umalis
+        else
+          li.nav-item
+            a.nav-link(href="/login") Pumasok
+          li.nav-item
+            a.nav-link(href="/register") Sumali
+
+

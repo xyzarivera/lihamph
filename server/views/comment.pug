@@ -3,17 +3,19 @@ extends includes/layout.pug
 block main-content
   div
     h2= "Submit Comment"
-    small.help
-      span= "posted by"
-      a(href="/user/" + post.author.username)= post.author.username
-      span= post.createdDate.fromNow()
-    div
-      p!= post.marked
+    center
+      small.help
+        span= "posted by"
+        a(href="/user/" + post.author.username)= post.author.username
+        span= post.createdDate.fromNow()
+      div
+        p!= post.marked
   hr
   div
-    form(method="POST" action="/comment/" + post.id)
-      .form-group
-        label(for="comment")
-        textarea.form-control(name="comment" rows="4")
-      .form-group
-        button.btn.btn-dark(type="submit") Submit
+    div.forms2
+      form(method="POST" action="/comment/" + post.id)
+        .form-group
+          label(for="comment")
+          textarea.form-control(name="comment" rows="4")
+        .form-group
+          button.btn.btn-dark(type="submit") Submit

@@ -3,20 +3,21 @@ extends includes/layout.pug
 block main-content
   div
     h1= rootPost.title
-    small.help
-      span= "inilatha ni "
-      a(href="/user/" + rootPost.author.username)= rootPost.author.username
-      span= utils.convertFromNowToFilipino(rootPost.createdDate.fromNow())
-      if rootPost.isEdited
-        span= " * "
-      if user && user.id === rootPost.author.id
-        span= " - "
-        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
-      if user && (user.isModerator || user.id === rootPost.author.id)
-        span= " - "
-        a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
-    div
-      p!= rootPost.marked
+    center
+      small.help
+        span= "inilatha ni "
+        a(href="/user/" + rootPost.author.username)= rootPost.author.username
+        span= utils.convertFromNowToFilipino(rootPost.createdDate.fromNow())
+        if rootPost.isEdited
+          span= " * "
+        if user && user.id === rootPost.author.id
+          span= " - "
+          a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
+        if user && (user.isModerator || user.id === rootPost.author.id)
+          span= " - "
+          a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
+      div.indexnav
+        p!= rootPost.marked
 
 
   if user
@@ -25,41 +26,45 @@ block main-content
       if commentStatus.length > 0
         .alert(class=commentStatus[0].status)
           p= commentStatus[0].message
-      form(method="POST" action="/comment/" + rootPost.id)
-        input(type="hidden" name="_csrf" value=csrfToken)
-        input(type="hidden" name="topicId" value=topicId)
-        .form-group
-          label(for="comment") Tumugon sa liham
-          textarea.form-control(name="comment" rows="4")
-        .form-group
-          button.btn.btn-dark(type="submit") Mag-iwan ng iyong tugon
+      center
+        div.forms2    
+          form(method="POST" action="/comment/" + rootPost.id)
+            input(type="hidden" name="_csrf" value=csrfToken)
+            input(type="hidden" name="topicId" value=topicId)
+            .form-group
+              label(for="comment") Tumugon sa liham
+              textarea.form-control(name="comment" rows="4")
+            .form-group
+              button.btn.btn-dark(type="submit") Mag-iwan ng Iyong Tugon
 
   if rootPost.childPosts.length > 0
-    div
-      strong= "may " + rootPost.childrenCount + " tugon"
-    hr
-    .comments
-      each child in rootPost.childPosts
-        +renderPost(child)
+    center
+      div
+        strong= "may " + rootPost.childrenCount + " tugon"
+      hr
+      .comments
+        each child in rootPost.childPosts
+          +renderPost(child)
 
 //- RENDER POST MIXIN
 mixin renderPost(post)
   div(id="post" + post.id)
-    small.help
-      span= "puna ni "
-      a(href="/user/" + post.author.username)= post.author.username
-      span= utils.convertFromNowToFilipino(post.createdDate.fromNow())
-      if post.isEdited
-        span= " * "
-      if user && user.id === post.author.id
-        span= " - "
-        a(href="/edit/" + post.id + "?topicId=" + topicId title="baguhin") baguhin
-      if user && (user.isModerator || user.id === post.author.id)
-        span= " - "
-        a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) tanggalin
-    div
-      p!= post.marked
-    each child in post.childPosts
-      .comment
-        //- This is, obviously, recursive
-        +renderPost(child)
+    center
+      small.help
+        span= "puna ni "
+        a(href="/user/" + post.author.username)= post.author.username
+        span= utils.convertFromNowToFilipino(post.createdDate.fromNow())
+        if post.isEdited
+          span= " * "
+        if user && user.id === post.author.id
+          span= " - "
+          a(href="/edit/" + post.id + "?topicId=" + topicId title="baguhin") baguhin
+        if user && (user.isModerator || user.id === post.author.id)
+          span= " - "
+          a.del-comment(href="#" data-topic-id=topicId data-id=post.id data-csrf=csrfToken) tanggalin
+      div
+        p!= post.marked
+      each child in post.childPosts
+        .comment
+          //- This is, obviously, recursive
+          +renderPost(child)

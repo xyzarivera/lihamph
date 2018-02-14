@@ -2,20 +2,23 @@ extends includes/layout.pug
 
 block main-content
   div
-    h2 Pumasok sa liham.ph
+    h1 Pumasok sa liham.ph
     p Isulat sa mga kahon sa baba ang iyong pagpapatunay na ikaw ay isang manunulat ng mga liham.
     if alert && alert.length > 0
       .alert(class=alert[0].status)
         p= alert[0].message
-    form(method="POST" action="/login")
-      input(type="hidden" name="_csrf" value=csrfToken)
-      .form-group
-        label(for="username") Sagisag 
-        input.form-control(type="text" name="username" value="")
-        small Username o pen name sa wikang Ingles
-      .form-group
-        label(for="password") Lihim na Salita
-        input.form-control(type="password" name="password" value="")
-        small Password sa wikang Ingles
-      .form-group
-        button.btn.btn-dark(type="submit") ➡ Simulan na ang pagsusulat 
+    center
+      div.forms
+        form(method="POST" action="/login")
+          input(type="hidden" name="_csrf" value=csrfToken)
+          .form-group
+            label(for="username") Sagisag 
+            input.form-control(type="text" name="username" value="")
+            small Username o pen name sa wikang Ingles
+          .form-group
+            label(for="password") Lihim na Salita
+            input.form-control(type="password" name="password" value="")
+            small Password sa wikang Ingles
+          .form-group
+            button.btn.btn-dark(type="submit") Simulan na ang Pagsusulat 
+    

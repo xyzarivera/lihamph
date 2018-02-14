@@ -54,7 +54,6 @@ module.exports.submitPost = function submitPost(req, res, next) {
   const post = new Post({
     title: req.body.title,
     content: Post.removeScripts(req.body.content),
-    tags: req.body.tags || String(),
     author: { id: user.id, username: user.username }
   });
 

@@ -4,23 +4,24 @@ include mixins/topicItemMixin.pug
 
 block main-content
   div
-    h2= profile.username
+    h1= profile.username
     if profile.aboutMe
       div
         p!= profile.aboutMe.replace(/\n/g, '</br>')
     p.grey-text= "Itong sagisag ay naitatag " + utils.convertFromNowToFilipino(profile.createdDate.fromNow())
-    if user.id === profile.id
-      a(href="/user/settings") baguhin ang sarili
+      <br>
+      if user.id === profile.id
+        a(href="/user/settings") Baguhin ang Sarili
   hr
   div
     h4= "Mga " + searchResult.totalCount + " liham na nilatha ni " + profile.username
+    div.indexnav
+      each topic, index in searchResult.topics
+        +renderTopicItem(topic)
 
-    each topic, index in searchResult.topics
-      +renderTopicItem(topic)
-
-    .pagination
-      - const url = "/user/" + profile.username
-      if options.page > 1
-        a(href=url + "?page=" + (options.page - 1)) ◀ mga naunang pahina
-      if searchResult.totalCount > (options.limit * options.page)
-        a(href=url + "?page=" + (options.page + 1)) susunod na pahina ▶
+      .pagination
+        - const url = "/user/" + profile.username
+        if options.page > 1
+          a(href=url + "?page=" + (options.page - 1)) ◀ mga naunang pahina
+        if searchResult.totalCount > (options.limit * options.page)
+          a(href=url + "?page=" + (options.page + 1)) susunod na pahina ▶
