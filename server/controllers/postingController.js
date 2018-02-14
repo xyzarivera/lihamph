@@ -211,6 +211,11 @@ module.exports.editPost = function editPost(req, res, next) {
     author: req.user
   });
 
+  if(!post.content) {
+    req.flash('editPost', { status: 'warning', message: 'Walang kang iniwang tugon' });
+    return res.redirect('/edit/' + post.id + '?topicId=' + topicId);
+  }
+
   postingRepository.editPost(post, (err, resultSet) => {
     if(err) { return next(err); }
 
