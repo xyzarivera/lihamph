@@ -2,8 +2,15 @@ extends includes/layout.pug
 
 block main-content
   h1= rootPost.title
-  div
-    .text-muted.normal-text
+  .pt-2.pb-2.text-muted.normal-text
+    if rootPost.tags && Array.isArray(rootPost.tags)
+      -
+        let tags = rootPost.tags
+          .map(t => `<a class="" href="/tags/${t}">${t}</a>`)
+          .reduce((acc, v) => acc + ', ' + v)
+          .trim()
+      .mb-2!= `Tags: ${tags}`
+    div
       span= "inilatha ni "
       a(href="/user/" + rootPost.author.username)= rootPost.author.username
       span= ` - ${utils.convertFromNowToFilipino(rootPost.createdDate.fromNow())}`
@@ -15,8 +22,9 @@ block main-content
       if user && (user.isModerator || user.id === rootPost.author.id)
         span= " - "
         a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
-    .pt-1.pb-2
-      p!= rootPost.marked
+    
+  .pt-1.pb-2
+    p!= rootPost.marked
 
   if user
     hr
