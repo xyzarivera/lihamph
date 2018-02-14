@@ -1,5 +1,5 @@
 a {
-  color: #0D47A1;
+  color: #1E88E5;
 }
 a:active, a:hover, a:visited {
   color: #5C6BC0;
@@ -24,4 +24,9 @@ small.normal-text {
 
 .upvote-heart {
   cursor: pointer;
+}
+
+.topic-item .topic-item-title {
+  color: #0277BD;
+  font-weight: 600;
 }

@@ -1,17 +1,17 @@
 //- @topic - Topic class
 
 mixin renderTopicItem(topic, options = { showTags: true })
-  .topic
-    .topic-item.d-flex.pt-2.pb-1(id="topic" + topic.id)
-      .topic-index.mr-3
+  .topic-item
+    .d-flex.pt-2.pb-1(id="topic" + topic.id)
+      .topic-item-left.mr-3
         .upvote-heart(
           data-action=topic.isUpvoted ? "undo-upvote" : "upvote"
           data-id=topic.postId 
           data-csrf=csrfToken 
           data-count=topic.stats.upvotes)= topic.isUpvoted ? "❤️" : "💛"
         .upvote-count.text-center= topic.stats.upvotes
-      .topic-content
-        a(href="/posting/" + topic.id)= topic.title
+      .topic-item-body
+        a.topic-item-title(href="/posting/" + topic.id)= topic.title
         .pt-0.pb-1
           small.normal-text
             span= "inilatha ni "
