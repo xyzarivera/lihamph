@@ -21,7 +21,7 @@ function buildSql() {
 
   // Override the config
   if(args.config) {
-    dbConfig = require(args.config);
+    dbConfig = require(path.join('../', args.config));
   }
 
   if(!dbConfig || !dbConfig.scripts) {

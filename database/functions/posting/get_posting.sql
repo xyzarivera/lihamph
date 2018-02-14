@@ -45,6 +45,6 @@ BEGIN
     ON tg.topic_id = p.topic_id
   WHERE p.topic_id = p_topic_id
     AND p.is_deleted = false
-  ORDER BY p.parent_post_id NULLS FIRST, p.post_id;
+  ORDER BY p.parent_post_id NULLS FIRST, p.post_id DESC;
 END;
 $func$ LANGUAGE plpgsql;
