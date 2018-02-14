@@ -7,6 +7,7 @@
 const database = require('../config/database');
 const Post = require('../models/Post');
 const Topic = require('../models/Topic');
+const Tag = require('../models/Tag');
 const SearchOption = require('../models/SearchOption'); // eslint-disable-line no-unused-vars
 const ResultSet = require('../models/ResultSet');
 const client = database.get();
@@ -110,6 +111,45 @@ module.exports.getTopicsByAuthorId = function getTopicsByAuthorId(author, option
       done(null, searchResult);
     })
     .catch((err) => {
+      done(err, null);
+    });
+};
+
+/**
+ * Gets the topics by the tag name. Pagination supported
+ * @param {Tag} tag
+ * @param {SearchOption} options
+ * @param {function(Error, { topics: Topic[], totalCount: Number })} done
+ */
+module.exports.getTopicsByTagName = function getTopicsByTagName(tag, options, done) {
+  const params = [tag.name, options.user.id, options.limit, options.offset];
+  client.func('posting.get_topics_by_tag_name', params)
+    .then((rows) => {
+      const searchResult = { topics: [], totalCount: 0 };
+      if(rows.length > 0) {
+        searchResult.topics = rows.map(Topic.mapFromRow);
+        searchResult.totalCount = Number(rows[0]['total_count']);
+      }
+      done(null, searchResult);
+    })
+    .catch((err) => {
+      done(err, null);
+    });
+};
+
+/**
+ * Gets the tag by its name
+ * @param {String} name
+ * @param {function(Error, Tag)} done
+ */
+module.exports.getTagByName = function getTagByName(name, done) {
+  client.func('posting.get_tag_by_name', [name])
+    .then(function(rows) {
+      if(rows.length === 0) { return done(null, null); }
+      let tag = Tag.mapFromRow(rows[0]);
+      done(null, tag);
+    })
+    .catch(function(err) {
       done(err, null);
     });
 };

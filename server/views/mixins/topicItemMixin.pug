@@ -1,6 +1,6 @@
 //- @topic - Topic class
 
-mixin renderTopicItem(topic)
+mixin renderTopicItem(topic, options = { showTags: true })
   .topic
     .topic-item.d-flex.pt-2.pb-1(id="topic" + topic.id)
       .topic-index.mr-3
@@ -18,7 +18,7 @@ mixin renderTopicItem(topic)
             a(href="/user/" + topic.author.username)= topic.author.username
             span= " - " + topic.stats.replies + " tugon - "
             span= utils.convertFromNowToFilipino(topic.createdDate.fromNow())
-            if topic.tags && Array.isArray(topic.tags)
+            if options.showTags && topic.tags && Array.isArray(topic.tags)
               -
                 let tags = topic.tags
                   .map(t => `<a class="" href="/tags/${t}">${t}</a>`)

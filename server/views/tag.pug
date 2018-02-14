@@ -1,0 +1,25 @@
+extends includes/layout.pug
+
+include mixins/topicItemMixin.pug
+
+block main-content
+  h1= `${tag.name} (${tag.topicCount})`
+  hr
+  h4= "Mga " + searchResult.totalCount + " liham na may panandang " + tag.name
+  .mt-2.mb-2
+    each topic, index in searchResult.topics
+      +renderTopicItem(topic, { showTags: false })
+
+  .pagination
+    - let moreUrl = `/tags/${tag.name}?size=${options.limit}`
+    - const hasPrev = options.page > 1
+    - const hasNext = searchResult.totalCount > (options.limit * options.page)
+    if hasPrev
+      a.mr-2(href=(moreUrl + "&page=" + (options.page - 1))
+        title="mga naunanng pahina"
+        class=hasNext ? "mr-2" : "") ◀ mga naunang pahina
+
+    if hasNext
+      a(href=(moreUrl + "&page=" + (options.page + 1))
+        title="susunod na pahina"
+        class=hasPrev ? "ml-2" : "") susunod na pahina ▶

@@ -8,6 +8,7 @@ const accountController = require('../controllers/accountController');
 const homeController = require('../controllers/homeController');
 const profileController = require('../controllers/profileController');
 const postingController = require('../controllers/postingController');
+const tagController = require('../controllers/tagController');
 
 module.exports = function(app, config) {
   app.get('/register',
@@ -34,6 +35,8 @@ module.exports = function(app, config) {
   app.get('/user/:username', profileController.renderProfilePage);
   app.post('/user/profile', isAuthenticated, profileController.updateProfile);
   app.post('/user/password', isAuthenticated, profileController.changePassword);
+
+  app.get('/tags/:tagName', tagController.renderTagPage);
 
   app.get('/posting/:topicId', postingController.renderPostingPage);
   app.delete('/posting/:topicId', isAuthenticated, postingController.deletePosting);
