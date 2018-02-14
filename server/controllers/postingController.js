@@ -50,7 +50,8 @@ function cleanupTags(tags = '') {
   let cleanTags = tags.toLowerCase()
     .split(';')
     .map(t => t.replace(/\W/gm, ''))
-    .filter(t => t.length > 0);
+    .filter(t => t.length > 0 && t.length <= 20)
+    .slice(0, 3);
 
   return cleanTags;
 }

@@ -6,8 +6,16 @@ a:active, a:hover, a:visited {
 }
 
 body {
-  font-size: 1.24em;
+  font-size: 1.24rem;
   font-family: 'Crimson Text', 'Times New Roman', serif;
+}
+
+.normal-text {
+  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+small.normal-text {
+  font-size: 0.86rem;
 }
 
 .form-control, .btn {
