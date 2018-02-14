@@ -6,14 +6,13 @@ block main-content
     if editPostStatus.length > 0
       .alert(class=editPostStatus[0].status)
         p= editPostStatus[0].message
-    center
-      div.forms2
-        form(method="POST" action="/edit/" + post.id)
-          input(type="hidden" name="_csrf" value=csrfToken)
-          input(type="hidden" name="topicId" value=topicId)
-          .form-group
-            textarea.form-control(name="content" rows="10")= post.content
-            small= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
-              a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
-          .form-group
-            button.btn.btn-dark(type="submit") Itala ang mga Pagbabago
+    div
+      form(method="POST" action="/edit/" + post.id)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        input(type="hidden" name="topicId" value=topicId)
+        .form-group
+          textarea.form-control(name="content" rows="10")= post.content
+          small= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
+            a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
+        .form-group
+          button.btn.btn-dark(type="submit") Itala ang mga Pagbabago

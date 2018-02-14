@@ -1,98 +1,12 @@
-/* Links */
-a:active {
-  color: #000000;
+a {
+  color: #448AFF;
 }
 
-a:hover, a:link, a:visited {
-  color: #757575;
+body {
+  font-size: 1.24em;
+  font-family: 'Crimson Text', 'Times New Roman', serif;
 }
-
-/* Text */
-h1 {
-  margin-top:10 px;
-  margin-bottom:10px;
-  text-align: center;
-  font-style: italic,;
-  font-family: 'Crimson Text', serif;
-}
-
-h2 {
-  margin-top:7%;
-  margin-bottom:10px;
-  text-align: center;
-  font-style: italic,;
-  font-family: 'Crimson Text', serif;
-}
-
-h4 {
-  margin-top:10px;
-  margin-bottom:10px;
-  text-align: center;
-  font-style: italic,;
-  font-family: 'Crimson Text', serif;
-}
-
-p {
-  margin-left: 12.5%;
-  margin-right: 12.5%;
-  font-size: 0.7 em;
-  text-align: left;
-  font-style: normal,;
-  font-family: 'Open Sans', sans-serif;
-}
-
-/* Forms */
-.forms {
-  width: 75%;
-  text-align: center;
-}
-
-.forms2 {
-  width: 75%;
-  text-align: left;
-}
-
-/* Navigation Bar - navbar.pug */
-.navbar {
-  font-family: 'Crimson Text', serif; 
-}
-
-/* Footers - layout.pug */
-.footer {
-  margin-top:30px;
-}
-
-.footer-brand {
-  display: flex;
-  font-family: 'Crimson Text', serif; 
-}
-
-.footer-brand2 {
-  display: flex;
-  font-family: 'Crimson Text', serif; 
-}
-
-/* Index Results */
-.indexnav {
-  margin-left: 12.5%;
-  margin-right: 12.5%;
-}
-
-/*pagination*/
-.pagination {
-  margin-left: 12.5%;
-  margin-right: 12.5%;
-  /* font-family: 'Crimson Text', serif; */
-}
-.pagination a {
-  margin-right: 8px;
-}
-.pagination a:last-child {
-  margin-right: 0;
-}
-
-/* ??? */
-.topic {
+/* .topic {
   display: block; 
   margin-bottom: 12px;
 }
@@ -117,7 +31,7 @@ p {
 
 .comments .comment {
   margin-left: 15px;
-}
+} */
 
 .upvote-heart {
   cursor: pointer;

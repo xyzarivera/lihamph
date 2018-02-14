@@ -3,15 +3,15 @@ extends includes/layout.pug
 include mixins/topicItemMixin.pug
 
 block main-content
-  h1 Magbasa ng mga Liham
+  h1 Basahin ang mga liham
 
-  div.indexnav
+  .mt-2.mb-2
     each topic, index in searchResult.topics
       +renderTopicItem(topic)
 
   .pagination
     if options.page > 1
-      a(href="/?page=" + (options.page - 1)) ◀ mga naunang pahina
+      a.mr-2(href="/?page=" + (options.page - 1)) ◀ mga naunang pahina
     if searchResult.totalCount > (options.limit * options.page)
-      a(href="/?page=" + (options.page + 1)) susunod na pahina ▶
+      a.ml-2(href="/?page=" + (options.page + 1)) susunod na pahina ▶
     

@@ -6,32 +6,28 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no")
     meta(name="description" content=meta.description)
     title= meta.title
-
+    link(href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet")
     link(rel="stylesheet" data-mincss-group="bootstrap" href="/stylesheets/bootstrap.css")
     link(rel="stylesheet" data-mincss-group="liham" href="/stylesheets/main.css")
 
   body
     include navbar.pug
+
     .container
       block main-content
 
-    .container
-      div.footer
-        .d-flex.justify-content-center
-          footer.footer
-            hr
-            .d-flex.justify-content-center
-              div.footer-brand
-                //- img.brand(src="/images/icon-sm.png" style="width: 24px; height: 24px; border-radius: 3px;")
-                div= "Mga Liham na Iniwan - Isang lugar para mga katha ng mga makata - "
-                  a(href="/palatuntunan")= "Palatuntunan"
-                  span= " - "
-                  a(href="/tungkol")= "Tungkol sa Amin"
-                  span= " - "
-                  a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "Paano Gumamit ng Markdown"
-            .d-flex.justify-content-center
-              div.footer-brand2
-                div= "Binuo ito ng Fortcode - Tignan ang gawa namin para sa mga manlalakbay "
-                  a(href="https://wanderast.com")= "wanderast.com"  
+    .container.p-3
+      hr
+      footer.footer.mt-4
+        div
+          p= "Liham.ph - Isang lugar para mga katha ng mga makata - "
+            a(href="/palatuntunan")= "Palatuntunan"
+            span= " - "
+            a(href="/tungkol")= "Tungkol sa Amin"
+            span= " - "
+            a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "Paano Gumamit ng Markdown"
+        .d-flex
+          div= "Binuo ito ng Fortcode - Tignan ang gawa namin para sa mga manlalakbay "
+            a(href="https://wanderast.com")= "wanderast.com"  
             
     script(data-minjs-group="main" src="/scripts/main.js")

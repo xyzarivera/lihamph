@@ -1,27 +1,16 @@
 .container
-  nav.navbar.navbar-expand-sm.navbar-light.bg-faded
-    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#nav-content', aria-controls='nav-content', aria-expanded='false', aria-label='Toggle navigation')
-      span.navbar-toggler-icon
-    // Brand
-    a.navbar-brand() Mga Liham na Iniwan
-    // Links
-    #nav-content.collapse.navbar-collapse.justify-content-end
-      ul.navbar-nav
-        li.nav-item
-          a.nav-link(href='/') Magbasa
-        li.nav-item
-          a.nav-link(href='/search') Maghanap
+  header.blog-header.py-3
+    .row.flex-nowrap.justify-content-between.align-items-center
+      .col-4.pt-1
+        a.text-muted.mr-3(href="/") Magbasa
+        a.text-muted.mr-3(href="/search") Maghanap
+        a.text-muted(href="/submit") Sumulat
+      .col-4.text-center
+        a.blog-header-logo.text-dark(href="/") Liham.ph
+      .col-4.d-flex.justify-content-end.align-items-center
         if user && user.id
-          li.nav-item
-            a.nav-link(href="/submit") Sumulat
-          li.nav-item
-            a.nav-link(href="/user/" + user.username)= user.username
-          li.nav-item
-            a.nav-link(href="/logout") Umalis
+          a.text-muted.mr-3(href=`/user/${user.username}`)= user.username
+          a.text-muted(href="/logout") Umalis
         else
-          li.nav-item
-            a.nav-link(href="/login") Pumasok
-          li.nav-item
-            a.nav-link(href="/register") Sumali
-
-
+          a.text-muted.mr-3(href="/login") Pumasok
+          a.btn.btn-outline-secondary(href="/register") SUMALI
