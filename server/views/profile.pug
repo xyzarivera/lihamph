@@ -1,53 +1,32 @@
 extends includes/layout.pug
 
+include mixins/topicItemMixin.pug
+
 block main-content
-  if isEditMode
-    div
-      h2 Profile
+  div
+    h1= profile.username
+    if profile.aboutMe
       div
-        p= "Created " + profile.createdDate.fromNow()
-      div
-        if updateProfileStatus.length > 0
-          .alert(class=updateProfileStatus[0].status)
-            p= updateProfileStatus[0].message
-        form(method="POST" action="/user/" + profile.username + "/profile")
-          input(type="hidden" name="_csrf" value=csrfToken)
-          .form-group
-            label(for="username") Username
-            input.form-control(type="text" name="username" value=profile.username)
-          .form-group
-            label(for="emailAddress") Email Address
-            input.form-control(type="text" name="emailAddress" value=profile.emailAddress)
-          .form-group
-            label(for="aboutMe") About Me
-            textarea.form-control(name="aboutMe" rows="8")= profile.aboutMe
-          .form-group
-            button.btn(type="submit") Save
-    div
-      h2 Change Password
-      div
-        if changePasswordStatus.length > 0
-          .alert(class=changePasswordStatus[0].status)
-            p= changePasswordStatus[0].message
-        form(method="POST" action="/user/" + profile.username + "/password")
-          input(type="hidden" name="_csrf" value=csrfToken)
-          .form-group
-            label(for="currentPassword") Current Password
-            input.form-control(type="password" name="currentPassword")
-          .form-group
-            label(for="newPassword") New Password
-            input.form-control(type="password" name="newPassword")
-          .form-group
-            button.btn(type="submit") Change
-  else
-    div
-      h2= profile.username
-      div
-        p= "Created " + profile.createdDate.fromNow()
-      if profile.emailAddress
-        div
-          a(href="mailto:" + profile.emailAddress)= profile.emailAddress
-      if profile.aboutMe
-        div
-          h4 About Me
-          p!= profile.aboutMe.replace(/\n/g, '</br>')
+        p!= profile.aboutMe.replace(/\n/g, '</br>')
+    p.grey-text= "Itong sagisag ay naitatag " + utils.convertFromNowToFilipino(profile.createdDate.fromNow())
+    if user.id === profile.id
+      a(href="/user/settings") Baguhin ang Sarili
+  hr
+  h4= "Mga " + searchResult.totalCount + " liham na nilatha ni " + profile.username
+  .mt-2.mb-2
+    each topic, index in searchResult.topics
+      +renderTopicItem(topic)
+
+  .pagination
+    - let moreUrl = `/user/${profile.username}?size=${options.limit}`
+    - const hasPrev = options.page > 1
+    - const hasNext = searchResult.totalCount > (options.limit * options.page)
+    if hasPrev
+      a.mr-2(href=(moreUrl + "&page=" + (options.page - 1))
+        title="mga naunanng pahina"
+        class=hasNext ? "mr-2" : "") ◀ mga naunang pahina
+
+    if hasNext
+      a(href=(moreUrl + "&page=" + (options.page + 1))
+        title="susunod na pahina"
+        class=hasPrev ? "ml-2" : "") susunod na pahina ▶

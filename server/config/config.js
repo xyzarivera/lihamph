@@ -10,63 +10,55 @@ let rootPath = path.normalize(__dirname + '/../../');
 module.exports = {
   development: {
     database: {
-      connectionString: process.env.KRW_POSTGRESQL
+      connectionString: process.env.LHM_POSTGRESQL
     },
     cache: {
-      host: process.env.KRW_REDIS_HOST,
+      host: process.env.LHM_REDIS_HOST,
       port: 6379,
-      password: process.env.KRW_REDIS_KEY
+      password: process.env.LHM_REDIS_KEY
     },
     session: {
-      secret: process.env.KRW_SESSION_SECRET,
+      secret: process.env.LHM_SESSION_SECRET,
       maxAge: 365 * 24 * 60 * 60 * 1000
     },
     middleware: {
       views: path.join(rootPath, 'server/views'),
       optimized: false,
       assets: path.join(rootPath, 'public'),
-      verbose: true,
-      cdn: {
-        enabled: false,
-        url: 'https://wanderast.azureedge.net/krw'
-      }
+      verbose: true
     }
   },
   stage: {
     database: {
-      connectionString: process.env.KRW_POSTGRESQL
+      connectionString: process.env.LHM_POSTGRESQL
     },
     cache: {
-      host: process.env.KRW_REDIS_HOST,
+      host: process.env.LHM_REDIS_HOST,
       port: 6379,
-      password: process.env.KRW_REDIS_KEY
+      password: process.env.LHM_REDIS_KEY
     },
     session: {
-      secret: process.env.KRW_SESSION_SECRET,
+      secret: process.env.LHM_SESSION_SECRET,
       maxAge: 365 * 24 * 60 * 60 * 1000
     },
     middleware: {
-      views: path.join(rootPath, 'server/views'),
+      views: path.join(rootPath, 'build/views'),
       optimized: true,
-      assets: path.join(rootPath, 'public'),
-      verbose: true,
-      cdn: {
-        enabled: true,
-        url: 'https://wanderast.azureedge.net/krw'
-      }
+      assets: path.join(rootPath, 'build/assets'),
+      verbose: true
     }
   },
   prod: {
     database: {
-      connectionString: process.env.KRW_POSTGRESQL
+      connectionString: process.env.LHM_POSTGRESQL
     },
     cache: {
-      host: process.env.KRW_REDIS_HOST,
+      host: process.env.LHM_REDIS_HOST,
       port: 6379,
-      password: process.env.KRW_REDIS_KEY
+      password: process.env.LHM_REDIS_KEY
     },
     session: {
-      secret: process.env.KRW_SESSION_SECRET,
+      secret: process.env.LHM_SESSION_SECRET,
       maxAge: 365 * 24 * 60 * 60 * 1000
     },
     middleware: {
@@ -76,7 +68,8 @@ module.exports = {
       verbose: false,
       cdn: {
         enabled: true,
-        url: 'https://wanderast.azureedge.net/krw'
+        url: process.env.LHM_CDN_URL,
+        container: 'assets-53b0ca1'
       }
     }
   }

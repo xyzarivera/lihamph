@@ -4,100 +4,114 @@
  */
 'use strict';
 
-const personRepository = require('../repositories/personRepository');
 const Person = require('../models/Person');
+const SearchOption = require('../models/SearchOption');
+const personRepository = require('../repositories/personRepository');
+const postingRepository = require('../repositories/postingRepository');
 
 module.exports.renderProfilePage = function renderProfilePage(req, res, next) {
-  let username = req.params.username;
+  const username = req.params.username;
+  const options = new SearchOption({
+    user: req.user || {},
+    query: null,
+    page: req.query.page,
+    limit: req.query.size
+  });
   let model = req.model;
 
-  personRepository.findPersonByUsername(username, function(err, person) {
+  personRepository.findPersonByUsername(username, (err, person) => {
     if(err) { return next(err); }
 
     if(!person) {
-      model.message = 'User not found';
-      return res.render('notfound', model);
+      model.message = 'Ang sagisag ay hindi matagpuan';
+      return res.status(404).render('errors/notfound', model);
+    }
+
+    postingRepository.getTopicsByAuthorId(person, options, (err, searchResult) => {
+      if(err) { return next(err); }
+
+      model.searchResult = searchResult;
+      model.options = options;
+      model.csrfToken = req.csrfToken();
+      model.profile = person;
+      model.meta.title = person.username;
+      model.meta.description = person.aboutMe || person.username;
+      res.render('profile', model);
+    });
+  });
+};
+
+module.exports.renderSettingsPage = function renderSettingsPage(req, res, next) {
+  let model = req.model;
+
+  personRepository.findPersonById(req.user.id, (err, person) => {
+    if(err) { return next(err); }
+
+    if(!person) {
+      model.message = 'Ang sagisag ay hindi matagpuan';
+      return res.status(404).render('errors/notfound', model);
     }
 
     model.profile = person;
-    model.isEditMode = req.isAuthenticated() && person.id === req.user.id;
-
     model.updateProfileStatus = req.flash('updateProfile');
     model.changePasswordStatus = req.flash('changePassword');
     model.csrfToken = req.csrfToken();
     model.meta.title = person.username;
     model.meta.description = person.aboutMe || person.username;
-    res.render('profile', model);
+    res.render('settings', model);
   });
 };
 
 module.exports.updateProfile = function updateProfile(req, res, next) {
-  let username = req.params.username;
-  let user = req.user;
-  let updatedPerson = new Person({
-    id: null,
+  const updatedPerson = new Person({
+    id: req.user.id,
     username: req.body.username,
     emailAddress: req.body.emailAddress,
     aboutMe: req.body.aboutMe
   });
 
   if(!updatedPerson.username || !updatedPerson.isUsernameValid) {
-    req.flash('updateProfile', { status: 'warning', message: 'Invalid username' });
-    return res.redirect('/user/' + username);
+    req.flash('updateProfile',
+      { status: 'warning', message: 'Hindi maari ang iyong napiling sagisag' });
+    return res.redirect('/user/settings');
   }
 
-  personRepository.findPersonByUsername(username, function(err, person) {
+  personRepository.update(updatedPerson, (err, resultSet) => {
     if(err) { return next(err); }
-    updatedPerson.id = person.id;
 
-    personRepository.update(updatedPerson, function(err, resultSet) {
-      if(err) { return next(err); }
-
-      req.flash('updateProfile', resultSet);
-      if(resultSet !== 'success') { return res.redirect('/user/' + username); }
-
-      res.redirect('/user/' + updatedPerson.username);
-    });
+    req.flash('updateProfile', resultSet);
+    res.redirect('/user/settings');
   });
 };
 
 module.exports.changePassword = function changePassword(req, res, next) {
-  let username = req.params.username;
-  let user = req.user;
-  let currentPassword = req.body.currentPassword;
-  let newPassword = req.body.newPassword;
+  const person = new Person(req.user);
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
 
   if(!currentPassword || !newPassword) {
-    req.flash('changePassword', { status: 'warning', message: 'Invalid passwords' });
-    return res.redirect('/user/' + username);
+    req.flash('changePassword',
+      { status: 'warning', message: 'Mali ang mga lihim na salita' });
+    return res.redirect('/user/settings');
   }
 
   if(newPassword.length < 8) {
-    req.flash('changePassword', { status: 'warning', message: 'New password must be greater than 8 characters' });
-    return res.redirect('/user/' + username);
+    req.flash('changePassword',
+      { status: 'warning', message: 'Ang bagong lihim na salita ay nararapat na mahigit sa 8 titik' });
+    return res.redirect('/user/settings');
   }
 
-  personRepository.findPersonByUsername(username, function(err, person) {
+  if(!person.validatePassword(currentPassword)) {
+    req.flash('changePassword',
+      { status: 'warning', message: 'Mali ang iyong lumang lihim na salita' });
+    return res.redirect('/user/settings');
+  }
+
+  person.generateHashedPassword(newPassword);
+  personRepository.changePassword(person, (err, resultSet) => {
     if(err) { return next(err); }
 
-    if(user.id !== person.id) {
-      req.flash('changePassword',
-        { status: 'error', message: 'Cannot update someone\'s password' });
-      return res.redirect('/user/' + username);
-    }
-
-    if(!person.validatePassword(currentPassword)) {
-      req.flash('changePassword',
-        { status: 'warning', message: 'Incorrect current password' });
-      return res.redirect('/user/' + username);
-    }
-
-    person.generateHashedPassword(newPassword);
-    personRepository.changePassword(person, function(err, resultSet) {
-      if(err) { return next(err); }
-
-      req.flash('changePassword', resultSet);
-      res.redirect('/user/' + person.username);
-    });
+    req.flash('changePassword', resultSet);
+    res.redirect('/user/settings');
   });
 };

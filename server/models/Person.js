@@ -23,7 +23,20 @@ class Person {
   }
 
   get isUsernameValid() {
-    return /[A-Za-z0-9_]+/.test(this.username);
+    const forbiddenUsernames = [
+      'settings', 'admin', 'invite', 'liham', 'lihamph'
+    ];
+    if(!this.username) {
+      return false;
+    }
+    if(forbiddenUsernames.indexOf(this.username) >= 0) {
+      return false;
+    }
+    if(this.username.length >= 20) {
+      return false;
+    }
+    const result = /[A-Za-z0-9._]+/.exec(this.username);
+    return result[0] === result.input;
   }
 
   validatePassword(password) {

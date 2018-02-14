@@ -1,19 +1,25 @@
 extends includes/layout.pug
 
-block main-content
-  h2 Front Page
+include mixins/topicItemMixin.pug
 
-  each topic, index in searchResult.topics
-    div.topic
-      div.topic-item
-        div.topic-index &rsaquo;
-        div.topic-content
-          a(href="/posting/" + topic.id)= topic.title
-          div
-            small.help
-              span= "posted by"
-              a(href="/user/" + topic.author.username)= topic.author.username
-              span= topic.createdDate.fromNow()
-  div
-    if searchResult.totalCount > (options.limit * options.page)
-      a(href="/?page=" + (options.page + 1)) more
+block main-content
+  h1 Basahin ang mga liham
+
+  .mt-2.mb-2
+    each topic, index in searchResult.topics
+      +renderTopicItem(topic)
+
+  .pagination
+    - let moreUrl = "/?size=" + options.limit
+    - const hasPrev = options.page > 1
+    - const hasNext = searchResult.totalCount > (options.limit * options.page)
+    if hasPrev
+      a.mr-2(href=(moreUrl + "&page=" + (options.page - 1))
+        title="mga naunanng pahina"
+        class=hasNext ? "mr-2" : "") ◀ mga naunang pahina
+
+    if hasNext
+      a(href=(moreUrl + "&page=" + (options.page + 1))
+        title="susunod na pahina"
+        class=hasPrev ? "ml-2" : "") susunod na pahina ▶
+    

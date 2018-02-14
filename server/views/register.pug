@@ -1,18 +1,22 @@
 extends includes/layout.pug
 
 block main-content
-  div
-    h2 Register
-    if alert && alert.length > 0
-      .alert(class=alert[0].status)
-        p= alert[0].message
-    form(method="POST" action="/register")
-      input(type="hidden" name="_csrf" value=csrfToken)
-      .form-group
-        label(for="username") Username
-        input.form-control(type="text" name="username" value="")
-      .form-group
-        label(for="password") Password
-        input.form-control(type="password" name="password" value="")
-      .form-group
-        button.btn(type="submit") Register
+  h1 Sumali sa liham.ph
+  p.text-muted Isulat sa mga kahon sa baba ang iyong pagpapatunay na ikaw ay isang manunulat ng mga liham.
+  .row
+    .col-md-6
+      if alert && alert.length > 0
+        .alert.alert-warning
+          p.mb-0= alert[0].message
+      form(method="POST" action="/register")
+        input(type="hidden" name="_csrf" value=csrfToken)
+        .form-group
+          label(for="username") Sagisag 
+          input.form-control(type="text" name="username" value="")
+          small Username, pen name sa wikang Ingles. Sa ibang salita, ito ay ang iyong "alyas".
+        .form-group
+          label(for="password") Lihim na Salita
+          input.form-control(type="password" name="password" value="")
+          small Password sa wikang Ingles
+        .form-group
+          button.btn.btn-dark(type="submit") Itala ang Rehistrasyon

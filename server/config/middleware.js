@@ -4,17 +4,17 @@
  */
 'use strict';
 
-let express = require('express');
-let morgan = require('morgan');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
-let session = require('express-session');
-let cache = require('./cache');
-let RedisStore = require('connect-redis')(session);
-let passport = require('passport');
-let csurf = require('csurf');
-let helmet = require('helmet');
-let flash = require('connect-flash');
+const express = require('express');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const cache = require('./cache');
+const RedisStore = require('connect-redis')(session);
+const passport = require('passport');
+const csurf = require('csurf');
+const helmet = require('helmet');
+const flash = require('connect-flash');
 
 module.exports = function(app, config) {
   app.set('views', config.middleware.views);
@@ -48,13 +48,28 @@ module.exports = function(app, config) {
       meta: {
         url: baseUrl +  req.originalUrl,
         type: 'website',
-        title: 'Kronowork',
-        description: 'Lightweight, fast job postings for programmers',
-        siteName: 'http://kronowork.com'
+        title: 'Mga Liham na Iniwan',
+        description: 'Mga Liham na Iniwan - Isang lugar para mga katha ng mga makata',
+        siteName: 'http://lihamnainiwan.com'
       },
       user: req.user,
       verbose: config.middleware.verbose,
-      cdn: config.middleware.cdn
+      cdn: config.middleware.cdn,
+      utils: {
+        //- TODO: Improve performance
+        convertFromNowToFilipino(dt) {
+          return dt.replace('hours ago', 'oras ang nakalipas')
+            .replace('a few seconds ago', 'makalipas ang ilang segundo')
+            .replace('a minute ago', 'makalipas ang isang minuto')
+            .replace('minutes ago', 'minuto ang nakalipas')
+            .replace('a day ago', 'isang araw ang nakalipas')
+            .replace('days ago', 'araw ang nakalipas')
+            .replace('a month ago', 'isang buwan ang nakalipas')
+            .replace('months ago', 'buwan ang nakalipas')
+            .replace('a year ago', 'isang taon ang nakalipas')
+            .replace('years ago', 'taon ang nakalipas');
+        }
+      }
     };
 
     next();
@@ -71,6 +86,6 @@ module.exports = function(app, config) {
     if(req.headers.accept === 'application/json') {
       return res.status(403).send({ status: 'error', message: 'Forbidden' });
     }
-    res.status(403).render('error', req.model);
+    res.status(403).render('errors/error', req.model);
   }
 };

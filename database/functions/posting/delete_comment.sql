@@ -16,7 +16,10 @@ BEGIN
     RETURN;
   END IF;
 
-  UPDATE posting.post SET is_deleted = true WHERE post_id = p_post_id;
+  UPDATE posting.post 
+  SET is_deleted = true,
+    last_updated_date = now()
+  WHERE post_id = p_post_id;
 
   RETURN QUERY
   SELECT v_status, v_message;

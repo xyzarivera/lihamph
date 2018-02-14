@@ -6,30 +6,27 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no")
     meta(name="description" content=meta.description)
     title= meta.title
-
-    if cdn.enabled
-      link(rel="stylesheet" href=cdn.url + "/assets/stylesheets/main.min.css")
-    else
-      link(rel="stylesheet" href="/stylesheets/main.min.css")
+    link(href="https://fonts.googleapis.com/css?family=Crimson+Text:400,600" rel="stylesheet")
+    link(rel="stylesheet" data-mincss-group="bootstrap" href="/stylesheets/bootstrap.css")
+    link(rel="stylesheet" data-mincss-group="liham" href="/stylesheets/main.css")
 
   body
     include navbar.pug
-    .container
+
+    .container.pt-4.pb-3
       block main-content
 
-    .container
-      footer.footer
-        hr
-        div.footer-brand
-          img.kr-brand(src=cdn.url + "/assets/images/kr-xs.png" style="width: 24px; height: 24px;")
-          div= "Kronowork - Lightweight, fast job postings for tech people - "
-            a(href="/rules")= "rules"
-            span= " - "
-            a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "how to use markdown"
-        p= "Built by Fortcode - Check out our other work "
-          a(href="https://wanderast.com")= "wanderast.com"
-
-    if cdn.enabled
-      script(src=cdn.url + "/assets/scripts/main.min.js")
-    else
-      script(src="/scripts/main.min.js")
+    .container.p-3
+      hr
+      footer.footer.mt-4.normal-text
+        p.mb-0= "Liham.ph - Isang lugar para mga katha ng mga makata"
+        p.mb-0
+          a(href="/palatuntunan")= "Palatuntunan"
+          span= " - "
+          a(href="/tungkol")= "Tungkol sa Amin"
+          span= " - "
+          a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "Paano Gumamit ng Markdown"
+        p!= "Proyekto ito ng <strong>UST Startup Community</strong> kasama ang mga bumuo sa "
+          a(href="https://wanderast.com") wanderast.com
+            
+    script(data-minjs-group="main" src="/scripts/main.js")

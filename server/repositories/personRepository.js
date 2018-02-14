@@ -47,11 +47,11 @@ module.exports.register = function register(person, done) {
 };
 
 module.exports.update = function update(person, done) {
-  let params = [person.id, person.username, person.emailAddress, person.aboutMe];
+  const params = [person.id, person.username, person.emailAddress, person.aboutMe];
   client.func('core.update_person', params)
     .then(function(rows) {
-      if(rows.length === 0) { return(null, null); }
-      let resultSet = new ResultSet(rows);
+      if(rows.length === 0) { return done(null, null); }
+      const resultSet = new ResultSet(rows);
       done(null, resultSet);
     })
     .catch(function(err) {

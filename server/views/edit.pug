@@ -1,19 +1,18 @@
 extends includes/layout.pug
 
 block main-content
-  div
-    h2 Edit Post
-    if editPostStatus.length > 0
-      .alert(class=editPostStatus[0].status)
-        p= editPostStatus[0].message
-    form(method="POST" action="/edit/" + post.id)
-      input(type="hidden" name="_csrf" value=csrfToken)
-      input(type="hidden" name="topicId" value=topicId)
-      .form-group
-        textarea.form-control(name="content" rows="10")= post.content
-        small
-          span= "Uses markdown formatting, read this article from "
-          a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
-          span= " check out the link in the footer"
-      .form-group
-        button.btn(type="submit") Save
+  h2 Baguhin ang iyong nasulat
+  .row
+    .col-md-6
+      if editPostStatus.length > 0
+        .alert.alert-warning
+          p.mb-0= editPostStatus[0].message
+      form(method="POST" action="/edit/" + post.id)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        input(type="hidden" name="topicId" value=topicId)
+        .form-group
+          textarea.form-control(name="content" rows="4" required)= post.content
+          small= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
+            a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
+        .form-group
+          button.btn.btn-dark(type="submit") Itala ang mga Pagbabago

@@ -8,6 +8,7 @@ const accountController = require('../controllers/accountController');
 const homeController = require('../controllers/homeController');
 const profileController = require('../controllers/profileController');
 const postingController = require('../controllers/postingController');
+const tagController = require('../controllers/tagController');
 
 module.exports = function(app, config) {
   app.get('/register',
@@ -30,9 +31,12 @@ module.exports = function(app, config) {
   app.get('/submit', isAuthenticated, postingController.renderSubmitPage);
   app.post('/submit', isAuthenticated, postingController.submitPost);
 
+  app.get('/user/settings', isAuthenticated, profileController.renderSettingsPage);
   app.get('/user/:username', profileController.renderProfilePage);
-  app.post('/user/:username/profile', isAuthenticated, profileController.updateProfile);
-  app.post('/user/:username/password', isAuthenticated, profileController.changePassword);
+  app.post('/user/profile', isAuthenticated, profileController.updateProfile);
+  app.post('/user/password', isAuthenticated, profileController.changePassword);
+
+  app.get('/tags/:tagName', tagController.renderTagPage);
 
   app.get('/posting/:topicId', postingController.renderPostingPage);
   app.delete('/posting/:topicId', isAuthenticated, postingController.deletePosting);
@@ -43,19 +47,37 @@ module.exports = function(app, config) {
   app.get('/edit/:postId', isAuthenticated, postingController.renderEditPostPage);
   app.post('/edit/:postId', isAuthenticated, postingController.editPost);
 
-  app.get('/rules', homeController.renderRulesPage);
+  app.post('/upvote/:postId', isAuthenticated, postingController.upvotePost);
+  app.delete('/upvote/:postId', isAuthenticated, postingController.undoUpvotePost);
+
+  app.get('/palatuntunan', homeController.renderRulesPage);
+  app.get('/tungkol', homeController.renderAboutPage);
   app.get('/search', homeController.renderSearchPage);
   app.get('/', homeController.renderFrontPage);
 
-  app.get('*', function(req, res, next) {
+  app.get('*', function notFoundHandler(req, res, next) {
     let model = req.model;
     model.meta.title = 'Not found';
     model.meta.description = 'Page not found';
-    res.status(404).render('notfound', model);
+    res.status(404).render('errors/notfound', model);
   });
 
-  app.use(function(err, req, res, next) {
-    let model = req.model || {};
+  app.use(function errorHandler(err, req, res, next) {
+    //- Adding the copy of req.model here just in case
+    //- it fails in passport or any middleware before init model
+    const baseUrl = req.protocol + '://' + req.get('host');
+    let model = req.model || {
+      meta: {
+        url: baseUrl +  req.originalUrl,
+        type: 'website',
+        title: 'Mga Liham na Iniwan',
+        description: 'Mga Liham na Iniwan - Isang lugar para mga katha ng mga makata',
+        siteName: 'http://lihamnainiwan.com'
+      },
+      user: req.user,
+      verbose: config.middleware.verbose,
+      cdn: config.middleware.cdn
+    };
     model.error = {};
 
     model.error.message = err.toString();
@@ -67,7 +89,7 @@ module.exports = function(app, config) {
 
     model.meta.title = 'Internal Error';
     model.meta.description = 'Internal server error';
-    res.status(500).render('error', model);
+    res.status(500).render('errors/error', model);
   });
 };
 

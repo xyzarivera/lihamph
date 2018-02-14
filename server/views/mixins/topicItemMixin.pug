@@ -1,0 +1,27 @@
+//- @topic - Topic class
+
+mixin renderTopicItem(topic, options = { showTags: true })
+  .topic-item
+    .d-flex.pt-2.pb-1(id="topic" + topic.id)
+      .topic-item-left.mr-3
+        .upvote-heart(
+          data-action=topic.isUpvoted ? "undo-upvote" : "upvote"
+          data-id=topic.postId 
+          data-csrf=csrfToken 
+          data-count=topic.stats.upvotes)= topic.isUpvoted ? "❤️" : "💛"
+        .upvote-count.text-center= topic.stats.upvotes
+      .topic-item-body
+        a.topic-item-title(href="/posting/" + topic.id)= topic.title
+        .pt-0.pb-1
+          small.normal-text
+            span= "inilatha ni "
+            a(href="/user/" + topic.author.username)= topic.author.username
+            span= " - " + topic.stats.replies + " tugon - "
+            span= utils.convertFromNowToFilipino(topic.createdDate.fromNow())
+            if options.showTags && topic.tags && Array.isArray(topic.tags)
+              -
+                let tags = topic.tags
+                  .map(t => `<a class="" href="/tags/${t}">${t}</a>`)
+                  .reduce((acc, v) => acc + ', ' + v)
+                  .trim()
+              span!= " - " + tags

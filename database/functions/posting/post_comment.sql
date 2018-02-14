@@ -11,7 +11,7 @@ $func$
 DECLARE
   v_new_post_id BIGINT := 0;
   v_status VARCHAR(50) := 'success';
-  v_message VARCHAR(255) := 'Comment has been posted';
+  v_message VARCHAR(255) := 'Ang iyong tugon ay nailagay na sa liham';
 BEGIN
   IF NOT EXISTS (SELECT post_id FROM posting.post
       WHERE post_id = p_post_id AND is_deleted = false) THEN
@@ -39,6 +39,17 @@ BEGIN
   WHERE post_id = p_post_id
   RETURNING post_id INTO v_new_post_id;
 
-  RETURN QUERY SELECT v_new_post_id, v_status, v_message;
+  UPDATE posting.topic
+  SET reply_count = reply_count + 1,
+    last_updated_date = now()
+  WHERE topic_id = (SELECT topic_id FROM posting.post WHERE post_id = p_post_id);
+
+  UPDATE posting.post
+  SET reply_count = reply_count + 1,
+    last_updated_date = now()
+  WHERE post_id = p_post_id;
+
+  RETURN QUERY 
+  SELECT v_new_post_id, v_status, v_message;
 END;
 $func$ LANGUAGE plpgsql;

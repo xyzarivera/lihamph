@@ -4,15 +4,15 @@
  */
 'use strict';
 
-const Person = require('../models/Person');
 const passport = require('passport');
 
 module.exports.renderRegisterPage = function renderRegisterPage(req, res, next) {
   let model = req.model;
   model.alert = req.flash('register');
   model.csrfToken = req.csrfToken();
-  model.meta.title = 'Register';
-  model.meta.description = 'Register for Kronowork';
+  model.meta.title = 'Sumali sa Mga Liham na Iniwan';
+  model.meta.description = 'Sumali sa Mga Liham na Iniwan - ' +
+    'Ito ay libre at walang bayad para sa mga makata';
   res.render('register', model);
 };
 
@@ -20,8 +20,8 @@ module.exports.renderLoginPage = function renderLoginPage(req, res, next) {
   let model = req.model;
   model.alert = req.flash('login');
   model.csrfToken = req.csrfToken();
-  model.meta.title = 'Login';
-  model.meta.description = 'Log in to Kronowork';
+  model.meta.title = 'Pumasok sa Liham na Iniwan';
+  model.meta.description = 'Pumasok sa Liham na Iniwan';
   res.render('login', model);
 };
 
@@ -75,7 +75,7 @@ module.exports.logout = function logout(req, res, next) {
   req.session.destroy(function(err) {
     if(err) { return next(err); }
     function waitUntilLoggedOut() {
-      if (!req.isAuthenticated()) {
+      if(!req.isAuthenticated()) {
         return res.redirect('/');
       }
       clearTimeout(timer);
