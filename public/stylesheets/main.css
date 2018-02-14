@@ -1,26 +1,84 @@
 a {
   color: #1E88E5;
 }
-a:active, a:hover, a:visited {
-  color: #5C6BC0;
+
+#navbarMobileToggle {
+  cursor: pointer;
 }
 
 body {
-  font-size: 1.24rem;
+  font-size: 1.12rem;
   font-family: 'Crimson Text', 'Times New Roman', serif;
 }
+h1, .h1 {
+  font-size: 2.0rem;
+}
 
+h2, .h2 {
+  font-size: 1.8rem;
+}
+
+h3, .h3 {
+  font-size: 1.55rem;
+}
+
+h4, .h4 {
+  font-size: 1.35rem;
+}
+
+h5, .h5 {
+  font-size: 1.25rem;
+}
+
+h6, .h6 {
+  font-size: 1.25rem;
+}
 .normal-text {
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 small.normal-text {
-  font-size: 0.86rem;
+  font-size: 0.78rem;
+}
+.form-control, .btn {
+  font-size: 0.94em;
 }
 
-.form-control, .btn {
-  font-size: 1.02em;
+@media(min-width: 768px) {
+  body {
+    font-size: 1.24rem;
+  }
+  h1, .h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2, .h2 {
+    font-size: 2rem;
+  }
+  
+  h3, .h3 {
+    font-size: 1.75rem;
+  }
+  
+  h4, .h4 {
+    font-size: 1.5rem;
+  }
+  
+  h5, .h5 {
+    font-size: 1.25rem;
+  }
+  .normal-text {
+    font-size: 1rem;
+  }
+  small.normal-text {
+    font-size: 0.86rem;
+  }
+  .form-control, .btn {
+    font-size: 1.02em;
+  }
+
 }
+
 
 .upvote-heart {
   cursor: pointer;

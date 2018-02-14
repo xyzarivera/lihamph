@@ -1,4 +1,16 @@
 (function(doc) {
+  var navbarToggle = doc.getElementById('navbarMobileToggle');
+  navbarToggle.addEventListener('click', function(ev) {
+    var target = doc.getElementById('navbarMobileTarget');
+
+    if(target.style.display === 'none') {
+      target.style.display = 'block';
+    } else {
+      target.style.display = 'none';
+    }
+  });
+
+
   var delPostings = document.getElementsByClassName('del-posting');
   for(var i = 0; i < delPostings.length; ++i) {
     delPostings[i].addEventListener('click', function(ev) {

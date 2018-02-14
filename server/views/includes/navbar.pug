@@ -1,16 +1,32 @@
 .container
-  header.blog-header.py-3
-    .row.flex-nowrap.justify-content-between.align-items-center
-      .col-4.pt-1
+  header.blog-header.pt-3.pb-2
+    .row.flex-nowrap.justify-content-between.align-items-center.d-none.d-md-flex
+      .col-md-4.pt-1
         a.text-muted.mr-3(href="/") Magbasa
         a.text-muted.mr-3(href="/search") Maghanap
         a.text-muted(href="/submit") Sumulat
-      .col-4.text-center
+      .col-md-4.text-center
         a.blog-header-logo.text-dark(href="/") Liham.ph
-      .col-4.d-flex.justify-content-end.align-items-center
+      .col-md-4.d-flex.justify-content-end.align-items-center
         if user && user.id
           a.text-muted.mr-3(href=`/user/${user.username}`)= user.username
           a.text-muted(href="/logout") Umalis
         else
           a.text-muted.mr-3(href="/login") Pumasok
           a.btn.btn-outline-secondary(href="/register") SUMALI
+    .d-md-none.d-xs-block.d-sm-block
+      .justify-content-between.d-flex
+        h2
+          a.blog-header-logo.text-dark(href="/") Liham.ph
+        svg.mt-1.mr-2#navbarMobileToggle(aria-hidden="true" height="24" version="1.1" viewBox="0 0 12 16" width="18")
+          path(fill-rule="evenodd" d="M11.41 9H.59C0 9 0 8.59 0 8c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zm0-4H.59C0 5 0 4.59 0 4c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zM.59 11H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1H.59C0 13 0 12.59 0 12c0-.59 0-1 .59-1z")
+      ul.list-group.list-group-flush#navbarMobileTarget(style="display: none;")
+        a.list-group-item(href="/") Magbasa
+        a.list-group-item(href="/search") Maghanap
+        a.list-group-item(href="/submit") Sumulat
+        if user && user.id
+          a.list-group-item(href=`/user/${user.username}`)= user.username
+          a.list-group-item(href="/logout") Umalis
+        else
+          a.list-group-item(href="/login") Pumasok
+          a.list-group-item(href="/register") Sumali
