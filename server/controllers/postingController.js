@@ -45,6 +45,16 @@ module.exports.renderPostingPage = function renderPostingPage(req, res, next) {
   });
 };
 
+function cleanupTags(tags = '') {
+  if(tags.length === 0) { return []; }
+  let cleanTags = tags.toLowerCase()
+    .split(';')
+    .map(t => t.replace(/\W/gm, ''))
+    .filter(t => t.length > 0);
+
+  return cleanTags;
+}
+
 /**
  * POST /submit
  * Submits the post
@@ -54,7 +64,8 @@ module.exports.submitPost = function submitPost(req, res, next) {
   const post = new Post({
     title: req.body.title,
     content: Post.removeScripts(req.body.content),
-    author: { id: user.id, username: user.username }
+    author: { id: user.id, username: user.username },
+    tags: cleanupTags(req.body.tags)
   });
 
   if(!post.title || !post.content) {

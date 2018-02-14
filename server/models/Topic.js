@@ -9,19 +9,19 @@ const m = require('moment');
 
 class Topic {
   constructor(data) {
-    let self = this;
     data = data || {};
-    self.id = data.id;
-    self.postId = data.postId;
-    self.author = new Person(data.author);
-    self.title = data.title;
-    self.stats = {
+    this.id = data.id;
+    this.postId = data.postId;
+    this.author = new Person(data.author);
+    this.title = data.title;
+    this.tags = data.tags;
+    this.stats = {
       replies: data.replyCount,
       upvotes: data.upvoteCount
     };
-    self.isUpvoted = data.isUpvoted;
-    self.createdDate = m(data.createdDate);
-    self.lastUpdatedDate = m(data.lastUpdatedDate);
+    this.isUpvoted = data.isUpvoted;
+    this.createdDate = m(data.createdDate);
+    this.lastUpdatedDate = m(data.lastUpdatedDate);
   }
 
   static mapFromRow(row) {
@@ -30,6 +30,7 @@ class Topic {
       id: row['topic_id'],
       postId: row['post_id'],
       title: row['title'],
+      tags: row['tags'],
       author: {
         id: row['author_id'],
         username: row['author_username']

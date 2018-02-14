@@ -22,23 +22,23 @@ marked.setOptions({
 
 class Post {
   constructor(data) {
-    let self = this;
     data = data || {};
-    self.id = data.id;
-    self.parentId = data.parentId;
-    self.author = new Person(data.author);
-    self.title = data.title;
-    self.content = data.content;
-    self.stats = {
+    this.id = data.id;
+    this.parentId = data.parentId;
+    this.author = new Person(data.author);
+    this.title = data.title;
+    this.content = data.content;
+    this.tags = data.tags;
+    this.stats = {
       replies: data.replyCount,
       upvotes: data.upvoteCount
     };
-    self.isEdited = Boolean(data.isEdited);
-    self.isDeleted = Boolean(data.isDeleted);
-    self.createdDate = m(data.createdDate);
-    self.lastUpdatedDate = m(data.lastUpdatedDate);
+    this.isEdited = Boolean(data.isEdited);
+    this.isDeleted = Boolean(data.isDeleted);
+    this.createdDate = m(data.createdDate);
+    this.lastUpdatedDate = m(data.lastUpdatedDate);
 
-    self.childPosts = [];
+    this.childPosts = [];
   }
 
   addChildPost(post) {
@@ -59,6 +59,7 @@ class Post {
       replyCount: row['reply_count'],
       upvoteCount: row['upvote_count'],
       content: row['content'],
+      tags: row['tags'],
       isEdited: row['is_edited'],
       isDeleted: row['is_deleted'],
       createdDate: row['created_date'],

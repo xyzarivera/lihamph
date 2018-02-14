@@ -9,7 +9,6 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const args = require('yargs').argv;
-const dbConfig = require('../db.config.json');
 const log = console.log;
 const logErr = console.error;
 const name = 'Build SQL';
@@ -17,6 +16,18 @@ const name = 'Build SQL';
 function buildSql() {
   //Sequence is important in running the script
   log(chalk.blue(`${name}: initializing build scripts...`));
+
+  let dbConfig = require('../db.config.json');
+
+  // Override the config
+  if(args.config) {
+    dbConfig = require(args.config);
+  }
+
+  if(!dbConfig || !dbConfig.scripts) {
+    return log(chalk.red('You passed an invalid dbConfig'));
+  }
+
   let sqlFiles = dbConfig.scripts;
 
   if(args.test) {

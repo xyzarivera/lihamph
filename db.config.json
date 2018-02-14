@@ -6,6 +6,8 @@
     "database/tables/posting/topic.sql",
     "database/tables/posting/post.sql",
     "database/tables/posting/upvote.sql",
+    "database/tables/posting/tag.sql",
+    "database/tables/posting/topic_tag.sql",
 
     "database/functions/core/find_person_by_id.sql",
     "database/functions/core/find_person_by_username.sql",
@@ -25,7 +27,9 @@
     "database/functions/posting/delete_comment.sql",
     "database/functions/posting/edit_post.sql",
     "database/functions/posting/upvote_post.sql",
-    "database/functions/posting/undo_upvote_post.sql"
+    "database/functions/posting/undo_upvote_post.sql",
+
+    "database/functions/triggers/update_topic_tag_count.sql"
   ],
   "testDataScripts": [
     "database/scripts/test_data.sql"

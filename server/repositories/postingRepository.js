@@ -7,13 +7,14 @@
 const database = require('../config/database');
 const Post = require('../models/Post');
 const Topic = require('../models/Topic');
+const SearchOption = require('../models/SearchOption'); // eslint-disable-line no-unused-vars
 const ResultSet = require('../models/ResultSet');
 const client = database.get();
 
 /**
  * Gets the posting by topic ID
- * @param {number} id
- * @param {function(object, Post)} done
+ * @param {Number} id
+ * @param {function(Error, Post)} done
  */
 module.exports.getPosting = function getPosting(id, done) {
   client.func('posting.get_posting', [id])
@@ -34,8 +35,8 @@ module.exports.getPosting = function getPosting(id, done) {
 
 /**
  * Gets the topic by ID
- * @param {number} id
- * @param {function(object, Topic)} done
+ * @param {Number} id
+ * @param {function(Error, Topic)} done
  */
 module.exports.getTopicById = function getTopicById(id, done) {
   const params = [id];
@@ -53,8 +54,8 @@ module.exports.getTopicById = function getTopicById(id, done) {
 
 /**
  * Gets the post by ID
- * @param {number} id
- * @param {function(object, Post)} done
+ * @param {Number} id
+ * @param {function(Error, Post)} done
  */
 module.exports.getPostById = function getPostById(id, done) {
   const params = [id];
@@ -70,6 +71,11 @@ module.exports.getPostById = function getPostById(id, done) {
     });
 };
 
+/**
+ * Searches the topics based on the query
+ * @param {SearchOption} options
+ * @param {function(Error, { topics: Topic[], totalCount: Number })} done
+ */
 module.exports.searchTopics = function searchTopics(options, done) {
   const params = [options.query, options.user.id, options.limit, options.offset];
   client.func('posting.search_topics', params)
@@ -90,7 +96,7 @@ module.exports.searchTopics = function searchTopics(options, done) {
  * Gets the topics by the author. Pagination supported
  * @param {Person} author
  * @param {SearchOption} options
- * @param {function(Error, object)} done
+ * @param {function(Error, { topics: Topic[], totalCount: Number })} done
  */
 module.exports.getTopicsByAuthorId = function getTopicsByAuthorId(author, options, done) {
   const params = [author.id, options.user.id, options.limit, options.offset];
@@ -127,21 +133,41 @@ module.exports.getPostById = function getPostById(id, done) {
 
 ////////////////////////////////////
 
+/**
+ * Creates a topic and a post
+ * @param {Post} post
+ * @param {function(Error, ResultSet)} done
+ */
 module.exports.submitPost = function submitPost(post, done) {
-  const params = [post.title, post.content, post.author.id];
+  const params = [post.title, post.content, post.author.id, post.tags];
   execResultSet('posting.submit_post', params, done);
 };
 
+/**
+ * Deletes the posted topic
+ * @param {Number} topicId
+ * @param {function(Error, ResultSet)} done
+ */
 module.exports.deletePosting = function deletePosting(topicId, done) {
   const params = [topicId];
   execResultSet('posting.delete_posting', params, done);
 };
 
+/**
+ * Comments to the parent post (can be a topic or a comment)
+ * @param {Post} post
+ * @param {function(Error, ResultSet)} done
+ */
 module.exports.comment = function comment(post, done) {
   const params = [post.parentId, post.author.id, post.content];
   execResultSet('posting.post_comment', params, done);
 };
 
+/**
+ * Deletes the comment (post)
+ * @param {Number} postId
+ * @param {function(Error, ResultSet)} done
+ */
 module.exports.deleteComment = function deleteComment(postId, done) {
   execResultSet('posting.delete_comment', [postId], done);
 };
@@ -163,6 +189,12 @@ module.exports.undoUpvotePost = function undoUpvotePost(post, user, done) {
 
 ////////////////////////////////////
 
+/**
+ * Helper function for returning ResultSet object
+ * @param {String} funcName
+ * @param {Object[]} params
+ * @param {function(Error, ResultSet)} done
+ */
 function execResultSet(funcName, params, done) {
   client.func(funcName, params)
     .then(function(rows) {
@@ -175,6 +207,12 @@ function execResultSet(funcName, params, done) {
     });
 }
 
+/**
+ * Builds a tree based on the list
+ * @param {Object} root
+ * @param {Object[]} list
+ * @param {Number} count
+ */
 function breadthFirstTree(root, list, count) {
   if(!root || !list) { return; }
   root.childPosts = list
