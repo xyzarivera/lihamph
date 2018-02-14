@@ -1,23 +1,22 @@
 extends includes/layout.pug
 
 block main-content
+  h1= rootPost.title
   div
-    h1= rootPost.title
     div
-      small.help
-        span= "inilatha ni "
-        a(href="/user/" + rootPost.author.username)= rootPost.author.username
-        span= utils.convertFromNowToFilipino(rootPost.createdDate.fromNow())
-        if rootPost.isEdited
-          span= " * "
-        if user && user.id === rootPost.author.id
-          span= " - "
-          a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
-        if user && (user.isModerator || user.id === rootPost.author.id)
-          span= " - "
-          a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
-      div.indexnav
-        p!= rootPost.marked
+      span= "inilatha ni "
+      a(href="/user/" + rootPost.author.username)= rootPost.author.username
+      span= ` - ${utils.convertFromNowToFilipino(rootPost.createdDate.fromNow())}`
+      if rootPost.isEdited
+        span= " * "
+      if user && user.id === rootPost.author.id
+        span= " - "
+        a(href="/edit/" + rootPost.id + "?topicId=" + topicId title="baguhin") baguhin
+      if user && (user.isModerator || user.id === rootPost.author.id)
+        span= " - "
+        a.del-posting(href="#" data-topic-id=topicId data-id=rootPost.id data-csrf=csrfToken) tanggalin
+    .pt-1.pb-2
+      p!= rootPost.marked
 
   if user
     hr

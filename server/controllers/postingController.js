@@ -32,7 +32,7 @@ module.exports.renderPostingPage = function renderPostingPage(req, res, next) {
 
     if(!rootPost) {
       model.message = 'Hindi matagpuan ang liham na iyong hinahanap';
-      return res.status(404).render('notfound', model);
+      return res.status(404).render('errors/notfound', model);
     }
 
     model.rootPost = rootPost;

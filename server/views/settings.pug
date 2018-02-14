@@ -3,42 +3,40 @@ extends includes/layout.pug
 block main-content
   div
     h1 Tungkol sa manunulat
-    div
-      if updateProfileStatus.length > 0
-        .alert(class=updateProfileStatus[0].status)
-          p= updateProfileStatus[0].message
-      center
-        div.forms2
-          form(method="POST" action="/user/profile")
-            input(type="hidden" name="_csrf" value=csrfToken)
-            .form-group
-              label(for="username") Sagisag
-              input.form-control(type="text" name="username" value=profile.username)
-            .form-group
-              label(for="emailAddress") Email Address
-              input.form-control(type="text" name="emailAddress" value=profile.emailAddress)
-            .form-group
-              label(for="aboutMe") Tungkol sa manunulat
-              textarea.form-control(name="aboutMe" rows="8")= profile.aboutMe
-            .form-group
-              button.btn.btn-dark(type="submit") Itala ang Pagbabago
-  div
+    if updateProfileStatus.length > 0
+      .alert(class=updateProfileStatus[0].status)
+        p= updateProfileStatus[0].message
+    .row
+      .col-md-6
+        form(method="POST" action="/user/profile")
+          input(type="hidden" name="_csrf" value=csrfToken)
+          .form-group
+            label(for="username") Sagisag
+            input.form-control(type="text" name="username" value=profile.username)
+          .form-group
+            label(for="emailAddress") Email Address
+            input.form-control(type="text" name="emailAddress" value=profile.emailAddress)
+          .form-group
+            label(for="aboutMe") Tungkol sa manunulat
+            textarea.form-control(name="aboutMe" rows="8")= profile.aboutMe
+          .form-group
+            button.btn.btn-dark(type="submit") Itala ang Pagbabago
+  .mt-4
     h1 Baguhin ang lihim na salita
-    div
-      if changePasswordStatus.length > 0
-        .alert(class=changePasswordStatus[0].status)
-          p= changePasswordStatus[0].message
-      center    
-        div.forms2
-          form(method="POST" action="/user/password")
-            input(type="hidden" name="_csrf" value=csrfToken)
-            .form-group
-              label(for="currentPassword") Ngayong Lihim na Salita
-              input.form-control(type="password" name="currentPassword")
-              small Current Password
-            .form-group
-              label(for="newPassword") Bagong Lihim na Salita
-              input.form-control(type="password" name="newPassword")
-              small New Password
-            .form-group
-              button.btn.btn-dark(type="submit") Baguhin ang Linilihim
+    if changePasswordStatus.length > 0
+      .alert(class=changePasswordStatus[0].status)
+        p= changePasswordStatus[0].message
+    .row
+      .col-md-6
+        form(method="POST" action="/user/password")
+          input(type="hidden" name="_csrf" value=csrfToken)
+          .form-group
+            label(for="currentPassword") Ngayong Lihim na Salita
+            input.form-control(type="password" name="currentPassword")
+            small Current Password
+          .form-group
+            label(for="newPassword") Bagong Lihim na Salita
+            input.form-control(type="password" name="newPassword")
+            small New Password
+          .form-group
+            button.btn.btn-dark(type="submit") Baguhin ang Linilihim

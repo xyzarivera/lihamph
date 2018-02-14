@@ -56,7 +56,7 @@ module.exports = function(app, config) {
     let model = req.model;
     model.meta.title = 'Not found';
     model.meta.description = 'Page not found';
-    res.status(404).render('notfound', model);
+    res.status(404).render('errors/notfound', model);
   });
 
   app.use(function errorHandler(err, req, res, next) {
@@ -86,7 +86,7 @@ module.exports = function(app, config) {
 
     model.meta.title = 'Internal Error';
     model.meta.description = 'Internal server error';
-    res.status(500).render('error', model);
+    res.status(500).render('errors/error', model);
   });
 };
 

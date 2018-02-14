@@ -6,17 +6,16 @@ block main-content
   if alert && alert.length > 0
     .alert(class=alert[0].status)
       p= alert[0].message
-  
   .row
     .col-md-6
       form(method="POST" action="/login")
         input(type="hidden" name="_csrf" value=csrfToken)
         .form-group
-          label(for="username") <strong>Sagisag</strong>
+          label(for="username") Sagisag
           input.form-control(type="text" name="username" value="")
           small Username o pen name sa wikang Ingles
         .form-group
-          label(for="password") <strong>Lihim na Salita</strong>
+          label(for="password") Lihim na Salita
           input.form-control(type="password" name="password" value="")
           small Password sa wikang Ingles
         .form-group

@@ -4,28 +4,34 @@ include mixins/topicItemMixin.pug
 
 block main-content
   h2 Maghanap ng liham
-  center <br><br>
-    div.forms
-      form(action="/search" method="GET")
-        input(type="hidden" name="page" value=options.page)
-        input(type="hidden" name="size" value=options.limit)
-        .form-group-inline
-          input.form-control(type="text" name="query" value=options.query placeholder="Isulat dito ang gusto mong hanapin na liham...")
-          <br>
+  form(action="/search" method="GET")
+    input(type="hidden" name="page" value=options.page)
+    input(type="hidden" name="size" value=options.limit)
+    .form-group
+      .input-group
+        input.form-control(type="text" name="query" value=options.query placeholder="Isulat dito ang gusto mong hanapin na liham...")
+        .input-group-append
           button.btn.btn-dark(type="submit") Hanapin
-          <br><br>
-      if options.query && searchResult.totalCount === 0
-        div Hindi namin mahanap ang liham na gusto mong mabasa
-      else if searchResult.totalCount === 0
-        div Anong liham ang iyong hinahanap?
 
-  div.indexnav 
+  if options.query && searchResult.totalCount === 0
+    div Hindi namin mahanap ang liham na gusto mong mabasa
+  else if searchResult.totalCount === 0
+    div Anong liham ang iyong hinahanap?
+
+  .mt-2.mb-2 
     each topic, index in searchResult.topics
       +renderTopicItem(topic)
 
   .pagination
     - let moreUrl = "/search?size=" + options.limit + "&query=" + options.query
-    if options.page > 1
-      a(href=(moreUrl + "&page=" + (options.page - 1)) title="mga naunanng pahina") ◀ mga naunang pahina
-    if searchResult.totalCount > (options.limit * options.page)
-      a(href=(moreUrl + "&page=" + (options.page + 1)) title="susunod na pahina") susunod na pahina ▶
+    - const hasPrev = options.page > 1
+    - const hasNext = searchResult.totalCount > (options.limit * options.page)
+    if hasPrev
+      a.mr-2(href=(moreUrl + "&page=" + (options.page - 1))
+        title="mga naunanng pahina"
+        class=hasNext ? "mr-2" : "") ◀ mga naunang pahina
+
+    if hasNext
+      a(href=(moreUrl + "&page=" + (options.page + 1))
+        title="susunod na pahina"
+        class=hasPrev ? "ml-2" : "") susunod na pahina ▶

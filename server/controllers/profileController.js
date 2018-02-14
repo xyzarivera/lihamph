@@ -24,7 +24,7 @@ module.exports.renderProfilePage = function renderProfilePage(req, res, next) {
 
     if(!person) {
       model.message = 'Ang sagisag ay hindi matagpuan';
-      return res.status(404).render('notfound', model);
+      return res.status(404).render('errors/notfound', model);
     }
 
     postingRepository.getTopicsByAuthorId(person, options, (err, searchResult) => {
@@ -49,7 +49,7 @@ module.exports.renderSettingsPage = function renderSettingsPage(req, res, next) 
 
     if(!person) {
       model.message = 'Ang sagisag ay hindi matagpuan';
-      return res.status(404).render('notfound', model);
+      return res.status(404).render('errors/notfound', model);
     }
 
     model.profile = person;

@@ -13,21 +13,20 @@ html(lang="en")
   body
     include navbar.pug
 
-    .container
+    .container.pt-4.pb-3
       block main-content
 
     .container.p-3
       hr
       footer.footer.mt-4
-        div
-          p= "Liham.ph - Isang lugar para mga katha ng mga makata - "
-            a(href="/palatuntunan")= "Palatuntunan"
-            span= " - "
-            a(href="/tungkol")= "Tungkol sa Amin"
-            span= " - "
-            a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "Paano Gumamit ng Markdown"
-        .d-flex
-          div= "Binuo ito ng Fortcode - Tignan ang gawa namin para sa mga manlalakbay "
-            a(href="https://wanderast.com")= "wanderast.com"  
+        p.mb-0= "Liham.ph - Isang lugar para mga katha ng mga makata"
+        p.mb-0
+          a(href="/palatuntunan")= "Palatuntunan"
+          span= " - "
+          a(href="/tungkol")= "Tungkol sa Amin"
+          span= " - "
+          a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax/")= "Paano Gumamit ng Markdown"
+        p!= "Proyekto ito ng <strong>UST Startup Community</strong> kasama ang mga bumuo sa "
+          a(href="https://wanderast.com") wanderast.com
             
     script(data-minjs-group="main" src="/scripts/main.js")

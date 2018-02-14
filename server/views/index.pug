@@ -10,8 +10,16 @@ block main-content
       +renderTopicItem(topic)
 
   .pagination
-    if options.page > 1
-      a.mr-2(href="/?page=" + (options.page - 1)) ◀ mga naunang pahina
-    if searchResult.totalCount > (options.limit * options.page)
-      a.ml-2(href="/?page=" + (options.page + 1)) susunod na pahina ▶
+    - let moreUrl = "/?size=" + options.limit
+    - const hasPrev = options.page > 1
+    - const hasNext = searchResult.totalCount > (options.limit * options.page)
+    if hasPrev
+      a.mr-2(href=(moreUrl + "&page=" + (options.page - 1))
+        title="mga naunanng pahina"
+        class=hasNext ? "mr-2" : "") ◀ mga naunang pahina
+
+    if hasNext
+      a(href=(moreUrl + "&page=" + (options.page + 1))
+        title="susunod na pahina"
+        class=hasPrev ? "ml-2" : "") susunod na pahina ▶
     

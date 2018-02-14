@@ -1,37 +1,18 @@
 a {
-  color: #448AFF;
+  color: #0D47A1;
+}
+a:active, a:hover, a:visited {
+  color: #5C6BC0;
 }
 
 body {
   font-size: 1.24em;
   font-family: 'Crimson Text', 'Times New Roman', serif;
 }
-/* .topic {
-  display: block; 
-  margin-bottom: 12px;
-}
-.topic-item {
-  display: inline-flex;
-}
-.topic-index {
-  margin-right: 8px;
-  font-weight: 700;
-}
 
-.help span, .help a {
-  display: inline-flex;
-  margin-right: 5px;
+.form-control, .btn {
+  font-size: 1.02em;
 }
-.brand {
-  width: 24px;
-  height: 24px;
-  margin-right: 5px;
-
-}
-
-.comments .comment {
-  margin-left: 15px;
-} */
 
 .upvote-heart {
   cursor: pointer;
