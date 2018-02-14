@@ -5,29 +5,29 @@ block main-content
   p.normal-text Siguraduhin basahin ang mga 
     a(href="/palatuntunan") palatuntunan
     |  bago isulat ang iyong liham na iiwan. 
-  if submitPostStatus.length > 0
-    .alert(class=submitPostStatus[0].status)
-      p= submitPostStatus[0].message
   .row
     .col-md-8
+      if submitPostStatus.length > 0
+        .alert.alert-warning
+          p.mb-0= submitPostStatus[0].message
       form(method="POST" action="/submit")
         input(type="hidden" name="_csrf" value=csrfToken)
         .form-group.pt-2.pb-2
           label(for="title") Paksa ng Liham
           input.form-control(type="text" name="title" value="")
-          small.normal-text Tungkol saan ang iyong liham?
+          small Tungkol saan ang iyong liham?
         .form-group.pt-2.pb-2
           label(for="content") Dito mo isulat ang iyong liham
           textarea.form-control(name="content" rows="10")
-          small.normal-text= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
+          small= "Ginagamit ng liham.ph ay Markdown, marapatin basahin itong gabay mula sa "
             a(href="https://help.github.com/articles/basic-writing-and-formatting-syntax")= "github"
         .form-group.pt-2.pb-2
           label(for="tags") Mga Pananda (tags)
           input.form-control(type="text" name="tags" value=""
             placeholder="Maglagay ng Pananda")
           div
-            small.normal-text Ihiwalay ang mga pananda gamit ang tuldok-kuwit (;). Halimbawa "pag-ibig; lihim; sakit".
+            small Ihiwalay ang mga pananda gamit ang tuldok-kuwit (;). Halimbawa "pag-ibig; lihim; sakit".
           div
-            small.normal-text Hanggang tatlong pananda at hanggang 20 titik kada isa ang aming tinatalang mga pananda.
+            small Hanggang tatlong pananda at hanggang 20 titik kada isa ang aming tinatalang mga pananda.
         .form-group.mt-2.mb-4
           button.btn.btn-primary(type="submit") Itala ang iyong liham

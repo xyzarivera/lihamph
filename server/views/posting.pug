@@ -28,11 +28,11 @@ block main-content
 
   if user
     hr
-    div#comment
-      if commentStatus.length > 0
-        .alert(class=commentStatus[0].status)
-          p= commentStatus[0].message
-      div.forms2    
+    .row
+      .col-md-6
+        if commentStatus.length > 0
+          .alert.alert-warning
+            p.mb-0= commentStatus[0].message
         form(method="POST" action="/comment/" + rootPost.id)
           input(type="hidden" name="_csrf" value=csrfToken)
           input(type="hidden" name="topicId" value=topicId)

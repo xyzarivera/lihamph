@@ -3,11 +3,11 @@ extends includes/layout.pug
 block main-content
   h1 Sumali sa liham.ph
   p.text-muted Isulat sa mga kahon sa baba ang iyong pagpapatunay na ikaw ay isang manunulat ng mga liham.
-  if alert && alert.length > 0
-    .alert(class=alert[0].status)
-      p= alert[0].message
   .row
     .col-md-6
+      if alert && alert.length > 0
+        .alert.alert-warning
+          p.mb-0= alert[0].message
       form(method="POST" action="/register")
         input(type="hidden" name="_csrf" value=csrfToken)
         .form-group

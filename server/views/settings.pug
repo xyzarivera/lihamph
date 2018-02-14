@@ -3,11 +3,11 @@ extends includes/layout.pug
 block main-content
   div
     h1 Tungkol sa manunulat
-    if updateProfileStatus.length > 0
-      .alert(class=updateProfileStatus[0].status)
-        p= updateProfileStatus[0].message
     .row
       .col-md-6
+        if updateProfileStatus.length > 0
+          .alert.alert-warning
+            p.mb-0= updateProfileStatus[0].message
         form(method="POST" action="/user/profile")
           input(type="hidden" name="_csrf" value=csrfToken)
           .form-group
@@ -23,11 +23,11 @@ block main-content
             button.btn.btn-dark(type="submit") Itala ang Pagbabago
   .mt-4
     h1 Baguhin ang lihim na salita
-    if changePasswordStatus.length > 0
-      .alert(class=changePasswordStatus[0].status)
-        p= changePasswordStatus[0].message
     .row
       .col-md-6
+        if changePasswordStatus.length > 0
+          .alert.alert-warning
+            p.mb-0= changePasswordStatus[0].message
         form(method="POST" action="/user/password")
           input(type="hidden" name="_csrf" value=csrfToken)
           .form-group

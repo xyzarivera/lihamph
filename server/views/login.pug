@@ -3,20 +3,20 @@ extends includes/layout.pug
 block main-content
   h1 Pumasok sa liham.ph
   p.text-muted Isulat sa mga kahon sa baba ang iyong pagpapatunay na ikaw ay isang manunulat ng mga liham.
-  if alert && alert.length > 0
-    .alert(class=alert[0].status)
-      p= alert[0].message
   .row
     .col-md-6
+      if alert && alert.length > 0
+        .alert.alert-warning
+          p.mb-0= alert[0].message
       form(method="POST" action="/login")
         input(type="hidden" name="_csrf" value=csrfToken)
         .form-group
           label(for="username") Sagisag
-          input.form-control(type="text" name="username" value="")
+          input.form-control(type="text" name="username" value="" required)
           small Username o pen name sa wikang Ingles
         .form-group
           label(for="password") Lihim na Salita
-          input.form-control(type="password" name="password" value="")
+          input.form-control(type="password" name="password" value="" required)
           small Password sa wikang Ingles
         .form-group
           button.btn.btn-dark(type="submit") Simulan na ang Pagsusulat 
